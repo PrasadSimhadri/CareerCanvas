@@ -238,7 +238,7 @@ export default function SignupPage() {
                                         width="240px"
                                     />
                                 </div>
-                                <span className="absolute -top-10 left-1/2 -translate-x-1/2 bg-green-100 text-green-700 text-[10px] font-bold px-3 py-1 rounded-full dark:bg-green-500/20 dark:text-green-400 border border-green-200 dark:border-green-500/30 shadow-sm z-10 whitespace-nowrap">
+                                <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-green-100 text-green-700 text-[10px] font-bold px-3 py-1 rounded-full dark:bg-green-500/20 dark:text-green-400 border border-green-200 dark:border-green-500/30 shadow-sm z-10 whitespace-nowrap">
                                     Recommended
                                 </span>
                             </div>

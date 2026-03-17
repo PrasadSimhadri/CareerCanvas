@@ -32,8 +32,8 @@ export default function Navbar() {
         >
             <motion.div
                 layout
-                className={`w-full transition-all duration-700 ease-in-out ${scrolled
-                        ? 'max-w-5xl bg-white/80 dark:bg-[#0F0F1A]/80 backdrop-blur-xl shadow-lg border border-gray-200/50 dark:border-white/10 rounded-full px-6 py-2'
+                className={`w-full transition-all duration-700 ease-in-out ${scrolled || mobileOpen
+                        ? 'max-w-5xl bg-white dark:bg-[#0F0F1A] lg:bg-white/80 lg:dark:bg-[#0F0F1A]/80 lg:backdrop-blur-xl shadow-lg border border-gray-200/50 dark:border-white/10 rounded-2xl lg:rounded-full px-6 py-2'
                         : 'max-w-7xl bg-transparent border-0 px-4 py-4 sm:px-6 lg:px-8'
                     }`}
             >
@@ -123,19 +123,19 @@ export default function Navbar() {
                             initial={{ opacity: 0, height: 0 }}
                             animate={{ opacity: 1, height: 'auto' }}
                             exit={{ opacity: 0, height: 0 }}
-                            className="md:hidden mt-4 pb-4 border-t border-gray-200 dark:border-[#3B3B52]/50 bg-white dark:bg-transparent"
+                            className="md:hidden mt-4 pb-4 border-t border-gray-200 dark:border-[#3B3B52]/50 bg-white dark:bg-[#0F0F1A]"
                         >
-                            <div className="flex flex-col gap-3 pt-4 px-2">
+                            <div className="flex flex-col gap-4 pt-6 px-4">
                                 <Link
                                     href="/#templates"
-                                    className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white py-2"
+                                    className="text-lg font-medium text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white py-2"
                                     onClick={() => setMobileOpen(false)}
                                 >
                                     Templates
                                 </Link>
                                 <Link
                                     href="/#features"
-                                    className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white py-2"
+                                    className="text-lg font-medium text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white py-2"
                                     onClick={() => setMobileOpen(false)}
                                 >
                                     Features
@@ -144,7 +144,7 @@ export default function Navbar() {
                                     <>
                                         <Link
                                             href="/dashboard"
-                                            className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white py-2"
+                                            className="text-lg font-medium text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white py-2"
                                             onClick={() => setMobileOpen(false)}
                                         >
                                             Dashboard
@@ -155,7 +155,7 @@ export default function Navbar() {
                                                 setMobileOpen(false);
                                                 router.replace('/login');
                                             }}
-                                            className="text-left text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white py-2"
+                                            className="text-left text-lg font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white py-2"
                                         >
                                             Logout
                                         </button>
@@ -164,14 +164,14 @@ export default function Navbar() {
                                     <>
                                         <Link
                                             href="/login"
-                                            className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white py-2"
+                                            className="text-lg font-medium text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white py-2"
                                             onClick={() => setMobileOpen(false)}
                                         >
                                             Log In
                                         </Link>
                                         <Link
                                             href="/signup"
-                                            className="inline-block text-center text-white bg-gradient-to-r from-[#6C63FF] to-[#06B6D4] px-5 py-2.5 rounded-xl"
+                                            className="inline-block text-center text-white bg-gradient-to-r from-[#6C63FF] to-[#06B6D4] px-6 py-4 rounded-2xl font-bold text-lg shadow-lg shadow-[#6C63FF]/20 mt-2"
                                             onClick={() => setMobileOpen(false)}
                                         >
                                             Sign Up Free
