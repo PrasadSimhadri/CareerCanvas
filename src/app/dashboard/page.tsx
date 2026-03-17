@@ -18,7 +18,7 @@ interface PortfolioData {
     selectedTemplate: string;
     profileImageUrl: string;
     basicInfo: { fullName: string; tagline: string; description: string };
-    about: { description: string; interests: string[]; cards: { title: string; description: string }[] };
+    about: { description: string; interests: string[] };
     education: { degree: string; institution: string; location: string; startYear: string; endYear: string; grade: string; description: string }[];
     experience: { role: string; company: string; location: string; startDate: string; endDate: string; skills: string[]; description: string }[];
     projects: { title: string; techStack: string[]; description: string; githubUrl: string; liveUrl: string }[];
@@ -32,7 +32,7 @@ const defaultPortfolio: PortfolioData = {
     selectedTemplate: 'minimal',
     profileImageUrl: '',
     basicInfo: { fullName: '', tagline: '', description: '' },
-    about: { description: '', interests: [], cards: [] },
+    about: { description: '', interests: [] },
     education: [{ degree: 'B.Tech', institution: '', location: '', startYear: '', endYear: '', grade: '', description: '' }],
     experience: [{ role: '', company: '', location: '', startDate: '', endDate: '', skills: [], description: '' }],
     projects: [{ title: '', techStack: [], description: '', githubUrl: '', liveUrl: '' }],
@@ -74,7 +74,7 @@ export default function DashboardPage() {
                     selectedTemplate: p.selectedTemplate || 'minimal',
                     profileImageUrl: p.profileImageUrl || '',
                     basicInfo: p.basicInfo || { fullName: '', tagline: '', description: '' },
-                    about: p.about || { description: '', interests: [], cards: [] },
+                    about: p.about || { description: '', interests: [] },
                     education: p.education?.length ? p.education : defaultPortfolio.education,
                     experience: p.experience?.length ? p.experience : defaultPortfolio.experience,
                     projects: p.projects?.length ? p.projects : defaultPortfolio.projects,
@@ -319,20 +319,6 @@ export default function DashboardPage() {
                                                 <div className="space-y-4">
                                                     <TextAreaField label="About Description" value={portfolio.about.description} onChange={(v) => setPortfolio((p) => ({ ...p, about: { ...p.about, description: v } }))} placeholder="Tell your story..." rows={5} />
                                                     <TagInput label="Interests" tags={portfolio.about.interests} onChange={(tags) => setPortfolio((p) => ({ ...p, about: { ...p.about, interests: tags } }))} placeholder="Add interest..." />
-                                                    {/* About Cards */}
-                                                    <div>
-                                                        <div className="flex items-center justify-between mb-3">
-                                                            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Info Cards</label>
-                                                            <button onClick={() => setPortfolio((p) => ({ ...p, about: { ...p.about, cards: [...p.about.cards, { title: '', description: '' }] } }))} className="text-xs text-[#6C63FF] flex items-center gap-1 hover:text-[#8B83FF]"><HiPlus /> Add Card</button>
-                                                        </div>
-                                                        {portfolio.about.cards.map((card, i) => (
-                                                            <div key={i} className="flex gap-3 mb-3">
-                                                                <input value={card.title} onChange={(e) => { const cards = [...portfolio.about.cards]; cards[i].title = e.target.value; setPortfolio((p) => ({ ...p, about: { ...p.about, cards } })); }} placeholder="Card title" className="flex-1 bg-gray-50 dark:bg-[#0F0F1A] border border-gray-200 dark:border-[#3B3B52] rounded-xl px-4 py-2.5 text-gray-900 dark:text-white text-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-[#6C63FF]" />
-                                                                <input value={card.description} onChange={(e) => { const cards = [...portfolio.about.cards]; cards[i].description = e.target.value; setPortfolio((p) => ({ ...p, about: { ...p.about, cards } })); }} placeholder="Description" className="flex-2 bg-gray-50 dark:bg-[#0F0F1A] border border-gray-200 dark:border-[#3B3B52] rounded-xl px-4 py-2.5 text-gray-900 dark:text-white text-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-[#6C63FF]" />
-                                                                <button onClick={() => { const cards = portfolio.about.cards.filter((_, idx) => idx !== i); setPortfolio((p) => ({ ...p, about: { ...p.about, cards } })); }} className="text-red-400 hover:text-red-300"><HiTrash /></button>
-                                                            </div>
-                                                        ))}
-                                                    </div>
                                                 </div>
                                             )}
 

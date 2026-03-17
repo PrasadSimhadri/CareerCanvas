@@ -342,44 +342,53 @@ function TemplatePreviewModal({ templateId, onClose }: { templateId: string; onC
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.9, y: 20 }}
         transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-        className="relative w-full max-w-5xl max-h-[90vh] rounded-2xl overflow-hidden bg-white dark:bg-[#1E1E2E] border border-gray-200 dark:border-[#3B3B52]/50 flex flex-col shadow-2xl"
+        className="relative w-full max-w-6xl max-h-[95vh] rounded-3xl overflow-hidden bg-white dark:bg-[#1E1E2E] border border-gray-200 dark:border-[#3B3B52]/70 flex flex-col shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-[#3B3B52]/50 shrink-0">
-          <div className="flex items-center gap-3">
-            <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${template.color} flex items-center justify-center text-white`}>
+        <div className="flex items-center justify-between px-8 py-5 border-b border-gray-200 dark:border-[#3B3B52]/50 shrink-0">
+          <div className="flex items-center gap-4">
+            <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${template.color} flex items-center justify-center text-white shadow-lg`}>
               {template.icon}
             </div>
             <div>
-              <h3 className="font-bold font-[Poppins] text-gray-900 dark:text-white">{template.name} Template</h3>
-              <p className="text-xs text-gray-500 dark:text-gray-400">{template.tagline}</p>
+              <h3 className="text-xl font-bold font-[Poppins] text-gray-900 dark:text-white leading-none mb-1">{template.name} Template</h3>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{template.tagline}</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="w-10 h-10 rounded-xl bg-gray-100 dark:bg-[#2A2A3E] flex items-center justify-center text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-[#3B3B52] transition-colors"
+            className="w-12 h-12 rounded-2xl bg-gray-100 dark:bg-[#2A2A3E] flex items-center justify-center text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-[#3B3B52] transition-colors"
           >
-            <HiX className="text-xl" />
+            <HiX className="text-2xl" />
           </button>
         </div>
 
         {/* Preview Content */}
-        <div className="flex-1 relative bg-gray-100 dark:bg-black min-h-[60vh] sm:min-h-[75vh]">
+        <div className="flex-1 relative bg-gray-100 dark:bg-black min-h-[400px]">
           <TemplatePreviewContent templateId={templateId} />
         </div>
 
         {/* Modal Footer */}
-        <div className="px-6 py-4 border-t border-gray-200 dark:border-[#3B3B52]/50 flex items-center justify-between shrink-0 bg-gray-50 dark:bg-transparent">
-          <p className="text-sm text-gray-600 dark:text-gray-400">
+        <div className="px-8 py-6 border-t border-gray-200 dark:border-[#3B3B52]/50 flex items-center justify-between shrink-0 bg-gray-50/50 dark:bg-[#1E1E2E]/80 backdrop-blur-md">
+          <p className="text-base text-gray-600 dark:text-gray-400 font-medium">
             {user ? 'Ready to use this template?' : 'Sign up to use this template'}
           </p>
-          <Link
-            href={user ? "/dashboard" : "/signup"}
-            className={`px-8 py-3 rounded-xl bg-gradient-to-r ${template.color} text-white font-semibold text-sm hover:opacity-90 transition-all shadow-lg flex-shrink-0`}
-          >
-            {user ? 'Go to Dashboard' : 'Use This Template'}
-          </Link>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={onClose}
+              className="px-6 py-3.5 rounded-2xl text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors font-semibold"
+            >
+              Cancel
+            </button>
+            <Link
+              href={user ? "/dashboard" : "/signup"}
+              className={`px-10 py-4 rounded-2xl bg-gradient-to-r ${template.color} text-white font-bold text-base hover:opacity-90 transform hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl shadow-[#6366F1]/20 flex-shrink-0 flex items-center gap-2`}
+            >
+              {user ? 'Go to Dashboard' : 'Use This Template'}
+              <HiArrowRight className="text-xl" />
+            </Link>
+          </div>
         </div>
       </motion.div>
     </motion.div>

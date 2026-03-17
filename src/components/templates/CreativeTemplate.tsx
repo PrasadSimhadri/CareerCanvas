@@ -9,7 +9,7 @@ import { FaSun, FaMoon } from 'react-icons/fa';
 interface PortfolioData {
     profileImageUrl: string;
     basicInfo: { fullName: string; tagline: string; description: string };
-    about: { description: string; interests: string[]; cards: { title: string; description: string }[] };
+    about: { description: string; interests: string[] };
     education: { degree: string; institution: string; location: string; startYear: string; endYear: string; grade: string }[];
     experience: { role: string; company: string; location: string; startDate: string; endDate: string; skills: string[]; description: string }[];
     projects: { title: string; techStack: string[]; description: string; githubUrl: string; liveUrl: string }[];
@@ -183,12 +183,22 @@ export default function CreativeTemplate({ data, isPreview = false }: { data: Po
                                     <p key={i} style={{ color: colors.textSec, fontSize: '1.2rem', lineHeight: 1.8, marginBottom: 24 }}>{p}</p>
                                 ))}
                                 {data.about.interests?.length > 0 && (
-                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginTop: 40 }}>
+                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
                                         {data.about.interests.map((interest, i) => (
-                                            <motion.span 
-                                                key={i} 
-                                                whileHover={{ scale: 1.1, backgroundColor: colors.accent, color: 'white' }}
-                                                style={{ padding: '10px 24px', border: `1px solid ${colors.accent}`, borderRadius: 50, fontSize: '0.9rem', fontWeight: 700, color: colors.accent, textTransform: 'uppercase', transition: 'all 0.3s' }}
+                                            <motion.span
+                                                key={i}
+                                                variants={itemVariants}
+                                                style={{
+                                                    padding: '12px 24px',
+                                                    borderRadius: '100px',
+                                                    border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                                                    background: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)',
+                                                    fontSize: '0.9rem',
+                                                    fontWeight: 700,
+                                                    color: isDark ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.7)',
+                                                    textTransform: 'uppercase',
+                                                    letterSpacing: '1px'
+                                                }}
                                             >
                                                 {interest}
                                             </motion.span>

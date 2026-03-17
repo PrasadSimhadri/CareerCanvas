@@ -17,11 +17,6 @@ export default async function PreviewPage({ params }: { params: Promise<{ templa
         about: { 
             description: 'With over 5 years of experience in web development, I have a proven track record of delivering high-quality software solutions. I thrive in collaborative environments and am constantly learning new technologies to stay ahead of the curve.',
             interests: ['Web Development', 'UI/UX Design', 'Open Source', 'System Architecture', 'Machine Learning'],
-            cards: [
-                { title: 'Philosophy', description: 'Write clean, maintainable, and scalable code.' },
-                { title: 'Focus', description: 'Performance optimization and responsive user interfaces.' },
-                { title: 'Goal', description: 'Build products that make a real difference in users lives.' }
-            ]
         },
         education: [
             { degree: 'B.S. Computer Science', institution: 'University of Technology', location: 'San Francisco, CA', startYear: '2015', endYear: '2019', grade: '3.8 GPA' }

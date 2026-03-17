@@ -8,7 +8,7 @@ import { useTheme } from 'next-themes';
 interface PortfolioData {
     profileImageUrl: string;
     basicInfo: { fullName: string; tagline: string; description: string };
-    about: { description: string; interests: string[]; cards: { title: string; description: string }[] };
+    about: { description: string; interests: string[] };
     education: { degree: string; institution: string; location: string; startYear: string; endYear: string; grade: string }[];
     experience: { role: string; company: string; location: string; startDate: string; endDate: string; skills: string[]; description: string }[];
     projects: { title: string; techStack: string[]; description: string; githubUrl: string; liveUrl: string }[];
@@ -205,16 +205,7 @@ export default function SidebarTemplate({ data, isPreview = false }: { data: Por
                         </motion.div>
                     )}
 
-                    {data.about.cards?.length > 0 && (
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 20 }}>
-                            {data.about.cards.map((card, i) => (
-                                <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} style={{ background: colors.cardBg, borderRadius: 16, border: `1px solid ${colors.cardBorder}`, padding: 24 }}>
-                                    <h4 style={{ color: colors.accent, fontWeight: 700, marginBottom: 10, fontSize: '1.1rem' }}>{card.title}</h4>
-                                    <p style={{ color: colors.textSec, fontSize: '0.9rem', lineHeight: 1.6 }}>{card.description}</p>
-                                </motion.div>
-                            ))}
-                        </div>
-                    )}
+
                 </section>
 
                 {/* Experience */}

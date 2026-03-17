@@ -8,7 +8,7 @@ import { useTheme } from 'next-themes';
 interface PortfolioData {
     profileImageUrl: string;
     basicInfo: { fullName: string; tagline: string; description: string };
-    about: { description: string; interests: string[]; cards: { title: string; description: string }[] };
+    about: { description: string; interests: string[] };
     education: { degree: string; institution: string; location: string; startYear: string; endYear: string; grade: string }[];
     experience: { role: string; company: string; location: string; startDate: string; endDate: string; skills: string[]; description: string }[];
     projects: { title: string; techStack: string[]; description: string; githubUrl: string; liveUrl: string }[];
@@ -129,7 +129,7 @@ export default function MinimalTemplate({ data, isPreview = false }: { data: Por
             </section>
 
             {/* About Section */}
-            {(data.about.description || data.about.cards?.length > 0) && (
+            {data.about.description && (
                 <section id="about" style={{ background: colors.bgSec, padding: '70px 0' }}>
                     <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px' }}>
                         <SectionTitle text="About Me" accent={colors.accent} />
@@ -139,16 +139,6 @@ export default function MinimalTemplate({ data, isPreview = false }: { data: Por
                                     <p key={i} style={{ marginBottom: 20, color: colors.textSec }}>{p}</p>
                                 ))}
                             </div>
-                            {data.about.cards?.length > 0 && (
-                                <div style={{ flex: 1, minWidth: 300 }}>
-                                    {data.about.cards.map((card, i) => (
-                                        <div key={i} style={{ background: colors.card, borderRadius: 10, padding: 25, marginBottom: 20, border: `1px solid ${colors.border}`, transition: 'all 0.3s' }}>
-                                            <h3 style={{ fontSize: '1.5rem', marginBottom: 10, color: colors.accent }}>{card.title}</h3>
-                                            <p style={{ color: colors.textSec }}>{card.description}</p>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
                         </div>
                     </div>
                 </section>
