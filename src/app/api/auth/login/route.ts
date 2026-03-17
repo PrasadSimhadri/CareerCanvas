@@ -28,8 +28,12 @@ export async function POST(request: NextRequest) {
         }
 
         // Verify password
-        const isValidPassword = await bcrypt.compare(password, user.passwordHash);
+        if (!user.passwordHash) {
+            return NextResponse.json({ error: "Invalid user data" }, { status: 400 });
+        }
 
+        const isValidPassword = await bcrypt.compare(password, user.passwordHash);
+        
         if (!isValidPassword) {
             return NextResponse.json(
                 { error: 'Invalid email or password' },

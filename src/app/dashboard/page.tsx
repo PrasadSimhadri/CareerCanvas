@@ -290,11 +290,22 @@ export default function DashboardPage() {
                                                             )}
                                                         </div>
                                                         <div>
-                                                            <label className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#6C63FF]/10 border border-[#6C63FF]/20 text-[#6C63FF] text-sm font-medium cursor-pointer hover:bg-[#6C63FF]/20 transition-colors">
-                                                                <HiPhotograph />
-                                                                {uploading ? 'Uploading...' : 'Upload Photo'}
-                                                                <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
-                                                            </label>
+                                                            <div className="flex gap-2">
+                                                                <label className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#6C63FF]/10 border border-[#6C63FF]/20 text-[#6C63FF] text-sm font-medium cursor-pointer hover:bg-[#6C63FF]/20 transition-colors">
+                                                                    <HiPhotograph />
+                                                                    {uploading ? 'Uploading...' : 'Upload Photo'}
+                                                                    <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
+                                                                </label>
+                                                                {portfolio.profileImageUrl && (
+                                                                    <button 
+                                                                        onClick={() => setPortfolio(p => ({ ...p, profileImageUrl: '' }))}
+                                                                        className="flex items-center gap-1.5 px-4 py-2 rounded-xl border border-red-500/30 text-red-500 text-sm font-medium hover:bg-red-500/10 transition-colors"
+                                                                    >
+                                                                        <HiTrash />
+                                                                        Remove
+                                                                    </button>
+                                                                )}
+                                                            </div>
                                                             <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">Max 5MB • JPEG, PNG, WebP</p>
                                                         </div>
                                                     </div>

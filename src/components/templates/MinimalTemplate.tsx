@@ -183,18 +183,60 @@ export default function MinimalTemplate({ data, isPreview = false }: { data: Por
                 <section id="education" style={{ background: colors.bgSec, padding: '70px 0' }}>
                     <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px' }}>
                         <SectionTitle text="Education" accent={colors.accent} />
-                        <div style={{ maxWidth: 800, margin: '0 auto', position: 'relative' }}>
-                            {data.education.map((edu, i) => (
-                                <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} style={{ padding: '10px 0', marginBottom: 20 }}>
-                                    <div style={{ padding: 20, background: colors.card, borderRadius: 10, border: `1px solid ${colors.border}`, transition: 'all 0.3s', maxWidth: 600, margin: '0 auto' }}>
-                                        <span style={{ color: colors.accent, fontWeight: 600 }}>{edu.startYear} - {edu.endYear}</span>
-                                        <h3 style={{ marginBottom: 10, color: colors.accent }}>{edu.institution}</h3>
-                                        <h4 style={{ marginBottom: 10, color: colors.text }}>{edu.location}</h4>
-                                        <p style={{ color: colors.textSec }}>{edu.degree}</p>
-                                        {edu.grade && <p style={{ color: colors.textSec }}>Grade: {edu.grade}</p>}
-                                    </div>
-                                </motion.div>
-                            ))}
+                        <div style={{ position: 'relative', maxWidth: 800, margin: '0 auto' }}>
+                            {/* Central Line */}
+                            <div style={{ position: 'absolute', width: 4, background: colors.border, top: 0, bottom: 0, left: '50%', marginLeft: -2 }} className="hidden md:block" />
+                            
+                            {data.education.map((edu, i) => {
+                                const isLeft = i % 2 === 0;
+                                return (
+                                    <motion.div 
+                                        key={i} 
+                                        initial={{ opacity: 0, x: isLeft ? -30 : 30 }} 
+                                        whileInView={{ opacity: 1, x: 0 }} 
+                                        viewport={{ once: true }} 
+                                        style={{ 
+                                            display: 'flex', 
+                                            justifyContent: isLeft ? 'flex-start' : 'flex-end',
+                                            width: '100%',
+                                            marginBottom: 30,
+                                            position: 'relative'
+                                        }}
+                                        className="flex-col md:flex-row"
+                                    >
+                                        {/* Dot on line */}
+                                        <div style={{ 
+                                            position: 'absolute', 
+                                            width: 20, 
+                                            height: 20, 
+                                            background: `linear-gradient(90deg, ${colors.accent}, ${colors.accentHover})`, 
+                                            borderRadius: '50%', 
+                                            top: 20, 
+                                            left: '50%', 
+                                            marginLeft: -10,
+                                            zIndex: 2
+                                        }} className="hidden md:block shadow-lg" />
+
+                                        <div style={{ 
+                                            width: '100%',
+                                            maxWidth: 'calc(50% - 40px)',
+                                            background: colors.card,
+                                            padding: 25,
+                                            borderRadius: 15,
+                                            border: `1px solid ${colors.border}`,
+                                            textAlign: isLeft ? 'right' : 'left',
+                                            boxShadow: `0 5px 15px ${colors.shadow}`,
+                                            transition: 'all 0.3s'
+                                        }} className="md:w-auto w-full mx-auto md:mx-0">
+                                            <span style={{ color: colors.accent, fontWeight: 700, fontSize: '0.9rem' }}>{edu.startYear} - {edu.endYear}</span>
+                                            <h3 style={{ color: colors.text, fontSize: '1.25rem', margin: '10px 0' }}>{edu.institution}</h3>
+                                            <h4 style={{ color: colors.textSec, fontSize: '1rem', fontStyle: 'italic', marginBottom: 10 }}>{edu.location}</h4>
+                                            <p style={{ color: colors.accent, fontWeight: 600, marginBottom: 5 }}>{edu.degree}</p>
+                                            {edu.grade && <p style={{ color: colors.textSec, fontSize: '0.9rem' }}>Grade: {edu.grade}</p>}
+                                        </div>
+                                    </motion.div>
+                                );
+                            })}
                         </div>
                     </div>
                 </section>

@@ -257,10 +257,10 @@ export default function CreativeTemplate({ data, isPreview = false }: { data: Po
                         <GradientTitle>Get In Touch</GradientTitle>
                         <p style={{ color: colors.textSec, marginBottom: 40, fontSize: '1.1rem' }}>Let&apos;s connect and create something amazing together.</p>
                         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 16 }}>
-                            {data.contact.email && <ContactPill colors={colors} icon={<FaEnvelope />} text={data.contact.email} href={`mailto:${data.contact.email}`} />}
-                            {data.contact.phone && <ContactPill colors={colors} icon={<FaPhone />} text={data.contact.phone} href={`tel:${data.contact.phone}`} />}
-                            {data.contact.linkedinUrl && <ContactPill colors={colors} icon={<FaLinkedinIn />} text="LinkedIn" href={data.contact.linkedinUrl} />}
-                            {data.contact.githubUrl && <ContactPill colors={colors} icon={<FaGithub />} text="GitHub" href={data.contact.githubUrl} />}
+                            {data.contact.email && <ContactPill colors={colors} isDark={isDark} icon={<FaEnvelope />} text={data.contact.email} href={`mailto:${data.contact.email}`} />}
+                            {data.contact.phone && <ContactPill colors={colors} isDark={isDark} icon={<FaPhone />} text={data.contact.phone} href={`tel:${data.contact.phone}`} />}
+                            {data.contact.linkedinUrl && <ContactPill colors={colors} isDark={isDark} icon={<FaLinkedinIn />} text="LinkedIn" href={data.contact.linkedinUrl} />}
+                            {data.contact.githubUrl && <ContactPill colors={colors} isDark={isDark} icon={<FaGithub />} text="GitHub" href={data.contact.githubUrl} />}
                         </div>
                     </motion.div>
                 </div>
@@ -304,7 +304,7 @@ function SocialBtn({ href, icon, gradient }: { href: string; icon: React.ReactNo
     );
 }
 
-function ContactPill({ icon, text, href, colors }: { icon: React.ReactNode; text: string; href: string; colors: any }) {
+function ContactPill({ icon, text, href, colors, isDark }: { icon: React.ReactNode; text: string; href: string; colors: any; isDark: boolean }) {
     return (
         <a href={href} target="_blank" style={{ display: 'flex', alignItems: 'center', gap: 10, background: colors.cardBg, border: '1px solid rgba(139,92,246,0.15)', borderRadius: 50, padding: '12px 24px', color: isDark ? '#E0D5FF' : colors.text, textDecoration: 'none', fontSize: '0.9rem', transition: 'all 0.3s', backdropFilter: 'blur(10px)' }}>
             <span style={{ color: '#EC4899' }}>{icon}</span>
