@@ -349,9 +349,12 @@ export default function SidebarTemplate({ data, isPreview = false }: { data: Por
                 </section>
 
                 <footer style={{ padding: '40px 0', textAlign: 'center', borderTop: `1px solid ${colors.cardBorder}` }}>
-                    <p style={{ color: colors.sidebarTextOff, fontSize: '0.9rem' }}>
-                        &copy; {new Date().getFullYear()} {data.basicInfo.fullName}. Built with <a href="/" style={{ color: colors.accent, textDecoration: 'none', fontWeight: 700 }}>CareerCanvas</a>
-                    </p>
+                    <p style={{ color: colors.textSec }}>
+                    Built with <a href="/" style={{ color: colors.accent, textDecoration: 'none', fontWeight: 600 }}>CareerCanvas</a> •{' '}
+                    <a href="https://github.com/PrasadSimhadri/CareerCanvas" target="_blank" style={{ color: colors.textSec, textDecoration: 'none' }}>
+                        <FaGithub style={{ display: 'inline', marginRight: 4 }} />GitHub
+                    </a>
+                </p>
                 </footer>
 
                 {/* Scroll to Top */}

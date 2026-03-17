@@ -95,9 +95,9 @@ export default function CreativeTemplate({ data, isPreview = false }: { data: Po
                     <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ fontSize: '1.4rem', fontWeight: 900, letterSpacing: '-0.05em' }}>
                         <span style={{ color: colors.accent }}>{data.basicInfo.fullName.split(' ')[0]}</span>.
                     </motion.span>
-                    <div style={{ display: 'flex', gap: 24, alignItems: 'center' }} className="hidden md:flex">
-                        {['About', 'Projects', 'Experience', 'Contact'].map((item) => (
-                            <motion.a key={item} href={`#${item.toLowerCase()}`} whileHover={{ scale: 1.05, color: colors.accent }} style={{ color: colors.text, textDecoration: 'none', fontSize: '0.85rem', fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase', transition: 'color 0.3s' }}>{item}</motion.a>
+                    <div style={{ display: 'flex', gap: 20, alignItems: 'center' }} className="hidden lg:flex">
+                        {['About', 'Projects', 'Experience', 'Education', 'Achievements', 'Skills', 'Contact'].map((item) => (
+                            <motion.a key={item} href={`#${item.toLowerCase()}`} whileHover={{ scale: 1.05, color: colors.accent }} style={{ color: colors.text, textDecoration: 'none', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase', transition: 'color 0.3s' }}>{item}</motion.a>
                         ))}
                         {mounted && (
                             <motion.button 
@@ -168,15 +168,9 @@ export default function CreativeTemplate({ data, isPreview = false }: { data: Po
             {data.about.description && (
                 <section id="about" style={{ padding: '100px 24px', position: 'relative', zIndex: 1 }}>
                     <div style={{ maxWidth: 1300, margin: '0 auto', display: 'flex', gap: 80, flexWrap: 'wrap' }}>
-                        <motion.div 
-                            variants={itemVariants}
-                            initial="initial"
-                            whileInView="whileInView"
-                            viewport={{ once: true }}
-                            style={{ flex: '0 0 250px' }}
-                        >
-                            <h2 style={{ fontSize: '4.5rem', fontWeight: 900, lineHeight: 1, color: colors.cardBorder, letterSpacing: '-0.1em' }}>ABOUT_</h2>
-                        </motion.div>
+                        <div style={{ flex: '0 0 250px' }}>
+                            <h2 style={{ fontSize: '4.5rem', fontWeight: 900, lineHeight: 1, color: isDark ? '#ffffff' : '#000000', letterSpacing: '-0.1em' }}>ABOUT_</h2>
+                        </div>
                         <motion.div 
                             variants={itemVariants}
                             initial="initial"
@@ -295,11 +289,11 @@ export default function CreativeTemplate({ data, isPreview = false }: { data: Po
 
             {/* Experience & Education - Asymmetrical Split */}
             {(data.experience?.length > 0 || data.education?.length > 0) && (
-                <section id="experience" style={{ padding: '100px 24px', position: 'relative', zIndex: 1 }}>
+                <section style={{ padding: '100px 24px', position: 'relative', zIndex: 1 }}>
                     <div style={{ maxWidth: 1300, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: 80 }}>
                         
                         {/* Experience */}
-                        <div style={{ gridColumn: 'span 12' }} className="col-span-12 lg:col-span-7">
+                        <div id="experience" style={{ gridColumn: 'span 12' }} className="col-span-12 lg:col-span-7">
                             <motion.h2 variants={itemVariants} initial="initial" whileInView="whileInView" viewport={{ once: true }} style={{ fontSize: '3rem', fontWeight: 900, marginBottom: 60 }}>EXPERIENCE</motion.h2>
                             <motion.div 
                                 variants={containerVariants}
@@ -326,17 +320,34 @@ export default function CreativeTemplate({ data, isPreview = false }: { data: Po
                         </div>
 
                         {/* Education */}
-                        <div style={{ gridColumn: 'span 12' }} className="col-span-12 lg:col-span-5">
+                        <div id="education" style={{ gridColumn: 'span 12' }} className="col-span-12">
                             <motion.h2 variants={itemVariants} initial="initial" whileInView="whileInView" viewport={{ once: true }} style={{ fontSize: '3rem', fontWeight: 900, marginBottom: 60 }}>EDUCATION</motion.h2>
                             <motion.div 
                                 variants={containerVariants}
                                 initial="initial"
                                 whileInView="whileInView"
                                 viewport={{ once: true }}
-                                style={{ display: 'flex', flexDirection: 'column', gap: 32 }}
+                                style={{ 
+                                    display: 'flex', 
+                                    flexDirection: data.education.length > 1 ? 'row' : 'column', 
+                                    flexWrap: 'wrap',
+                                    gap: 32,
+                                    justifyContent: data.education.length > 1 ? 'center' : 'flex-start'
+                                }}
                             >
                                 {data.education.map((edu, i) => (
-                                    <motion.div key={i} variants={itemVariants} style={{ background: colors.cardBg, padding: 32, borderRadius: 24, border: `1px solid ${colors.cardBorder}` }}>
+                                    <motion.div 
+                                        key={i} 
+                                        variants={itemVariants} 
+                                        style={{ 
+                                            background: colors.cardBg, 
+                                            padding: 32, 
+                                            borderRadius: 24, 
+                                            border: `1px solid ${colors.cardBorder}`,
+                                            flex: data.education.length > 1 ? '1 1 400px' : 'none',
+                                            maxWidth: data.education.length > 1 ? '600px' : '100%'
+                                        }}
+                                    >
                                         <span style={{ fontSize: '0.8rem', fontWeight: 800, color: colors.secondary }}>{edu.startYear} — {edu.endYear}</span>
                                         <h3 style={{ fontSize: '1.4rem', fontWeight: 800, margin: '8px 0' }}>{edu.degree}</h3>
                                         <p style={{ fontWeight: 600 }}>{edu.institution}</p>
@@ -361,14 +372,28 @@ export default function CreativeTemplate({ data, isPreview = false }: { data: Po
                             initial="initial"
                             whileInView="whileInView"
                             viewport={{ once: true }}
-                            style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 24 }}
+                            style={{ 
+                                display: 'flex', 
+                                flexWrap: 'wrap', 
+                                gap: 24,
+                                justifyContent: 'center'
+                            }}
                         >
                             {data.achievements.map((ach, i) => (
                                 <motion.div 
                                     key={i} 
                                     variants={itemVariants}
                                     whileHover={{ scale: 1.03, rotate: 1 }}
-                                    style={{ background: colors.cardBg, padding: 40, borderRadius: 32, border: `1px solid ${colors.cardBorder}`, position: 'relative' }}
+                                    style={{ 
+                                        background: colors.cardBg, 
+                                        padding: 40, 
+                                        borderRadius: 32, 
+                                        border: `1px solid ${colors.cardBorder}`, 
+                                        position: 'relative',
+                                        flex: data.achievements.length === 1 ? '0 1 600px' : data.achievements.length === 2 ? '1 1 45%' : '1 1 30%',
+                                        minWidth: '300px',
+                                        maxWidth: data.achievements.length === 1 ? '800px' : 'none'
+                                    }}
                                 >
                                     <FaTrophy style={{ fontSize: '2.5rem', color: colors.accent, marginBottom: 24, opacity: 0.5 }} />
                                     <h3 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: 12 }}>{ach.title}</h3>
@@ -429,13 +454,13 @@ export default function CreativeTemplate({ data, isPreview = false }: { data: Po
                     viewport={{ once: true }}
                     style={{ maxWidth: 900, margin: '0 auto', textAlign: 'center', background: `linear-gradient(135deg, ${colors.bg}, ${colors.cardBg})`, padding: clamp('40px', '8vw', '100px'), borderRadius: 60, border: `1px solid ${colors.cardBorder}` }}
                 >
-                    <h2 style={{ fontSize: 'clamp(3rem, 10vw, 5rem)', fontWeight: 900, marginBottom: 32, letterSpacing: '-0.04em' }}>LET&apos;S CHAT<span style={{ color: colors.accent }}>.</span></h2>
-                    <p style={{ fontSize: '1.4rem', color: colors.textSec, marginBottom: 60 }}>Have a bold idea? Let&apos;s build the future together.</p>
+                    <h2 style={{ fontSize: 'clamp(2.5rem, 8vw, 4rem)', fontWeight: 900, marginBottom: 32, letterSpacing: '-0.04em' }}>LET&apos;S CHAT<span style={{ color: colors.accent }}>.</span></h2>
+                    <p style={{ fontSize: '1.2rem', color: colors.textSec, marginBottom: 60 }}>Have a bold idea? Let&apos;s build the future together.</p>
                     <motion.a 
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         href={`mailto:${data.contact.email}`} 
-                        style={{ display: 'inline-block', fontSize: clamp('1.4rem', '4vw', '2.5rem'), fontWeight: 900, color: colors.text, textDecoration: 'none', background: colors.accentGradient, padding: '20px 48px', borderRadius: 24, boxShadow: `0 20px 40px ${colors.accent}40`, marginBottom: 80 }}
+                        style={{ display: 'inline-block', fontSize: clamp('1.2rem', '3.5vw', '2.2rem'), fontWeight: 900, color: colors.text, textDecoration: 'none', background: colors.accentGradient, padding: '18px 40px', borderRadius: 24, boxShadow: `0 15px 30px ${colors.accent}40`, marginBottom: 80 }}
                     >
                         {data.contact.email}
                     </motion.a>
