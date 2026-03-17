@@ -56,7 +56,8 @@ export interface IContact {
 export interface IUser extends Document {
     username: string;
     email: string;
-    passwordHash: string;
+    passwordHash?: string;
+    googleId?: string;
     slug: string;
     selectedTemplate: 'minimal' | 'creative' | 'sidebar';
     profileImageUrl: string;
@@ -158,7 +159,12 @@ const UserSchema = new Schema<IUser>(
         },
         passwordHash: {
             type: String,
-            required: true,
+            required: false,
+        },
+        googleId: {
+            type: String,
+            unique: true,
+            sparse: true,
         },
         slug: {
             type: String,

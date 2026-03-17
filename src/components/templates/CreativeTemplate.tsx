@@ -25,12 +25,22 @@ const fadeUp = {
     transition: { duration: 0.6 },
 };
 
-export default function CreativeTemplate({ data }: { data: PortfolioData }) {
-    const { resolvedTheme, setTheme } = useTheme();
+export default function CreativeTemplate({ data, isPreview = false }: { data: PortfolioData, isPreview?: boolean }) {
+    const { resolvedTheme, setTheme: setGlobalTheme } = useTheme();
+    const [localTheme, setLocalTheme] = useState<'light' | 'dark' | null>(null);
     const [mounted, setMounted] = useState(false);
     useEffect(() => setMounted(true), []);
-    
-    const isDark = !mounted || resolvedTheme === 'dark';
+
+    const currentTheme = isPreview && localTheme ? localTheme : resolvedTheme;
+    const isDark = !mounted || currentTheme === 'dark';
+
+    const toggleTheme = () => {
+        if (isPreview) {
+            setLocalTheme(prev => (prev === 'dark' || (!prev && resolvedTheme === 'dark')) ? 'light' : 'dark');
+        } else {
+            setGlobalTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
+        }
+    };
     
     const colors = isDark ? {
         bg: '#0F0118',
@@ -51,6 +61,7 @@ export default function CreativeTemplate({ data }: { data: PortfolioData }) {
         pillBg: 'rgba(139,92,246,0.3)',
         iconBg: 'rgba(255,255,255,0.6)'
     };
+
     return (
         <div style={{ background: colors.bg, color: colors.text, fontFamily: "'Poppins', sans-serif", minHeight: '100vh', position: 'relative', overflow: 'hidden' }}>
             {/* Floating Background Blobs */}
@@ -64,7 +75,7 @@ export default function CreativeTemplate({ data }: { data: PortfolioData }) {
                     <span style={{ fontSize: '1.5rem', fontWeight: 800, background: 'linear-gradient(135deg, #8B5CF6, #EC4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                         {data.basicInfo.fullName.split(' ')[0]}.
                     </span>
-                    <div style={{ display: 'flex', gap: 24 }} className="hidden md:flex">
+                    <div style={{ display: 'flex', gap: 24, alignItems: 'center' }} className="hidden md:flex">
                         {['About', 'Experience', 'Projects', 'Skills', 'Contact'].map((item) => (
                             <a key={item} href={`#${item.toLowerCase()}`} style={{ color: colors.textSec, textDecoration: 'none', fontSize: '0.9rem', fontWeight: 500, transition: 'color 0.3s' }}
                                 onMouseEnter={(e) => (e.currentTarget.style.color = '#EC4899')}
@@ -72,6 +83,11 @@ export default function CreativeTemplate({ data }: { data: PortfolioData }) {
                                 {item}
                             </a>
                         ))}
+                        {mounted && (
+                            <button onClick={toggleTheme} style={{ background: 'none', border: 'none', color: colors.textSec, cursor: 'pointer', fontSize: '1.2rem', padding: 4, display: 'flex', alignItems: 'center' }}>
+                                {isDark ? <FaSun /> : <FaMoon />}
+                            </button>
+                        )}
                     </div>
                 </div>
             </nav>
@@ -262,9 +278,10 @@ export default function CreativeTemplate({ data }: { data: PortfolioData }) {
             <a href="#" style={{ position: 'fixed', bottom: 30, right: 30, width: 45, height: 45, background: 'linear-gradient(135deg, #8B5CF6, #EC4899)', color: 'white', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 99, textDecoration: 'none' }}><FaArrowUp /></a>
 
             <style jsx global>{`
-        @keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
-        400;500;600;700;800;900&display=swap');
-      `}</style>
+                @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap');
+                @keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+                html { scroll-behavior: smooth; }
+            `}</style>
         </div>
     );
 }
@@ -289,7 +306,7 @@ function SocialBtn({ href, icon, gradient }: { href: string; icon: React.ReactNo
 
 function ContactPill({ icon, text, href, colors }: { icon: React.ReactNode; text: string; href: string; colors: any }) {
     return (
-        <a href={href} target="_blank" style={{ display: 'flex', alignItems: 'center', gap: 10, background: colors.cardBg, border: '1px solid rgba(139,92,246,0.15)', borderRadius: 50, padding: '12px 24px', color: '#E0D5FF', textDecoration: 'none', fontSize: '0.9rem', transition: 'all 0.3s', backdropFilter: 'blur(10px)' }}>
+        <a href={href} target="_blank" style={{ display: 'flex', alignItems: 'center', gap: 10, background: colors.cardBg, border: '1px solid rgba(139,92,246,0.15)', borderRadius: 50, padding: '12px 24px', color: isDark ? '#E0D5FF' : colors.text, textDecoration: 'none', fontSize: '0.9rem', transition: 'all 0.3s', backdropFilter: 'blur(10px)' }}>
             <span style={{ color: '#EC4899' }}>{icon}</span>
             {text}
         </a>

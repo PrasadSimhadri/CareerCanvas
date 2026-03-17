@@ -47,9 +47,9 @@ export default async function PreviewPage({ params }: { params: Promise<{ templa
         contact: { email: 'alex@example.com', phone: '+1 (555) 123-4567', linkedinUrl: '#', githubUrl: '#', location: 'San Francisco, CA' }
     };
 
-    if (template === 'minimal') return <MinimalTemplate data={dummyData} />;
-    if (template === 'creative') return <CreativeTemplate data={dummyData} />;
-    if (template === 'sidebar') return <SidebarTemplate data={dummyData} />;
+    if (template === 'minimal') return <MinimalTemplate data={dummyData} isPreview={true} />;
+    if (template === 'creative') return <CreativeTemplate data={dummyData} isPreview={true} />;
+    if (template === 'sidebar') return <SidebarTemplate data={dummyData} isPreview={true} />;
 
     notFound();
 }

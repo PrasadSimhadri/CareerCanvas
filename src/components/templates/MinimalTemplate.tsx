@@ -17,24 +17,30 @@ interface PortfolioData {
     contact: { email: string; phone: string; linkedinUrl: string; githubUrl: string; location: string };
 }
 
-export default function MinimalTemplate({ data }: { data: PortfolioData }) {
-    const { resolvedTheme, setTheme } = useTheme();
+export default function MinimalTemplate({ data, isPreview = false }: { data: PortfolioData, isPreview?: boolean }) {
+    const { resolvedTheme, setTheme: setGlobalTheme } = useTheme();
+    const [localTheme, setLocalTheme] = useState<'light' | 'dark' | null>(null);
     const [mounted, setMounted] = useState(false);
     const [scrolled, setScrolled] = useState(false);
-    const [showTop, setShowTop] = useState(false);
     const [mobileMenu, setMobileMenu] = useState(false);
 
     useEffect(() => {
         setMounted(true);
-        const handleScroll = () => {
-            setScrolled(window.scrollY > 100);
-            setShowTop(window.scrollY > 300);
-        };
+        const handleScroll = () => setScrolled(window.scrollY > 50);
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    const isDark = mounted && resolvedTheme === 'dark';
+    const currentTheme = isPreview && localTheme ? localTheme : resolvedTheme;
+    const isDark = !mounted || currentTheme === 'dark';
+
+    const toggleTheme = () => {
+        if (isPreview) {
+            setLocalTheme(prev => (prev === 'dark' || (!prev && resolvedTheme === 'dark')) ? 'light' : 'dark');
+        } else {
+            setGlobalTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
+        }
+    };
     
     // Default to dark mode colors initially to prevent flash of unstyled content
     const colors = !mounted || isDark
@@ -45,7 +51,7 @@ export default function MinimalTemplate({ data }: { data: PortfolioData }) {
     const firstName = data.basicInfo.fullName.split(' ')[0] || 'Portfolio';
 
     return (
-        <div style={{ background: colors.bg, color: colors.text, fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif", lineHeight: 1.6, transition: 'background-color 0.3s, color 0.3s' }}>
+        <div style={{ background: colors.bg, color: colors.text, fontFamily: "'Inter', sans-serif", lineHeight: 1.6, transition: 'background-color 0.3s, color 0.3s' }}>
             {/* Header */}
             <header style={{ position: 'fixed', top: 0, left: 0, width: '100%', background: isDark ? 'rgba(10,10,10,0.9)' : 'rgba(248,249,250,0.9)', backdropFilter: 'blur(10px)', zIndex: 1000, borderBottom: `1px solid ${colors.border}`, boxShadow: scrolled ? `0 5px 20px ${colors.shadow}` : 'none', transition: 'all 0.3s' }}>
                 <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px' }}>
@@ -67,7 +73,7 @@ export default function MinimalTemplate({ data }: { data: PortfolioData }) {
                             ))}
                             <li>
                                 {mounted && (
-                                    <button onClick={() => setTheme(isDark ? 'light' : 'dark')} style={{ width: 40, height: 40, borderRadius: '50%', background: colors.card, border: `1px solid ${colors.border}`, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: colors.text, transition: 'all 0.3s' }}>
+                                    <button onClick={toggleTheme} style={{ width: 40, height: 40, borderRadius: '50%', background: colors.card, border: `1px solid ${colors.border}`, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: colors.text, transition: 'all 0.3s' }}>
                                         {isDark ? <FaSun /> : <FaMoon />}
                                     </button>
                                 )}
@@ -178,12 +184,10 @@ export default function MinimalTemplate({ data }: { data: PortfolioData }) {
                     <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px' }}>
                         <SectionTitle text="Education" accent={colors.accent} />
                         <div style={{ maxWidth: 800, margin: '0 auto', position: 'relative' }}>
-                            {/* Timeline Line */}
-                            <div style={{ position: 'absolute', width: 4, background: colors.border, top: 0, bottom: 0, left: '50%', marginLeft: -2 }} className="hidden md:block" />
                             {data.education.map((edu, i) => (
                                 <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} style={{ padding: '10px 0', marginBottom: 20 }}>
                                     <div style={{ padding: 20, background: colors.card, borderRadius: 10, border: `1px solid ${colors.border}`, transition: 'all 0.3s', maxWidth: 600, margin: '0 auto' }}>
-                                        <span style={{ color: colors.accent, fontWeight: 600 }}>{edu.startYear}-{edu.endYear}</span>
+                                        <span style={{ color: colors.accent, fontWeight: 600 }}>{edu.startYear} - {edu.endYear}</span>
                                         <h3 style={{ marginBottom: 10, color: colors.accent }}>{edu.institution}</h3>
                                         <h4 style={{ marginBottom: 10, color: colors.text }}>{edu.location}</h4>
                                         <p style={{ color: colors.textSec }}>{edu.degree}</p>
@@ -275,8 +279,8 @@ export default function MinimalTemplate({ data }: { data: PortfolioData }) {
                     <div style={{ display: 'flex', gap: 50, justifyContent: 'center', flexWrap: 'wrap' }}>
                         {data.contact.email && <ContactItem icon={<FaEnvelope />} title="Email" value={data.contact.email} colors={colors} />}
                         {data.contact.phone && <ContactItem icon={<FaPhone />} title="Phone" value={data.contact.phone} colors={colors} />}
-                        {data.contact.linkedinUrl && <ContactItem icon={<FaLinkedinIn />} title="LinkedIn" value={data.contact.linkedinUrl} colors={colors} />}
-                        {data.contact.githubUrl && <ContactItem icon={<FaGithub />} title="GitHub" value={data.contact.githubUrl} colors={colors} />}
+                        {data.contact.linkedinUrl && <ContactItem icon={<FaLinkedinIn />} title="LinkedIn" value="Profile" href={data.contact.linkedinUrl} colors={colors} />}
+                        {data.contact.githubUrl && <ContactItem icon={<FaGithub />} title="GitHub" value="Repositories" href={data.contact.githubUrl} colors={colors} />}
                         {data.contact.location && <ContactItem icon={<FaMapMarkerAlt />} title="Location" value={data.contact.location} colors={colors} />}
                     </div>
                 </div>
@@ -293,19 +297,20 @@ export default function MinimalTemplate({ data }: { data: PortfolioData }) {
             </footer>
 
             {/* Back to top */}
-            {showTop && (
-                <a href="#home" style={{ position: 'fixed', bottom: 30, right: 30, width: 45, height: 45, background: `linear-gradient(90deg, ${colors.accent}, ${colors.accentHover})`, color: 'white', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 99, textDecoration: 'none', boxShadow: `0 4px 15px ${colors.shadow}` }}>
+            {scrolled && (
+                <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} style={{ position: 'fixed', bottom: 30, right: 30, width: 45, height: 45, background: `linear-gradient(90deg, ${colors.accent}, ${colors.accentHover})`, color: 'white', borderRadius: '50%', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 99, boxShadow: `0 4px 15px ${colors.shadow}` }}>
                     <FaArrowUp />
-                </a>
+                </button>
             )}
 
-            {/* Float animation */}
             <style jsx global>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-20px); }
-        }
-      `}</style>
+                @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+                @keyframes float {
+                    0%, 100% { transform: translateY(0px); }
+                    50% { transform: translateY(-20px); }
+                }
+                html { scroll-behavior: smooth; }
+            `}</style>
         </div>
     );
 }
@@ -319,8 +324,8 @@ function SectionTitle({ text, accent }: { text: string; accent: string }) {
     );
 }
 
-function ContactItem({ icon, title, value, colors }: { icon: React.ReactNode; title: string; value: string; colors: Record<string, string> }) {
-    return (
+function ContactItem({ icon, title, value, href, colors }: { icon: React.ReactNode; title: string; value: string; href?: string; colors: Record<string, string> }) {
+    const content = (
         <div style={{ display: 'flex', alignItems: 'center', gap: 15 }}>
             <div style={{ width: 45, height: 45, background: colors.card, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem', color: colors.accent, border: `1px solid ${colors.border}` }}>{icon}</div>
             <div>
@@ -329,4 +334,13 @@ function ContactItem({ icon, title, value, colors }: { icon: React.ReactNode; ti
             </div>
         </div>
     );
+
+    if (href) {
+        return (
+            <a href={href} target="_blank" style={{ textDecoration: 'none', color: 'inherit' }}>
+                {content}
+            </a>
+        );
+    }
+    return content;
 }

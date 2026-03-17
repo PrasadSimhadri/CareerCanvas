@@ -25,15 +25,18 @@ export default function Navbar() {
             initial={{ y: -100 }}
             animate={{ y: 0 }}
             transition={{ duration: 0.5, ease: 'easeOut' }}
-            className={`fixed left-0 w-full z-50 transition-all duration-300 flex justify-center ${
+            className={`fixed left-0 w-full z-50 flex justify-center transition-[padding,top] duration-500 ease-in-out ${
                 scrolled ? 'top-4 px-4 sm:px-6' : 'top-0 px-0'
             }`}
         >
-            <div className={`w-full transition-all duration-300 ${
-                scrolled 
-                    ? 'max-w-5xl bg-white/80 dark:bg-[#0F0F1A]/80 backdrop-blur-xl shadow-lg border border-gray-200 dark:border-[#3B3B52]/50 rounded-full px-6 py-2' 
-                    : 'max-w-7xl bg-transparent px-4 py-4 sm:px-6 lg:px-8'
-            }`}>
+            <motion.div
+                layout
+                className={`w-full transition-all duration-500 ease-in-out ${
+                    scrolled 
+                        ? 'max-w-5xl bg-white/80 dark:bg-[#0F0F1A]/80 backdrop-blur-xl shadow-lg border border-gray-200 dark:border-[#3B3B52]/50 rounded-full px-6 py-2' 
+                        : 'max-w-7xl bg-transparent px-4 py-4 sm:px-6 lg:px-8'
+                }`}
+            >
                 <nav className="flex items-center justify-between">
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-2 group">
@@ -172,7 +175,7 @@ export default function Navbar() {
                         </motion.div>
                     )}
                 </AnimatePresence>
-            </div>
+            </motion.div>
         </motion.header>
     );
 }

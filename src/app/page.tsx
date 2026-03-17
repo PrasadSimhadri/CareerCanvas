@@ -376,7 +376,7 @@ function TemplatePreviewModal({ templateId, onClose }: { templateId: string; onC
           </p>
           <Link
             href={user ? "/dashboard" : "/signup"}
-            className={`px-6 py-2.5 rounded-xl bg-gradient-to-r ${template.color} text-white font-semibold text-sm hover:opacity-90 transition-all`}
+            className={`px-8 py-3 rounded-xl bg-gradient-to-r ${template.color} text-white font-semibold text-sm hover:opacity-90 transition-all shadow-lg flex-shrink-0`}
           >
             {user ? 'Go to Dashboard' : 'Use This Template'}
           </Link>
