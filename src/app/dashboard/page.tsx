@@ -183,7 +183,7 @@ export default function DashboardPage() {
 
     if (authLoading || !dataLoaded) {
         return (
-            <div className="min-h-screen bg-[#0F0F1A] flex items-center justify-center">
+            <div className="min-h-screen bg-gray-50 dark:bg-[#0F0F1A] flex items-center justify-center">
                 <div className="w-10 h-10 border-3 border-[#6C63FF] border-t-transparent rounded-full animate-spin" />
             </div>
         );
@@ -204,7 +204,7 @@ export default function DashboardPage() {
     ];
 
     return (
-        <div className="min-h-screen bg-[#0F0F1A]">
+        <div className="min-h-screen bg-gray-50 dark:bg-[#0F0F1A]">
             <Navbar />
 
             <div className="max-w-4xl mx-auto px-4 pt-24 pb-16">
@@ -213,14 +213,14 @@ export default function DashboardPage() {
                     <h1 className="text-3xl font-bold font-[Poppins] mb-2">
                         Welcome, <span className="gradient-text">{user?.username}</span>
                     </h1>
-                    <p className="text-gray-400">Build and manage your portfolio below.</p>
+                    <p className="text-gray-600 dark:text-gray-400">Build and manage your portfolio below.</p>
                 </motion.div>
 
                 {/* Share Link */}
                 {portfolioUrl && (
-                    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="mb-8 p-4 rounded-2xl bg-[#1E1E2E]/80 border border-[#3B3B52]/50 flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="mb-8 p-4 rounded-2xl bg-white/80 dark:bg-[#1E1E2E]/80 border border-gray-200 dark:border-[#3B3B52]/50 flex flex-col sm:flex-row items-start sm:items-center gap-3">
                         <div className="flex-1 min-w-0">
-                            <p className="text-xs text-gray-400 mb-1">Your portfolio link</p>
+                            <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">Your portfolio link</p>
                             <p className="text-sm text-[#6C63FF] truncate">{portfolioUrl}</p>
                         </div>
                         <div className="flex gap-2">
@@ -238,13 +238,13 @@ export default function DashboardPage() {
                 {/* Accordion Sections */}
                 <div className="space-y-3">
                     {sections.map((section) => (
-                        <motion.div key={section.key} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="rounded-2xl bg-[#1E1E2E]/60 border border-[#3B3B52]/50 overflow-hidden">
-                            <button onClick={() => toggleSection(section.key)} className="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-[#2A2A3E]/50 transition-colors">
+                        <motion.div key={section.key} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="rounded-2xl bg-white/60 dark:bg-[#1E1E2E]/60 border border-gray-200 dark:border-[#3B3B52]/50 overflow-hidden">
+                            <button onClick={() => toggleSection(section.key)} className="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-gray-100/50 dark:bg-[#2A2A3E]/50 transition-colors">
                                 <div className="flex items-center gap-3">
                                     <span className="text-[#6C63FF] text-xl">{section.icon}</span>
                                     <span className="font-semibold font-[Poppins]">{section.label}</span>
                                 </div>
-                                <HiChevronDown className={`text-gray-400 transition-transform ${activeSection === section.key ? 'rotate-180' : ''}`} />
+                                <HiChevronDown className={`text-gray-600 dark:text-gray-400 transition-transform ${activeSection === section.key ? 'rotate-180' : ''}`} />
                             </button>
 
                             <AnimatePresence>
@@ -256,7 +256,7 @@ export default function DashboardPage() {
                                         transition={{ duration: 0.2 }}
                                         className="overflow-hidden"
                                     >
-                                        <div className="px-6 pb-6 pt-2 border-t border-[#3B3B52]/30">
+                                        <div className="px-6 pb-6 pt-2 border-t border-gray-200 dark:border-[#3B3B52]/30">
                                             {section.key === 'template' && (
                                                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                                                     {templateOptions.map((t) => (
@@ -265,14 +265,14 @@ export default function DashboardPage() {
                                                             onClick={() => setPortfolio((p) => ({ ...p, selectedTemplate: t.id }))}
                                                             className={`p-4 rounded-xl border-2 transition-all text-left ${portfolio.selectedTemplate === t.id
                                                                     ? 'border-[#6C63FF] bg-[#6C63FF]/10'
-                                                                    : 'border-[#3B3B52]/50 hover:border-[#3B3B52]'
+                                                                    : 'border-gray-200 dark:border-[#3B3B52]/50 hover:border-gray-200 dark:border-[#3B3B52]'
                                                                 }`}
                                                         >
-                                                            <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${t.color} flex items-center justify-center text-white text-lg mb-3`}>
+                                                            <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${t.color} flex items-center justify-center text-gray-900 dark:text-white text-lg mb-3`}>
                                                                 {t.icon}
                                                             </div>
                                                             <h4 className="font-semibold text-sm">{t.name}</h4>
-                                                            <p className="text-xs text-gray-400 mt-1">{t.desc}</p>
+                                                            <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">{t.desc}</p>
                                                         </button>
                                                     ))}
                                                 </div>
@@ -282,11 +282,11 @@ export default function DashboardPage() {
                                                 <div className="space-y-4">
                                                     {/* Profile Image */}
                                                     <div className="flex items-center gap-4">
-                                                        <div className="w-20 h-20 rounded-2xl bg-[#2A2A3E] border border-[#3B3B52] overflow-hidden flex items-center justify-center">
+                                                        <div className="w-20 h-20 rounded-2xl bg-gray-100 dark:bg-[#2A2A3E] border border-gray-200 dark:border-[#3B3B52] overflow-hidden flex items-center justify-center">
                                                             {portfolio.profileImageUrl ? (
                                                                 <img src={portfolio.profileImageUrl} alt="Profile" className="w-full h-full object-cover" />
                                                             ) : (
-                                                                <HiPhotograph className="text-3xl text-gray-500" />
+                                                                <HiPhotograph className="text-3xl text-gray-400 dark:text-gray-500" />
                                                             )}
                                                         </div>
                                                         <div>
@@ -295,7 +295,7 @@ export default function DashboardPage() {
                                                                 {uploading ? 'Uploading...' : 'Upload Photo'}
                                                                 <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
                                                             </label>
-                                                            <p className="text-xs text-gray-500 mt-1">Max 5MB • JPEG, PNG, WebP</p>
+                                                            <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">Max 5MB • JPEG, PNG, WebP</p>
                                                         </div>
                                                     </div>
                                                     <InputField label="Full Name" value={portfolio.basicInfo.fullName} onChange={(v) => setPortfolio((p) => ({ ...p, basicInfo: { ...p.basicInfo, fullName: v } }))} placeholder="John Doe" />
@@ -311,13 +311,13 @@ export default function DashboardPage() {
                                                     {/* About Cards */}
                                                     <div>
                                                         <div className="flex items-center justify-between mb-3">
-                                                            <label className="text-sm font-medium text-gray-300">Info Cards</label>
+                                                            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Info Cards</label>
                                                             <button onClick={() => setPortfolio((p) => ({ ...p, about: { ...p.about, cards: [...p.about.cards, { title: '', description: '' }] } }))} className="text-xs text-[#6C63FF] flex items-center gap-1 hover:text-[#8B83FF]"><HiPlus /> Add Card</button>
                                                         </div>
                                                         {portfolio.about.cards.map((card, i) => (
                                                             <div key={i} className="flex gap-3 mb-3">
-                                                                <input value={card.title} onChange={(e) => { const cards = [...portfolio.about.cards]; cards[i].title = e.target.value; setPortfolio((p) => ({ ...p, about: { ...p.about, cards } })); }} placeholder="Card title" className="flex-1 bg-[#0F0F1A] border border-[#3B3B52] rounded-xl px-4 py-2.5 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-[#6C63FF]" />
-                                                                <input value={card.description} onChange={(e) => { const cards = [...portfolio.about.cards]; cards[i].description = e.target.value; setPortfolio((p) => ({ ...p, about: { ...p.about, cards } })); }} placeholder="Description" className="flex-2 bg-[#0F0F1A] border border-[#3B3B52] rounded-xl px-4 py-2.5 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-[#6C63FF]" />
+                                                                <input value={card.title} onChange={(e) => { const cards = [...portfolio.about.cards]; cards[i].title = e.target.value; setPortfolio((p) => ({ ...p, about: { ...p.about, cards } })); }} placeholder="Card title" className="flex-1 bg-gray-50 dark:bg-[#0F0F1A] border border-gray-200 dark:border-[#3B3B52] rounded-xl px-4 py-2.5 text-gray-900 dark:text-white text-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-[#6C63FF]" />
+                                                                <input value={card.description} onChange={(e) => { const cards = [...portfolio.about.cards]; cards[i].description = e.target.value; setPortfolio((p) => ({ ...p, about: { ...p.about, cards } })); }} placeholder="Description" className="flex-2 bg-gray-50 dark:bg-[#0F0F1A] border border-gray-200 dark:border-[#3B3B52] rounded-xl px-4 py-2.5 text-gray-900 dark:text-white text-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-[#6C63FF]" />
                                                                 <button onClick={() => { const cards = portfolio.about.cards.filter((_, idx) => idx !== i); setPortfolio((p) => ({ ...p, about: { ...p.about, cards } })); }} className="text-red-400 hover:text-red-300"><HiTrash /></button>
                                                             </div>
                                                         ))}
@@ -335,19 +335,19 @@ export default function DashboardPage() {
                                                         <div className="space-y-3">
                                                             <div className="grid grid-cols-2 gap-3">
                                                                 <div>
-                                                                    <label className="text-xs text-gray-400 mb-1 block">Degree</label>
+                                                                    <label className="text-xs text-gray-600 dark:text-gray-400 mb-1 block">Degree</label>
                                                                     {!degreeOptions.includes(item.degree) || item.degree === 'Other' ? (
                                                                         <div className="flex gap-2">
                                                                             <input 
                                                                                 value={item.degree === 'Other' ? '' : item.degree}
                                                                                 onChange={(e) => { const edu = [...portfolio.education]; edu[i].degree = e.target.value; setPortfolio((p) => ({ ...p, education: edu })); }}
                                                                                 placeholder="Custom Degree"
-                                                                                className="flex-1 bg-[#0F0F1A] border border-[#3B3B52] rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-[#6C63FF]"
+                                                                                className="flex-1 bg-gray-50 dark:bg-[#0F0F1A] border border-gray-200 dark:border-[#3B3B52] rounded-xl px-4 py-2.5 text-gray-900 dark:text-white text-sm focus:outline-none focus:border-[#6C63FF]"
                                                                             />
-                                                                            <button onClick={() => { const edu = [...portfolio.education]; edu[i].degree = 'B.Tech'; setPortfolio((p) => ({ ...p, education: edu })); }} className="px-3 py-2 bg-[#1E1E2E] text-gray-400 rounded-xl hover:text-white border border-[#3B3B52]">✕</button>
+                                                                            <button onClick={() => { const edu = [...portfolio.education]; edu[i].degree = 'B.Tech'; setPortfolio((p) => ({ ...p, education: edu })); }} className="px-3 py-2 bg-white dark:bg-[#1E1E2E] text-gray-600 dark:text-gray-400 rounded-xl hover:text-gray-900 dark:hover:text-white border border-gray-200 dark:border-[#3B3B52]">✕</button>
                                                                         </div>
                                                                     ) : (
-                                                                        <select value={item.degree} onChange={(e) => { const edu = [...portfolio.education]; edu[i].degree = e.target.value; setPortfolio((p) => ({ ...p, education: edu })); }} className="w-full bg-[#0F0F1A] border border-[#3B3B52] rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-[#6C63FF]">
+                                                                        <select value={item.degree} onChange={(e) => { const edu = [...portfolio.education]; edu[i].degree = e.target.value; setPortfolio((p) => ({ ...p, education: edu })); }} className="w-full bg-gray-50 dark:bg-[#0F0F1A] border border-gray-200 dark:border-[#3B3B52] rounded-xl px-4 py-2.5 text-gray-900 dark:text-white text-sm focus:outline-none focus:border-[#6C63FF]">
                                                                             {degreeOptions.map((d) => <option key={d} value={d}>{d}</option>)}
                                                                         </select>
                                                                     )}
@@ -389,7 +389,7 @@ export default function DashboardPage() {
 
                                             {section.key === 'projects' && (
                                                 <div>
-                                                    <p className="text-xs text-gray-400 mb-4">💡 2-4 projects is ideal for showcasing your best work.</p>
+                                                    <p className="text-xs text-gray-600 dark:text-gray-400 mb-4">💡 2-4 projects is ideal for showcasing your best work.</p>
                                                     <DynamicList
                                                         items={portfolio.projects}
                                                         addLabel="Add Project"
@@ -466,7 +466,7 @@ export default function DashboardPage() {
                     <button
                         onClick={handleSave}
                         disabled={saving}
-                        className="flex items-center gap-2 bg-gradient-to-r from-[#6C63FF] to-[#06B6D4] text-white px-8 py-3.5 rounded-xl font-semibold hover:opacity-90 transition-all disabled:opacity-50 shadow-lg shadow-[#6C63FF]/25"
+                        className="flex items-center gap-2 bg-gradient-to-r from-[#6C63FF] to-[#06B6D4] text-gray-900 dark:text-white px-8 py-3.5 rounded-xl font-semibold hover:opacity-90 transition-all disabled:opacity-50 shadow-lg shadow-[#6C63FF]/25"
                     >
                         {saving ? <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" /> : <HiSave />}
                         {saving ? 'Saving...' : 'Save Portfolio'}
@@ -485,13 +485,13 @@ export default function DashboardPage() {
 function InputField({ label, value, onChange, placeholder, small }: { label: string; value: string; onChange: (v: string) => void; placeholder: string; small?: boolean }) {
     return (
         <div>
-            <label className={`block font-medium text-gray-300 mb-1.5 ${small ? 'text-xs' : 'text-sm'}`}>{label}</label>
+            <label className={`block font-medium text-gray-700 dark:text-gray-300 mb-1.5 ${small ? 'text-xs' : 'text-sm'}`}>{label}</label>
             <input
                 type="text"
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
                 placeholder={placeholder}
-                className="w-full bg-[#0F0F1A] border border-[#3B3B52] rounded-xl px-4 py-2.5 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-[#6C63FF] transition-colors"
+                className="w-full bg-gray-50 dark:bg-[#0F0F1A] border border-gray-200 dark:border-[#3B3B52] rounded-xl px-4 py-2.5 text-gray-900 dark:text-white text-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-[#6C63FF] transition-colors"
             />
         </div>
     );
@@ -500,13 +500,13 @@ function InputField({ label, value, onChange, placeholder, small }: { label: str
 function TextAreaField({ label, value, onChange, placeholder, rows = 4, small }: { label: string; value: string; onChange: (v: string) => void; placeholder: string; rows?: number; small?: boolean }) {
     return (
         <div>
-            <label className={`block font-medium text-gray-300 mb-1.5 ${small ? 'text-xs' : 'text-sm'}`}>{label}</label>
+            <label className={`block font-medium text-gray-700 dark:text-gray-300 mb-1.5 ${small ? 'text-xs' : 'text-sm'}`}>{label}</label>
             <textarea
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
                 placeholder={placeholder}
                 rows={rows}
-                className="w-full bg-[#0F0F1A] border border-[#3B3B52] rounded-xl px-4 py-2.5 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-[#6C63FF] transition-colors resize-y"
+                className="w-full bg-gray-50 dark:bg-[#0F0F1A] border border-gray-200 dark:border-[#3B3B52] rounded-xl px-4 py-2.5 text-gray-900 dark:text-white text-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-[#6C63FF] transition-colors resize-y"
             />
         </div>
     );
@@ -525,7 +525,7 @@ function TagInput({ label, tags, onChange, placeholder, small }: { label: string
 
     return (
         <div>
-            <label className={`block font-medium text-gray-300 mb-1.5 ${small ? 'text-xs' : 'text-sm'}`}>{label}</label>
+            <label className={`block font-medium text-gray-700 dark:text-gray-300 mb-1.5 ${small ? 'text-xs' : 'text-sm'}`}>{label}</label>
             <div className="flex flex-wrap gap-2 mb-2">
                 {tags.map((tag, i) => (
                     <span key={i} className="flex items-center gap-1.5 bg-[#6C63FF]/10 text-[#6C63FF] px-3 py-1 rounded-lg text-xs font-medium">
@@ -540,7 +540,7 @@ function TagInput({ label, tags, onChange, placeholder, small }: { label: string
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addTag(); } }}
                     placeholder={placeholder}
-                    className="flex-1 bg-[#0F0F1A] border border-[#3B3B52] rounded-xl px-4 py-2 text-white text-sm placeholder-gray-500 focus:outline-none focus:border-[#6C63FF]"
+                    className="flex-1 bg-gray-50 dark:bg-[#0F0F1A] border border-gray-200 dark:border-[#3B3B52] rounded-xl px-4 py-2 text-gray-900 dark:text-white text-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-[#6C63FF]"
                 />
                 <button onClick={addTag} className="px-3 py-2 rounded-xl bg-[#6C63FF]/10 text-[#6C63FF] text-sm hover:bg-[#6C63FF]/20 transition-colors"><HiPlus /></button>
             </div>
@@ -558,7 +558,7 @@ function DynamicList<T>({ items, addLabel, onAdd, onRemove, renderItem }: {
     return (
         <div className="space-y-4">
             {items.map((item, i) => (
-                <div key={i} className="p-4 rounded-xl bg-[#0F0F1A]/50 border border-[#3B3B52]/30 relative">
+                <div key={i} className="p-4 rounded-xl bg-gray-50 dark:bg-[#0F0F1A]/50 dark:bg-[#0F0F1A]/50 border border-gray-200 dark:border-[#3B3B52]/30 relative">
                     {items.length > 1 && (
                         <button onClick={() => onRemove(i)} className="absolute top-3 right-3 text-red-400 hover:text-red-300 text-sm"><HiTrash /></button>
                     )}

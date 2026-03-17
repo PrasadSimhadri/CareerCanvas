@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { FaLinkedinIn, FaGithub, FaEnvelope, FaPhone, FaMapMarkerAlt, FaExternalLinkAlt, FaTrophy, FaArrowUp, FaSun, FaMoon } from 'react-icons/fa';
 import { motion } from 'framer-motion';
+import { useTheme } from 'next-themes';
 
 interface PortfolioData {
     profileImageUrl: string;
@@ -17,12 +18,14 @@ interface PortfolioData {
 }
 
 export default function MinimalTemplate({ data }: { data: PortfolioData }) {
-    const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+    const { resolvedTheme, setTheme } = useTheme();
+    const [mounted, setMounted] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const [showTop, setShowTop] = useState(false);
     const [mobileMenu, setMobileMenu] = useState(false);
 
     useEffect(() => {
+        setMounted(true);
         const handleScroll = () => {
             setScrolled(window.scrollY > 100);
             setShowTop(window.scrollY > 300);
@@ -31,8 +34,10 @@ export default function MinimalTemplate({ data }: { data: PortfolioData }) {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    const isDark = theme === 'dark';
-    const colors = isDark
+    const isDark = mounted && resolvedTheme === 'dark';
+    
+    // Default to dark mode colors initially to prevent flash of unstyled content
+    const colors = !mounted || isDark
         ? { bg: '#0a0a0a', bgSec: '#121212', card: '#1a1a1a', border: '#2d2d2d', text: '#f3f4f6', textSec: '#9ca3af', accent: '#00b8d4', accentHover: '#00e5ff', shadow: 'rgba(0,0,0,0.3)', accentBg: 'rgba(0,184,212,0.1)' }
         : { bg: '#f8f9fa', bgSec: '#ffffff', card: '#ffffff', border: '#e5e7eb', text: '#1f2937', textSec: '#4b5563', accent: '#0097a7', accentHover: '#00b8d4', shadow: 'rgba(0,0,0,0.1)', accentBg: 'rgba(0,151,167,0.1)' };
 
@@ -61,9 +66,11 @@ export default function MinimalTemplate({ data }: { data: PortfolioData }) {
                                 </li>
                             ))}
                             <li>
-                                <button onClick={() => setTheme(isDark ? 'light' : 'dark')} style={{ width: 40, height: 40, borderRadius: '50%', background: colors.card, border: `1px solid ${colors.border}`, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: colors.text, transition: 'all 0.3s' }}>
-                                    {isDark ? <FaSun /> : <FaMoon />}
-                                </button>
+                                {mounted && (
+                                    <button onClick={() => setTheme(isDark ? 'light' : 'dark')} style={{ width: 40, height: 40, borderRadius: '50%', background: colors.card, border: `1px solid ${colors.border}`, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: colors.text, transition: 'all 0.3s' }}>
+                                        {isDark ? <FaSun /> : <FaMoon />}
+                                    </button>
+                                )}
                             </li>
                         </ul>
 

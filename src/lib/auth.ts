@@ -16,18 +16,14 @@ export interface JWTPayload {
     email: string;
 }
 
-/**
- * Create a JWT token from user data
- */
+//  Create a JWT token from user data
 export function createToken(payload: JWTPayload): string {
     return jwt.sign(payload, JWT_SECRET, {
         expiresIn: TOKEN_MAX_AGE,
     });
 }
 
-/**
- * Verify and decode a JWT token
- */
+// Verify and decode a JWT token
 export function verifyToken(token: string): JWTPayload | null {
     try {
         return jwt.verify(token, JWT_SECRET) as JWTPayload;
@@ -36,9 +32,7 @@ export function verifyToken(token: string): JWTPayload | null {
     }
 }
 
-/**
- * Set the JWT token as an HTTP-only cookie (for use in API routes)
- */
+// Set the JWT token as an HTTP-only cookie (for use in API routes)
 export async function setTokenCookie(token: string): Promise<void> {
     const cookieStore = await cookies();
     cookieStore.set(TOKEN_NAME, token, {
@@ -50,17 +44,13 @@ export async function setTokenCookie(token: string): Promise<void> {
     });
 }
 
-/**
- * Remove the JWT cookie (logout)
- */
+// Remove the JWT cookie (logout)
 export async function removeTokenCookie(): Promise<void> {
     const cookieStore = await cookies();
     cookieStore.delete(TOKEN_NAME);
 }
 
-/**
- * Get the current user from the JWT cookie (for Server Components / API routes)
- */
+// Get the current user from the JWT cookie (for Server Components / API routes)
 export async function getCurrentUser(): Promise<JWTPayload | null> {
     const cookieStore = await cookies(); // no await
     const token = cookieStore.get(TOKEN_NAME)?.value;
@@ -70,9 +60,7 @@ export async function getCurrentUser(): Promise<JWTPayload | null> {
     return verifyToken(token);
 }
 
-/**
- * Get the current user from the request (for API route handlers)
- */
+// Get the current user from the request (for API route handlers)
 export function getUserFromRequest(request: NextRequest): JWTPayload | null {
     const token = request.cookies.get(TOKEN_NAME)?.value;
 

@@ -2,6 +2,9 @@
 
 import { FaLinkedinIn, FaGithub, FaEnvelope, FaPhone, FaExternalLinkAlt, FaTrophy, FaArrowUp } from 'react-icons/fa';
 import { motion } from 'framer-motion';
+import { useTheme } from 'next-themes';
+import { useState, useEffect } from 'react';
+import { FaSun, FaMoon } from 'react-icons/fa';
 
 interface PortfolioData {
     profileImageUrl: string;
@@ -23,24 +26,49 @@ const fadeUp = {
 };
 
 export default function CreativeTemplate({ data }: { data: PortfolioData }) {
+    const { resolvedTheme, setTheme } = useTheme();
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => setMounted(true), []);
+    
+    const isDark = !mounted || resolvedTheme === 'dark';
+    
+    const colors = isDark ? {
+        bg: '#0F0118',
+        text: '#f1f1f6',
+        navBg: 'rgba(15,1,24,0.8)',
+        cardBg: 'rgba(255,255,255,0.03)',
+        cardBorder: 'rgba(139,92,246,0.15)',
+        textSec: 'rgba(241,241,246,0.6)',
+        pillBg: 'rgba(139,92,246,0.1)',
+        iconBg: 'rgba(255,255,255,0.03)'
+    } : {
+        bg: '#fdfaee',
+        text: '#1e1b4b',
+        navBg: 'rgba(253,250,238,0.8)',
+        cardBg: 'rgba(255,255,255,0.6)',
+        cardBorder: 'rgba(139,92,246,0.3)',
+        textSec: 'rgba(30,27,75,0.7)',
+        pillBg: 'rgba(139,92,246,0.3)',
+        iconBg: 'rgba(255,255,255,0.6)'
+    };
     return (
-        <div style={{ background: '#0F0118', color: '#f1f1f6', fontFamily: "'Poppins', sans-serif", minHeight: '100vh', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ background: colors.bg, color: colors.text, fontFamily: "'Poppins', sans-serif", minHeight: '100vh', position: 'relative', overflow: 'hidden' }}>
             {/* Floating Background Blobs */}
             <div style={{ position: 'fixed', top: '10%', left: '10%', width: 400, height: 400, background: 'radial-gradient(circle, rgba(139,92,246,0.15), transparent)', borderRadius: '50%', filter: 'blur(80px)', animation: 'pulse 6s ease-in-out infinite', zIndex: 0 }} />
             <div style={{ position: 'fixed', bottom: '10%', right: '10%', width: 350, height: 350, background: 'radial-gradient(circle, rgba(236,72,153,0.12), transparent)', borderRadius: '50%', filter: 'blur(80px)', animation: 'pulse 8s ease-in-out infinite', zIndex: 0 }} />
             <div style={{ position: 'fixed', top: '50%', left: '50%', width: 300, height: 300, background: 'radial-gradient(circle, rgba(245,158,11,0.08), transparent)', borderRadius: '50%', filter: 'blur(80px)', zIndex: 0 }} />
 
             {/* Navigation */}
-            <nav style={{ position: 'fixed', top: 0, left: 0, width: '100%', zIndex: 100, background: 'rgba(15,1,24,0.8)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(139,92,246,0.15)' }}>
+            <nav style={{ position: 'fixed', top: 0, left: 0, width: '100%', zIndex: 100, background: colors.navBg, backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(139,92,246,0.15)' }}>
                 <div style={{ maxWidth: 1200, margin: '0 auto', padding: '16px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <span style={{ fontSize: '1.5rem', fontWeight: 800, background: 'linear-gradient(135deg, #8B5CF6, #EC4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                         {data.basicInfo.fullName.split(' ')[0]}.
                     </span>
                     <div style={{ display: 'flex', gap: 24 }} className="hidden md:flex">
                         {['About', 'Experience', 'Projects', 'Skills', 'Contact'].map((item) => (
-                            <a key={item} href={`#${item.toLowerCase()}`} style={{ color: 'rgba(241,241,246,0.6)', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 500, transition: 'color 0.3s' }}
+                            <a key={item} href={`#${item.toLowerCase()}`} style={{ color: colors.textSec, textDecoration: 'none', fontSize: '0.9rem', fontWeight: 500, transition: 'color 0.3s' }}
                                 onMouseEnter={(e) => (e.currentTarget.style.color = '#EC4899')}
-                                onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(241,241,246,0.6)')}>
+                                onMouseLeave={(e) => (e.currentTarget.style.color = colors.textSec)}>
                                 {item}
                             </a>
                         ))}
@@ -62,7 +90,7 @@ export default function CreativeTemplate({ data }: { data: PortfolioData }) {
                     <p style={{ fontSize: '1.3rem', color: '#EC4899', fontWeight: 600, marginBottom: 16 }}>
                         {data.basicInfo.tagline}
                     </p>
-                    <p style={{ maxWidth: 550, margin: '0 auto', color: 'rgba(241,241,246,0.6)', fontSize: '1.1rem', lineHeight: 1.7, marginBottom: 30 }}>
+                    <p style={{ maxWidth: 550, margin: '0 auto', color: colors.textSec, fontSize: '1.1rem', lineHeight: 1.7, marginBottom: 30 }}>
                         {data.basicInfo.description}
                     </p>
                     <div style={{ display: 'flex', gap: 16, justifyContent: 'center' }}>
@@ -79,9 +107,9 @@ export default function CreativeTemplate({ data }: { data: PortfolioData }) {
                     <div style={{ maxWidth: 900, margin: '0 auto' }}>
                         <motion.div {...fadeUp}>
                             <GradientTitle>About Me</GradientTitle>
-                            <div style={{ background: 'rgba(255,255,255,0.03)', backdropFilter: 'blur(20px)', borderRadius: 24, border: '1px solid rgba(139,92,246,0.15)', padding: 40 }}>
+                            <div style={{ background: colors.cardBg, backdropFilter: 'blur(20px)', borderRadius: 24, border: '1px solid rgba(139,92,246,0.15)', padding: 40 }}>
                                 {data.about.description.split('\n').map((p, i) => (
-                                    <p key={i} style={{ color: 'rgba(241,241,246,0.7)', lineHeight: 1.8, marginBottom: 16, fontSize: '1.05rem' }}>{p}</p>
+                                    <p key={i} style={{ color: colors.textSec, lineHeight: 1.8, marginBottom: 16, fontSize: '1.05rem' }}>{p}</p>
                                 ))}
                                 {data.about.interests?.length > 0 && (
                                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginTop: 24 }}>
@@ -102,18 +130,18 @@ export default function CreativeTemplate({ data }: { data: PortfolioData }) {
                     <div style={{ maxWidth: 900, margin: '0 auto' }}>
                         <motion.div {...fadeUp}><GradientTitle>Experience</GradientTitle></motion.div>
                         {data.experience.map((exp, i) => (
-                            <motion.div key={i} {...fadeUp} transition={{ delay: i * 0.1 }} style={{ background: 'rgba(255,255,255,0.03)', backdropFilter: 'blur(20px)', borderRadius: 20, border: '1px solid rgba(139,92,246,0.15)', padding: 32, marginBottom: 24 }}>
+                            <motion.div key={i} {...fadeUp} transition={{ delay: i * 0.1 }} style={{ background: colors.cardBg, backdropFilter: 'blur(20px)', borderRadius: 20, border: '1px solid rgba(139,92,246,0.15)', padding: 32, marginBottom: 24 }}>
                                 <h3 style={{ fontSize: '1.4rem', fontWeight: 700, marginBottom: 8 }}>{exp.role}</h3>
                                 <p style={{ color: '#EC4899', fontWeight: 600, marginBottom: 4 }}>{exp.company} • {exp.location}</p>
-                                <p style={{ color: 'rgba(241,241,246,0.4)', fontSize: '0.9rem', marginBottom: 16 }}>{exp.startDate} — {exp.endDate}</p>
+                                <p style={{ color: colors.textSec, fontSize: '0.9rem', marginBottom: 16 }}>{exp.startDate} — {exp.endDate}</p>
                                 {exp.skills.length > 0 && (
                                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 12 }}>
                                         {exp.skills.map((s, j) => (
-                                            <span key={j} style={{ background: 'rgba(139,92,246,0.1)', color: '#C4B5FD', padding: '4px 12px', borderRadius: 6, fontSize: '0.8rem', fontWeight: 500 }}>{s}</span>
+                                            <span key={j} style={{ background: colors.pillBg, color: '#C4B5FD', padding: '4px 12px', borderRadius: 6, fontSize: '0.8rem', fontWeight: 500 }}>{s}</span>
                                         ))}
                                     </div>
                                 )}
-                                <p style={{ color: 'rgba(241,241,246,0.6)', lineHeight: 1.7 }}>{exp.description}</p>
+                                <p style={{ color: colors.textSec, lineHeight: 1.7 }}>{exp.description}</p>
                             </motion.div>
                         ))}
                     </div>
@@ -127,10 +155,10 @@ export default function CreativeTemplate({ data }: { data: PortfolioData }) {
                         <motion.div {...fadeUp}><GradientTitle>Education</GradientTitle></motion.div>
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20 }}>
                             {data.education.map((edu, i) => (
-                                <motion.div key={i} {...fadeUp} transition={{ delay: i * 0.1 }} style={{ background: 'rgba(255,255,255,0.03)', backdropFilter: 'blur(20px)', borderRadius: 20, border: '1px solid rgba(139,92,246,0.15)', padding: 28 }}>
+                                <motion.div key={i} {...fadeUp} transition={{ delay: i * 0.1 }} style={{ background: colors.cardBg, backdropFilter: 'blur(20px)', borderRadius: 20, border: '1px solid rgba(139,92,246,0.15)', padding: 28 }}>
                                     <p style={{ color: '#F59E0B', fontWeight: 700, fontSize: '0.85rem', marginBottom: 8 }}>{edu.startYear} — {edu.endYear}</p>
                                     <h3 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: 6 }}>{edu.institution}</h3>
-                                    <p style={{ color: 'rgba(241,241,246,0.5)', marginBottom: 4 }}>{edu.degree}</p>
+                                    <p style={{ color: colors.textSec, marginBottom: 4 }}>{edu.degree}</p>
                                     {edu.grade && <p style={{ color: '#EC4899', fontWeight: 600, fontSize: '0.9rem' }}>{edu.grade}</p>}
                                 </motion.div>
                             ))}
@@ -146,15 +174,15 @@ export default function CreativeTemplate({ data }: { data: PortfolioData }) {
                         <motion.div {...fadeUp}><GradientTitle>Projects</GradientTitle></motion.div>
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 24 }}>
                             {data.projects.map((proj, i) => (
-                                <motion.div key={i} {...fadeUp} transition={{ delay: i * 0.1 }} style={{ background: 'rgba(255,255,255,0.03)', backdropFilter: 'blur(20px)', borderRadius: 20, border: '1px solid rgba(139,92,246,0.15)', padding: 28, transition: 'all 0.3s' }}>
+                                <motion.div key={i} {...fadeUp} transition={{ delay: i * 0.1 }} style={{ background: colors.cardBg, backdropFilter: 'blur(20px)', borderRadius: 20, border: '1px solid rgba(139,92,246,0.15)', padding: 28, transition: 'all 0.3s' }}>
                                     <div style={{ height: 8, borderRadius: 4, background: `linear-gradient(90deg, #8B5CF6, #EC4899, #F59E0B)`, marginBottom: 20, opacity: 0.6 }} />
                                     <h3 style={{ fontSize: '1.3rem', fontWeight: 700, marginBottom: 12 }}>{proj.title}</h3>
                                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 16 }}>
                                         {proj.techStack.map((tech, j) => (
-                                            <span key={j} style={{ background: 'rgba(139,92,246,0.1)', color: '#C4B5FD', padding: '5px 12px', borderRadius: 8, fontSize: '0.8rem', fontWeight: 500 }}>{tech}</span>
+                                            <span key={j} style={{ background: colors.pillBg, color: '#C4B5FD', padding: '5px 12px', borderRadius: 8, fontSize: '0.8rem', fontWeight: 500 }}>{tech}</span>
                                         ))}
                                     </div>
-                                    <p style={{ color: 'rgba(241,241,246,0.6)', marginBottom: 20, lineHeight: 1.7 }}>{proj.description}</p>
+                                    <p style={{ color: colors.textSec, marginBottom: 20, lineHeight: 1.7 }}>{proj.description}</p>
                                     <div style={{ display: 'flex', gap: 16 }}>
                                         {proj.githubUrl && <a href={proj.githubUrl} target="_blank" style={{ color: '#C4B5FD', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.9rem' }}><FaGithub /> Code</a>}
                                         {proj.liveUrl && <a href={proj.liveUrl} target="_blank" style={{ color: '#F9A8D4', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.9rem' }}><FaExternalLinkAlt /> Live</a>}
@@ -173,7 +201,7 @@ export default function CreativeTemplate({ data }: { data: PortfolioData }) {
                         <motion.div {...fadeUp}><GradientTitle>Skills</GradientTitle></motion.div>
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: 24 }}>
                             {data.skills.map((group, i) => (
-                                <motion.div key={i} {...fadeUp} transition={{ delay: i * 0.1 }} style={{ background: 'rgba(255,255,255,0.03)', backdropFilter: 'blur(20px)', borderRadius: 20, border: '1px solid rgba(139,92,246,0.15)', padding: 28 }}>
+                                <motion.div key={i} {...fadeUp} transition={{ delay: i * 0.1 }} style={{ background: colors.cardBg, backdropFilter: 'blur(20px)', borderRadius: 20, border: '1px solid rgba(139,92,246,0.15)', padding: 28 }}>
                                     <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#EC4899', marginBottom: 20, textAlign: 'center' }}>{group.category}</h3>
                                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, justifyContent: 'center' }}>
                                         {group.skills.map((skill, j) => (
@@ -193,12 +221,12 @@ export default function CreativeTemplate({ data }: { data: PortfolioData }) {
                     <div style={{ maxWidth: 900, margin: '0 auto' }}>
                         <motion.div {...fadeUp}><GradientTitle>Achievements</GradientTitle></motion.div>
                         {data.achievements.map((ach, i) => (
-                            <motion.div key={i} {...fadeUp} style={{ background: 'rgba(255,255,255,0.03)', backdropFilter: 'blur(20px)', borderRadius: 20, border: '1px solid rgba(245,158,11,0.15)', padding: 28, marginBottom: 20, display: 'flex', alignItems: 'flex-start', gap: 16 }}>
+                            <motion.div key={i} {...fadeUp} style={{ background: colors.cardBg, backdropFilter: 'blur(20px)', borderRadius: 20, border: '1px solid rgba(245,158,11,0.15)', padding: 28, marginBottom: 20, display: 'flex', alignItems: 'flex-start', gap: 16 }}>
                                 <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'linear-gradient(135deg, #F59E0B, #EF4444)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', flexShrink: 0 }}><FaTrophy /></div>
                                 <div>
                                     <h3 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: 4 }}>{ach.title}</h3>
                                     <p style={{ color: '#F59E0B', fontWeight: 600, fontSize: '0.9rem', marginBottom: 6 }}>{ach.organization}</p>
-                                    <p style={{ color: 'rgba(241,241,246,0.6)', lineHeight: 1.7 }}>{ach.description}</p>
+                                    <p style={{ color: colors.textSec, lineHeight: 1.7 }}>{ach.description}</p>
                                 </div>
                             </motion.div>
                         ))}
@@ -211,12 +239,12 @@ export default function CreativeTemplate({ data }: { data: PortfolioData }) {
                 <div style={{ maxWidth: 700, margin: '0 auto', textAlign: 'center' }}>
                     <motion.div {...fadeUp}>
                         <GradientTitle>Get In Touch</GradientTitle>
-                        <p style={{ color: 'rgba(241,241,246,0.5)', marginBottom: 40, fontSize: '1.1rem' }}>Let&apos;s connect and create something amazing together.</p>
+                        <p style={{ color: colors.textSec, marginBottom: 40, fontSize: '1.1rem' }}>Let&apos;s connect and create something amazing together.</p>
                         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 16 }}>
-                            {data.contact.email && <ContactPill icon={<FaEnvelope />} text={data.contact.email} href={`mailto:${data.contact.email}`} />}
-                            {data.contact.phone && <ContactPill icon={<FaPhone />} text={data.contact.phone} href={`tel:${data.contact.phone}`} />}
-                            {data.contact.linkedinUrl && <ContactPill icon={<FaLinkedinIn />} text="LinkedIn" href={data.contact.linkedinUrl} />}
-                            {data.contact.githubUrl && <ContactPill icon={<FaGithub />} text="GitHub" href={data.contact.githubUrl} />}
+                            {data.contact.email && <ContactPill colors={colors} icon={<FaEnvelope />} text={data.contact.email} href={`mailto:${data.contact.email}`} />}
+                            {data.contact.phone && <ContactPill colors={colors} icon={<FaPhone />} text={data.contact.phone} href={`tel:${data.contact.phone}`} />}
+                            {data.contact.linkedinUrl && <ContactPill colors={colors} icon={<FaLinkedinIn />} text="LinkedIn" href={data.contact.linkedinUrl} />}
+                            {data.contact.githubUrl && <ContactPill colors={colors} icon={<FaGithub />} text="GitHub" href={data.contact.githubUrl} />}
                         </div>
                     </motion.div>
                 </div>
@@ -224,10 +252,10 @@ export default function CreativeTemplate({ data }: { data: PortfolioData }) {
 
             {/* Footer */}
             <footer style={{ padding: '30px 24px', textAlign: 'center', borderTop: '1px solid rgba(139,92,246,0.1)', position: 'relative', zIndex: 1 }}>
-                <p style={{ color: 'rgba(241,241,246,0.4)', fontSize: '0.9rem' }}>
+                <p style={{ color: colors.textSec, fontSize: '0.9rem' }}>
                     Built with <a href="/" style={{ background: 'linear-gradient(135deg, #8B5CF6, #EC4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', textDecoration: 'none', fontWeight: 700 }}>CareerCanvas</a>
                     {' • '}
-                    <a href="https://github.com" target="_blank" style={{ color: 'rgba(241,241,246,0.4)', textDecoration: 'none' }}><FaGithub style={{ display: 'inline', marginRight: 4 }} />GitHub</a>
+                    <a href="https://github.com" target="_blank" style={{ color: colors.textSec, textDecoration: 'none' }}><FaGithub style={{ display: 'inline', marginRight: 4 }} />GitHub</a>
                 </p>
             </footer>
 
@@ -235,7 +263,7 @@ export default function CreativeTemplate({ data }: { data: PortfolioData }) {
 
             <style jsx global>{`
         @keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+        400;500;600;700;800;900&display=swap');
       `}</style>
         </div>
     );
@@ -259,9 +287,9 @@ function SocialBtn({ href, icon, gradient }: { href: string; icon: React.ReactNo
     );
 }
 
-function ContactPill({ icon, text, href }: { icon: React.ReactNode; text: string; href: string }) {
+function ContactPill({ icon, text, href, colors }: { icon: React.ReactNode; text: string; href: string; colors: any }) {
     return (
-        <a href={href} target="_blank" style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(139,92,246,0.15)', borderRadius: 50, padding: '12px 24px', color: '#E0D5FF', textDecoration: 'none', fontSize: '0.9rem', transition: 'all 0.3s', backdropFilter: 'blur(10px)' }}>
+        <a href={href} target="_blank" style={{ display: 'flex', alignItems: 'center', gap: 10, background: colors.cardBg, border: '1px solid rgba(139,92,246,0.15)', borderRadius: 50, padding: '12px 24px', color: '#E0D5FF', textDecoration: 'none', fontSize: '0.9rem', transition: 'all 0.3s', backdropFilter: 'blur(10px)' }}>
             <span style={{ color: '#EC4899' }}>{icon}</span>
             {text}
         </a>
