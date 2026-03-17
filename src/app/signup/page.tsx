@@ -7,6 +7,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { motion } from 'framer-motion';
 import { HiEye, HiEyeOff, HiCheckCircle, HiXCircle, HiArrowRight } from 'react-icons/hi';
 import { GoogleLogin } from '@react-oauth/google';
+import Navbar from '@/components/Navbar';
 
 
 export default function SignupPage() {
@@ -25,7 +26,7 @@ export default function SignupPage() {
     }>({ checking: false, available: null, message: '' });
 
     useEffect(() => {
-        if (user && !authLoading) router.push('/');
+        if (user && !authLoading) router.replace('/');
     }, [user, authLoading, router]);
 
 
@@ -73,7 +74,7 @@ export default function SignupPage() {
         const result = await signup(username, email, password);
 
         if (result.success) {
-            router.push('/');
+            router.replace('/');
         } else {
             setError(result.error || 'Signup failed');
         }
@@ -90,8 +91,8 @@ export default function SignupPage() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-[#0F0F1A] flex items-center justify-center p-4 relative overflow-hidden transition-colors duration-300">
-            {/* Background */}
+        <div className="min-h-screen bg-gray-50 dark:bg-[#0F0F1A] flex flex-col items-center justify-center pt-28 pb-12 px-4 relative overflow-hidden transition-colors duration-300">
+            <Navbar />            {/* Background */}
             <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-[#6C63FF]/10 rounded-full blur-[128px]" />
             <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-[#06B6D4]/10 rounded-full blur-[128px]" />
 
@@ -214,28 +215,30 @@ export default function SignupPage() {
                             </div>
                         </div>
 
-                        <div className="mt-6 flex flex-col items-center gap-4">
+                        <div className="mt-8 flex flex-col items-center gap-4">
                             <div className="relative w-full flex justify-center">
-                                <GoogleLogin
-                                    onSuccess={async (credentialResponse) => {
-                                        if (credentialResponse.credential) {
-                                            const result = await googleLogin(credentialResponse.credential);
-                                            if (result.success) {
-                                                router.push('/');
-                                            } else {
-                                                setError(result.error || 'Google signup failed');
+                                <div className="w-full max-w-[240px] overflow-hidden rounded-full">
+                                    <GoogleLogin
+                                        onSuccess={async (credentialResponse) => {
+                                            if (credentialResponse.credential) {
+                                                const result = await googleLogin(credentialResponse.credential);
+                                                if (result.success) {
+                                                    router.replace('/');
+                                                } else {
+                                                    setError(result.error || 'Google signup failed');
+                                                }
                                             }
-                                        }
-                                    }}
-                                    onError={() => {
-                                        setError('Google Login Failed');
-                                    }}
-                                    theme="filled_blue"
-                                    shape="circle"
-                                    text="signup_with"
-                                    width="100%"
-                                />
-                                <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-green-100 text-green-700 text-[10px] font-bold px-3 py-1 rounded-full dark:bg-green-500/20 dark:text-green-400 border border-green-200 dark:border-green-500/30 shadow-sm z-10 whitespace-nowrap">
+                                        }}
+                                        onError={() => {
+                                            setError('Google Login Failed');
+                                        }}
+                                        theme="filled_blue"
+                                        shape="circle"
+                                        text="signup_with"
+                                        width="240px"
+                                    />
+                                </div>
+                                <span className="absolute -top-10 left-1/2 -translate-x-1/2 bg-green-100 text-green-700 text-[10px] font-bold px-3 py-1 rounded-full dark:bg-green-500/20 dark:text-green-400 border border-green-200 dark:border-green-500/30 shadow-sm z-10 whitespace-nowrap">
                                     Recommended
                                 </span>
                             </div>

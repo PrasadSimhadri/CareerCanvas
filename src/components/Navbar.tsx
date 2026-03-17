@@ -6,9 +6,11 @@ import { useAuth } from '@/contexts/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { HiMenuAlt3, HiX } from 'react-icons/hi';
 import ThemeToggle from '@/components/ThemeToggle';
+import { useRouter } from 'next/navigation';
 
 export default function Navbar() {
     const { user, logout } = useAuth();
+    const router = useRouter();
     const [scrolled, setScrolled] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -26,7 +28,7 @@ export default function Navbar() {
             animate={{ y: 0 }}
             transition={{ duration: 0.5, ease: 'easeOut' }}
             className={`fixed left-0 w-full z-50 flex justify-center transition-[padding,top] duration-500 ease-in-out ${scrolled ? 'top-4 px-4 sm:px-6' : 'top-0 px-0'
-                }`}
+            } ${mobileOpen ? 'h-auto' : ''}`}
         >
             <motion.div
                 layout
@@ -68,7 +70,10 @@ export default function Navbar() {
                                     Dashboard
                                 </Link>
                                 <button
-                                    onClick={logout}
+                                    onClick={async () => {
+                                        await logout();
+                                        router.replace('/login');
+                                    }}
                                     className="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
                                 >
                                     Logout
@@ -145,7 +150,11 @@ export default function Navbar() {
                                             Dashboard
                                         </Link>
                                         <button
-                                            onClick={() => { logout(); setMobileOpen(false); }}
+                                            onClick={async () => {
+                                                await logout();
+                                                setMobileOpen(false);
+                                                router.replace('/login');
+                                            }}
                                             className="text-left text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white py-2"
                                         >
                                             Logout

@@ -61,7 +61,7 @@ export default function DashboardPage() {
     const [copied, setCopied] = useState(false);
 
     useEffect(() => {
-        if (!authLoading && !user) router.push('/login');
+        if (!authLoading && !user) router.replace('/login');
     }, [user, authLoading, router]);
 
     const fetchPortfolio = useCallback(async () => {
@@ -207,7 +207,7 @@ export default function DashboardPage() {
         <div className="min-h-screen bg-gray-50 dark:bg-[#0F0F1A]">
             <Navbar />
 
-            <div className="max-w-4xl mx-auto px-4 pt-24 pb-16">
+            <div className="max-w-4xl mx-auto px-4 pt-32 sm:pt-24 pb-16">
                 {/* Header */}
                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
                     <h1 className="text-3xl font-bold font-[Poppins] mb-2">
@@ -264,8 +264,8 @@ export default function DashboardPage() {
                                                             key={t.id}
                                                             onClick={() => setPortfolio((p) => ({ ...p, selectedTemplate: t.id }))}
                                                             className={`p-4 rounded-xl border-2 transition-all text-left ${portfolio.selectedTemplate === t.id
-                                                                    ? 'border-[#6C63FF] bg-[#6C63FF]/10'
-                                                                    : 'border-gray-200 dark:border-[#3B3B52]/50 hover:border-gray-200 dark:border-[#3B3B52]'
+                                                                ? 'border-[#6C63FF] bg-[#6C63FF]/10'
+                                                                : 'border-gray-200 dark:border-[#3B3B52]/50 hover:border-gray-200 dark:border-[#3B3B52]'
                                                                 }`}
                                                         >
                                                             <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${t.color} flex items-center justify-center text-gray-900 dark:text-white text-lg mb-3`}>
@@ -297,7 +297,7 @@ export default function DashboardPage() {
                                                                     <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
                                                                 </label>
                                                                 {portfolio.profileImageUrl && (
-                                                                    <button 
+                                                                    <button
                                                                         onClick={() => setPortfolio(p => ({ ...p, profileImageUrl: '' }))}
                                                                         className="flex items-center gap-1.5 px-4 py-2 rounded-xl border border-red-500/30 text-red-500 text-sm font-medium hover:bg-red-500/10 transition-colors"
                                                                     >
@@ -335,7 +335,7 @@ export default function DashboardPage() {
                                                                     <label className="text-xs text-gray-600 dark:text-gray-400 mb-1 block">Degree</label>
                                                                     {!degreeOptions.includes(item.degree) || item.degree === 'Other' ? (
                                                                         <div className="flex gap-2">
-                                                                            <input 
+                                                                            <input
                                                                                 value={item.degree === 'Other' ? '' : item.degree}
                                                                                 onChange={(e) => { const edu = [...portfolio.education]; edu[i].degree = e.target.value; setPortfolio((p) => ({ ...p, education: edu })); }}
                                                                                 placeholder="Custom Degree"

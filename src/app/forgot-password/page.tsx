@@ -69,7 +69,7 @@ export default function ForgotPasswordPage() {
 
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-[#0F0F1A] transition-colors duration-300">
-            <main className="pt-20 pb-20 px-4">
+            <main className="pt-28 pb-20 px-4">
                 <div className="max-w-md mx-auto">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}

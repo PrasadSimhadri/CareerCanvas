@@ -48,7 +48,7 @@ export default function LoginPage() {
 
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-[#0F0F1A] transition-colors duration-300">
-            <main className="pt-20 pb-20 px-4">
+            <main className="pt-28 pb-20 px-4">
                 <div className="max-w-md mx-auto">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -135,28 +135,30 @@ export default function LoginPage() {
                                 </div>
                             </div>
 
-                            <div className="mt-6 flex flex-col items-center gap-4">
+                            <div className="mt-8 flex flex-col items-center gap-4">
                                 <div className="relative w-full flex justify-center">
-                                    <GoogleLogin
-                                        onSuccess={async (credentialResponse) => {
-                                            if (credentialResponse.credential) {
-                                                const result = await googleLogin(credentialResponse.credential);
-                                                if (result.success) {
-                                                    router.push('/');
-                                                } else {
-                                                    setError(result.error || 'Google login failed');
+                                    <div className="w-full max-w-[240px] overflow-hidden rounded-full">
+                                        <GoogleLogin
+                                            onSuccess={async (credentialResponse) => {
+                                                if (credentialResponse.credential) {
+                                                    const result = await googleLogin(credentialResponse.credential);
+                                                    if (result.success) {
+                                                        router.replace('/');
+                                                    } else {
+                                                        setError(result.error || 'Google login failed');
+                                                    }
                                                 }
-                                            }
-                                        }}
-                                        onError={() => {
-                                            setError('Google Login Failed');
-                                        }}
-                                        theme="filled_blue"
-                                        shape="circle"
-                                        text="continue_with"
-                                        width="100%"
-                                    />
-                                    <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-green-100 text-green-700 text-[10px] font-bold px-3 py-1 rounded-full dark:bg-green-500/20 dark:text-green-400 border border-green-200 dark:border-green-500/30 shadow-sm z-10 whitespace-nowrap">
+                                            }}
+                                            onError={() => {
+                                                setError('Google Login Failed');
+                                            }}
+                                            theme="filled_blue"
+                                            shape="circle"
+                                            text="continue_with"
+                                            width="240px"
+                                        />
+                                    </div>
+                                    <span className="absolute -top-7.5 left-1/2 -translate-x-1/2 bg-green-100 text-green-700 text-[10px] font-bold px-3 py-1 rounded-full dark:bg-green-500/20 dark:text-green-400 border border-green-200 dark:border-green-500/30 shadow-sm z-10 whitespace-nowrap">
                                         Recommended
                                     </span>
                                 </div>
