@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
 import { HiEye, HiEyeOff, HiCheckCircle, HiXCircle, HiArrowRight } from 'react-icons/hi';
 
 export default function SignupPage() {
-    const { signup, user } = useAuth();
+    const { signup, user, loading: authLoading } = useAuth();
     const router = useRouter();
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
@@ -23,8 +23,16 @@ export default function SignupPage() {
     }>({ checking: false, available: null, message: '' });
 
     useEffect(() => {
-        if (user) router.push('/dashboard');
-    }, [user, router]);
+        if (user && !authLoading) router.push('/dashboard');
+    }, [user, authLoading, router]);
+
+    if (authLoading || user) {
+        return (
+            <div className="min-h-screen bg-[#0F0F1A] flex items-center justify-center">
+                <div className="w-8 h-8 border-4 border-[#6C63FF] border-t-transparent rounded-full animate-spin" />
+            </div>
+        );
+    }
 
     // Debounced username check
     const checkUsername = useCallback(async (value: string) => {

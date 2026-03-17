@@ -41,14 +41,29 @@ export default async function PortfolioPage({ params }: PageProps) {
 
         const portfolioData = {
             profileImageUrl: user.profileImageUrl || '',
-            basicInfo: user.basicInfo || { fullName: '', tagline: '', description: '' },
-            about: user.about || { description: '', interests: [], cards: [] },
-            education: user.education || [],
-            experience: user.experience || [],
-            projects: user.projects || [],
-            skills: user.skills || [],
-            achievements: user.achievements || [],
-            contact: user.contact || { email: '', phone: '', linkedinUrl: '', githubUrl: '', location: '' },
+            basicInfo: {
+                fullName: user.basicInfo?.fullName || 'Portfolio Owner',
+                tagline: user.basicInfo?.tagline || '',
+                description: user.basicInfo?.description || '',
+            },
+            about: {
+                description: user.about?.description || '',
+                interests: user.about?.interests || [],
+                cards: user.about?.cards || [],
+            },
+            education: user.education?.length ? user.education : [],
+            experience: user.experience?.length ? user.experience : [],
+            projects: user.projects?.length ? user.projects : [],
+            skills: user.skills?.length ? user.skills : [],
+            achievements: user.achievements?.length ? user.achievements : [],
+            contact: {
+                email: user.contact?.email || '',
+                phone: user.contact?.phone || '',
+                linkedinUrl: user.contact?.linkedinUrl || '',
+                githubUrl: user.contact?.githubUrl || '',
+                websiteUrl: user.contact?.websiteUrl || '',
+                location: user.contact?.location || '',
+            },
         };
 
         const template = user.selectedTemplate || 'minimal';

@@ -47,7 +47,7 @@ const templateOptions = [
     { id: 'sidebar', name: 'Sidebar', icon: <FaColumns />, color: 'from-[#F59E0B] to-[#EF4444]', desc: 'Premium, elegant sidebar' },
 ];
 
-const degreeOptions = ['B.Tech', 'M.Tech', 'MBA', 'BBA', 'B.Sc', 'M.Sc', 'B.Com', 'M.Com', 'BCA', 'MCA', 'Other'];
+const degreeOptions = ['B.Tech', 'M.Tech', 'MBA', 'BBA', 'B.Sc', 'M.Sc', 'B.Com', 'M.Com', 'BCA', 'MCA', '12th', '10th', 'Other'];
 
 export default function DashboardPage() {
     const { user, loading: authLoading } = useAuth();
@@ -96,6 +96,37 @@ export default function DashboardPage() {
     }, [user, fetchPortfolio]);
 
     const handleSave = async () => {
+        // Client-side Validation
+        if (portfolio.contact.email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(portfolio.contact.email)) {
+                setSaveMsg('Error: Invalid email format.');
+                setTimeout(() => setSaveMsg(''), 4000);
+                return;
+            }
+        }
+        if (portfolio.contact.phone) {
+            const digits = portfolio.contact.phone.replace(/\D/g, '');
+            if (digits.length !== 10) {
+                setSaveMsg('Error: Phone number must contain exactly 10 digits.');
+                setTimeout(() => setSaveMsg(''), 4000);
+                return;
+            }
+        }
+        for (const edu of portfolio.education) {
+            if (edu.grade) {
+                const num = parseFloat(edu.grade);
+                if (!isNaN(num) && (num < 0 || num > 10)) {
+                    // Let's be lenient if they put percentage up to 100
+                    if (num > 100) {
+                        setSaveMsg(`Error: Grade/CGPA '${edu.grade}' must be between 0 and 10 (or up to 100 for %).`);
+                        setTimeout(() => setSaveMsg(''), 4000);
+                        return;
+                    }
+                }
+            }
+        }
+
         setSaving(true);
         setSaveMsg('');
         try {
@@ -305,9 +336,21 @@ export default function DashboardPage() {
                                                             <div className="grid grid-cols-2 gap-3">
                                                                 <div>
                                                                     <label className="text-xs text-gray-400 mb-1 block">Degree</label>
-                                                                    <select value={item.degree} onChange={(e) => { const edu = [...portfolio.education]; edu[i].degree = e.target.value; setPortfolio((p) => ({ ...p, education: edu })); }} className="w-full bg-[#0F0F1A] border border-[#3B3B52] rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-[#6C63FF]">
-                                                                        {degreeOptions.map((d) => <option key={d} value={d}>{d}</option>)}
-                                                                    </select>
+                                                                    {!degreeOptions.includes(item.degree) || item.degree === 'Other' ? (
+                                                                        <div className="flex gap-2">
+                                                                            <input 
+                                                                                value={item.degree === 'Other' ? '' : item.degree}
+                                                                                onChange={(e) => { const edu = [...portfolio.education]; edu[i].degree = e.target.value; setPortfolio((p) => ({ ...p, education: edu })); }}
+                                                                                placeholder="Custom Degree"
+                                                                                className="flex-1 bg-[#0F0F1A] border border-[#3B3B52] rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-[#6C63FF]"
+                                                                            />
+                                                                            <button onClick={() => { const edu = [...portfolio.education]; edu[i].degree = 'B.Tech'; setPortfolio((p) => ({ ...p, education: edu })); }} className="px-3 py-2 bg-[#1E1E2E] text-gray-400 rounded-xl hover:text-white border border-[#3B3B52]">✕</button>
+                                                                        </div>
+                                                                    ) : (
+                                                                        <select value={item.degree} onChange={(e) => { const edu = [...portfolio.education]; edu[i].degree = e.target.value; setPortfolio((p) => ({ ...p, education: edu })); }} className="w-full bg-[#0F0F1A] border border-[#3B3B52] rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-[#6C63FF]">
+                                                                            {degreeOptions.map((d) => <option key={d} value={d}>{d}</option>)}
+                                                                        </select>
+                                                                    )}
                                                                 </div>
                                                                 <InputField label="Grade/CGPA" value={item.grade} onChange={(v) => { const edu = [...portfolio.education]; edu[i].grade = v; setPortfolio((p) => ({ ...p, education: edu })); }} placeholder="8.5 CGPA" small />
                                                             </div>

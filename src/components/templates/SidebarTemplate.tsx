@@ -101,7 +101,7 @@ export default function SidebarTemplate({ data }: { data: PortfolioData }) {
             </aside>
 
             {/* Main Content */}
-            <main style={{ marginLeft: 0, flex: 1, padding: '40px 24px', maxWidth: 900 }} className="md:ml-[260px]">
+            <main style={{ flex: 1, padding: '40px 24px', maxWidth: 900 }} className="md:ml-[260px]">
                 {/* Mobile Header */}
                 <div className="md:hidden" style={{ textAlign: 'center', marginBottom: 40 }}>
                     {data.profileImageUrl && (

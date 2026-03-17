@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
 import { HiEye, HiEyeOff, HiArrowRight } from 'react-icons/hi';
 
 export default function LoginPage() {
-    const { login, user } = useAuth();
+    const { login, user, loading: authLoading } = useAuth();
     const router = useRouter();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -17,8 +17,16 @@ export default function LoginPage() {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        if (user) router.push('/dashboard');
-    }, [user, router]);
+        if (user && !authLoading) router.push('/dashboard');
+    }, [user, authLoading, router]);
+
+    if (authLoading || user) {
+        return (
+            <div className="min-h-screen bg-[#0F0F1A] flex items-center justify-center">
+                <div className="w-8 h-8 border-4 border-[#6C63FF] border-t-transparent rounded-full animate-spin" />
+            </div>
+        );
+    }
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();

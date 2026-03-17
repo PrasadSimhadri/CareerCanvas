@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { useAuth } from '@/contexts/AuthContext';
 import { HiSparkles, HiTemplate, HiShare, HiPencilAlt, HiArrowRight, HiX, HiCheck } from 'react-icons/hi';
 import { FaRocket, FaPalette, FaColumns } from 'react-icons/fa';
 
@@ -146,12 +147,12 @@ export default function LandingPage() {
                 Get Started Free
                 <HiArrowRight className="group-hover:translate-x-1 transition-transform" />
               </Link>
-              <Link
+              <a
                 href="#templates"
                 className="flex items-center gap-2 text-gray-300 hover:text-white px-8 py-4 rounded-2xl font-medium border border-[#3B3B52] hover:border-[#6C63FF]/50 transition-all"
               >
                 Browse Templates
-              </Link>
+              </a>
             </div>
           </motion.div>
         </div>
@@ -324,6 +325,7 @@ export default function LandingPage() {
 }
 
 function TemplatePreviewModal({ templateId, onClose }: { templateId: string; onClose: () => void }) {
+  const { user } = useAuth();
   const template = templates.find((t) => t.id === templateId);
   if (!template) return null;
 
@@ -340,11 +342,11 @@ function TemplatePreviewModal({ templateId, onClose }: { templateId: string; onC
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.9, y: 20 }}
         transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-        className="relative w-full max-w-5xl max-h-[90vh] rounded-2xl overflow-hidden bg-[#1E1E2E] border border-[#3B3B52]/50"
+        className="relative w-full max-w-5xl max-h-[90vh] rounded-2xl overflow-hidden bg-[#1E1E2E] border border-[#3B3B52]/50 flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#3B3B52]/50">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[#3B3B52]/50 shrink-0">
           <div className="flex items-center gap-3">
             <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${template.color} flex items-center justify-center text-white`}>
               {template.icon}
@@ -363,20 +365,20 @@ function TemplatePreviewModal({ templateId, onClose }: { templateId: string; onC
         </div>
 
         {/* Preview Content */}
-        <div className="overflow-y-auto max-h-[calc(90vh-140px)]">
+        <div className="overflow-y-auto flex-1 custom-scrollbar scroll-smooth" id="preview-scroll-container">
           <TemplatePreviewContent templateId={templateId} />
         </div>
 
         {/* Modal Footer */}
-        <div className="px-6 py-4 border-t border-[#3B3B52]/50 flex items-center justify-between">
+        <div className="px-6 py-4 border-t border-[#3B3B52]/50 flex items-center justify-between shrink-0">
           <p className="text-sm text-gray-400">
-            Sign up to use this template
+            {user ? 'Ready to use this template?' : 'Sign up to use this template'}
           </p>
           <Link
-            href="/signup"
+            href={user ? "/dashboard" : "/signup"}
             className={`px-6 py-2.5 rounded-xl bg-gradient-to-r ${template.color} text-white font-semibold text-sm hover:opacity-90 transition-all`}
           >
-            Use This Template
+            {user ? 'Go to Dashboard' : 'Use This Template'}
           </Link>
         </div>
       </motion.div>
@@ -385,44 +387,80 @@ function TemplatePreviewModal({ templateId, onClose }: { templateId: string; onC
 }
 
 function TemplatePreviewContent({ templateId }: { templateId: string }) {
+  const scrollTo = (id: string) => {
+    const container = document.getElementById('preview-scroll-container');
+    const element = document.getElementById(`${templateId}-preview-${id}`);
+    if (container && element) {
+      container.scrollTo({ top: element.offsetTop - 20, behavior: 'smooth' });
+    }
+  };
+
   if (templateId === 'minimal') {
     return (
-      <div className="bg-[#0a0a0a] text-white p-8">
+      <div className="bg-[#0a0a0a] text-white p-8 min-h-[800px]">
         {/* Mini Navbar */}
-        <div className="flex items-center justify-between mb-16 pb-4 border-b border-[#2d2d2d]">
+        <div className="flex items-center justify-between mb-16 pb-4 border-b border-[#2d2d2d] sticky top-0 bg-[#0a0a0a]/90 backdrop-blur z-20">
           <span className="text-xl font-bold">John<span className="text-[#00b8d4]">.</span></span>
           <div className="flex gap-6 text-sm text-gray-400">
-            <span className="hover:text-[#00b8d4] cursor-pointer">Home</span>
-            <span className="hover:text-[#00b8d4] cursor-pointer">About</span>
-            <span className="hover:text-[#00b8d4] cursor-pointer">Projects</span>
-            <span className="hover:text-[#00b8d4] cursor-pointer">Skills</span>
-            <span className="hover:text-[#00b8d4] cursor-pointer">Contact</span>
+            {['home', 'about', 'projects', 'skills', 'contact'].map((section) => (
+               <span key={section} onClick={() => scrollTo(section)} className="hover:text-[#00b8d4] cursor-pointer capitalize">{section}</span>
+            ))}
           </div>
         </div>
         {/* Hero */}
-        <div className="flex items-center gap-12 mb-16">
+        <div id="minimal-preview-home" className="flex items-center gap-12 mb-24 pt-10">
           <div className="flex-1">
             <h1 className="text-4xl font-bold mb-3">John Doe</h1>
             <h2 className="text-xl text-[#00b8d4] font-semibold mb-3">Full Stack Developer</h2>
             <p className="text-gray-400 mb-6">A passionate developer with interests in web development, data science, and creating impactful solutions.</p>
             <div className="flex gap-3">
-              <div className="px-5 py-2 bg-gradient-to-r from-[#00b8d4] to-[#00e5ff] rounded text-sm font-semibold text-black">Get In Touch</div>
+              <div className="px-5 py-2 bg-gradient-to-r from-[#00b8d4] to-[#00e5ff] rounded text-sm font-semibold text-black cursor-pointer" onClick={() => scrollTo('contact')}>Get In Touch</div>
             </div>
           </div>
-          <div className="w-40 h-40 rounded-xl bg-gradient-to-br from-[#00b8d4] to-[#00e5ff] flex items-center justify-center text-4xl">👤</div>
+          <div className="w-40 h-40 rounded-xl bg-gradient-to-br from-[#00b8d4] to-[#00e5ff] flex items-center justify-center text-4xl shadow-xl shadow-[#00b8d4]/20">👤</div>
+        </div>
+        {/* About */}
+        <div id="minimal-preview-about" className="mb-24 pt-10">
+          <h3 className="text-2xl font-bold mb-6 border-b border-[#2d2d2d] pb-2 inline-block">About Me<span className="text-[#00b8d4]">.</span></h3>
+          <p className="text-gray-400 mb-6 leading-relaxed">I am a highly motivated computer science student with a strong passion for building scalable and efficient web applications. With expertise in React, Node.js, and cloud technologies, I strive to solve complex problems through elegant code. In my free time, I contribute to open-source projects and constantly explore new technologies.</p>
+        </div>
+        {/* Projects Preview */}
+        <div id="minimal-preview-projects" className="mb-24 pt-10">
+           <h3 className="text-2xl font-bold mb-6 border-b border-[#2d2d2d] pb-2 inline-block">Projects<span className="text-[#00b8d4]">.</span></h3>
+           <div className="grid grid-cols-2 gap-6">
+             {[1, 2].map((i) => (
+                <div key={i} className="p-5 rounded-xl bg-[#1a1a1a] border border-[#2d2d2d] hover:border-[#00b8d4] transition-colors">
+                  <h4 className="text-lg font-bold mb-2">Project Name {i}</h4>
+                  <p className="text-sm text-gray-400 mb-4">A comprehensive web application that solves real-world problems efficiently.</p>
+                  <div className="flex gap-2">
+                    <span className="text-xs px-2 py-1 bg-[#00b8d4]/10 text-[#00b8d4] rounded">React</span>
+                    <span className="text-xs px-2 py-1 bg-[#00b8d4]/10 text-[#00b8d4] rounded">Node</span>
+                  </div>
+                </div>
+             ))}
+           </div>
         </div>
         {/* Skills Preview */}
-        <div className="grid grid-cols-3 gap-4 mb-8">
-          {['Frontend', 'Backend', 'Tools'].map((cat) => (
-            <div key={cat} className="p-4 rounded-xl bg-[#1a1a1a] border border-[#2d2d2d]">
-              <h4 className="text-[#00b8d4] font-semibold mb-3 text-center text-sm">{cat}</h4>
-              <div className="space-y-2">
-                {['React', 'Node.js', 'Git'].map((s) => (
-                  <div key={s} className="text-xs px-3 py-1.5 bg-[#00b8d4]/10 rounded text-gray-300">{s}</div>
-                ))}
+        <div id="minimal-preview-skills" className="mb-24 pt-10">
+          <h3 className="text-2xl font-bold mb-6 border-b border-[#2d2d2d] pb-2 inline-block">Skills<span className="text-[#00b8d4]">.</span></h3>
+          <div className="grid grid-cols-3 gap-4 mb-8">
+            {['Frontend', 'Backend', 'Tools'].map((cat) => (
+              <div key={cat} className="p-4 rounded-xl bg-[#1a1a1a] border border-[#2d2d2d]">
+                <h4 className="text-[#00b8d4] font-semibold mb-3 text-center text-sm">{cat}</h4>
+                <div className="space-y-2">
+                  {['React', 'Node.js', 'Git'].map((s) => (
+                    <div key={s} className="text-xs px-3 py-1.5 bg-[#00b8d4]/10 rounded text-gray-300">{s}</div>
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+        </div>
+        {/* Contact Preview */}
+        <div id="minimal-preview-contact" className="pb-10 pt-10 text-center">
+            <h3 className="text-2xl font-bold mb-4">Get In Touch<span className="text-[#00b8d4]">.</span></h3>
+            <p className="text-gray-400 mb-6">I'm currently looking for new opportunities. Whether you have a question or just want to say hi, I'll try my best to get back to you!</p>
+            <div className="inline-block px-6 py-3 border-2 border-[#00b8d4] text-[#00b8d4] rounded hover:bg-[#00b8d4]/10 cursor-pointer transition-colors">Say Hello</div>
         </div>
       </div>
     );
@@ -430,25 +468,66 @@ function TemplatePreviewContent({ templateId }: { templateId: string }) {
 
   if (templateId === 'creative') {
     return (
-      <div className="bg-[#0F0118] text-white p-8 relative overflow-hidden">
-        <div className="absolute top-10 right-10 w-32 h-32 bg-[#8B5CF6]/20 rounded-full blur-[80px]" />
-        <div className="absolute bottom-10 left-10 w-32 h-32 bg-[#EC4899]/20 rounded-full blur-[80px]" />
-        {/* Hero */}
-        <div className="text-center mb-16 relative z-10">
-          <div className="w-24 h-24 rounded-full bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] mx-auto mb-6 flex items-center justify-center text-3xl">👤</div>
-          <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-[#8B5CF6] via-[#EC4899] to-[#F59E0B] bg-clip-text text-transparent">Jane Creative</h1>
-          <p className="text-[#EC4899] text-lg font-medium mb-4">UI/UX Designer & Developer</p>
-          <p className="text-gray-400 max-w-md mx-auto text-sm">Creating beautiful digital experiences that merge art with functionality.</p>
+      <div className="bg-[#0F0118] text-white p-8 relative overflow-hidden min-h-[800px]">
+        {/* Nav */}
+        <div className="flex justify-center mb-16 sticky top-4 z-50">
+           <div className="flex gap-4 bg-white/5 backdrop-blur-md px-6 py-3 rounded-full border border-white/10 shadow-xl">
+             {['home', 'about', 'projects', 'contact'].map((section) => (
+               <span key={section} onClick={() => scrollTo(section)} className="text-sm text-gray-300 hover:text-white cursor-pointer capitalize transition-colors">{section}</span>
+             ))}
+           </div>
         </div>
+
+        <div className="absolute top-10 right-10 w-64 h-64 bg-[#8B5CF6]/20 rounded-full blur-[100px]" />
+        <div className="absolute bottom-[40%] left-10 w-64 h-64 bg-[#EC4899]/20 rounded-full blur-[100px]" />
+        <div className="absolute bottom-10 right-20 w-64 h-64 bg-[#F59E0B]/10 rounded-full blur-[100px]" />
+        
+        {/* Hero */}
+        <div id="creative-preview-home" className="text-center mb-32 pt-10 relative z-10 w-full flex flex-col items-center">
+          <div className="w-28 h-28 rounded-full bg-gradient-to-br from-[#8B5CF6] via-[#EC4899] to-[#F59E0B] mx-auto mb-6 flex items-center justify-center text-4xl shadow-2xl shadow-[#EC4899]/30">👤</div>
+          <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-[#8B5CF6] via-[#EC4899] to-[#F59E0B] bg-clip-text text-transparent">Jane Creative</h1>
+          <p className="text-white text-xl font-medium mb-6">UI/UX Designer & Frontend Developer</p>
+          <p className="text-gray-400 max-w-lg mx-auto text-base leading-relaxed mb-8">Creating beautiful digital experiences that merge art with functionality. Constantly exploring the boundaries of modern web technologies.</p>
+          <div className="bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] px-8 py-3 rounded-full font-bold cursor-pointer hover:scale-105 transition-transform" onClick={() => scrollTo('projects')}>View My Work</div>
+        </div>
+
+        {/* About & Skills */}
+        <div id="creative-preview-about" className="mb-32 relative z-10 pt-10">
+           <h2 className="text-3xl font-bold text-center mb-12"><span className="text-[#EC4899]">About</span> Me</h2>
+           <div className="grid grid-cols-2 gap-8 items-center bg-white/5 p-8 rounded-3xl border border-white/10 backdrop-blur-sm">
+             <div>
+                <h3 className="text-xl font-bold mb-4 text-[#F59E0B]">My Philosophy</h3>
+                <p className="text-gray-300 text-sm leading-relaxed mb-4">Design is not just what it looks like and feels like. Design is how it works. I strive to create intuitive, accessible, and breathtaking interfaces.</p>
+             </div>
+             <div className="flex flex-wrap gap-2">
+                {['UI Design', 'Figma', 'React', 'Framer Motion', 'Tailwind CSS'].map(skill => (
+                   <span key={skill} className="px-4 py-2 bg-gradient-to-r from-[#8B5CF6]/20 to-[#EC4899]/20 border border-[#8B5CF6]/30 rounded-full text-xs font-medium">{skill}</span>
+                ))}
+             </div>
+           </div>
+        </div>
+
         {/* Projects */}
-        <div className="grid grid-cols-2 gap-4 mb-8 relative z-10">
-          {['Design System', 'Mobile App', 'SaaS Platform', 'Portfolio'].map((p) => (
-            <div key={p} className="p-4 rounded-2xl bg-white/5 backdrop-blur border border-white/10 hover:border-[#8B5CF6]/30 transition-all">
-              <div className="h-20 rounded-xl bg-gradient-to-br from-[#8B5CF6]/20 to-[#EC4899]/20 mb-3" />
-              <h4 className="font-semibold text-sm">{p}</h4>
-              <p className="text-xs text-gray-400 mt-1">React • TypeScript • Figma</p>
-            </div>
-          ))}
+        <div id="creative-preview-projects" className="mb-32 relative z-10 pt-10">
+          <h2 className="text-3xl font-bold text-center mb-12"><span className="text-[#8B5CF6]">Featured</span> Work</h2>
+          <div className="grid grid-cols-2 gap-6">
+            {['Design System Component Library', 'Fintech Analytics Dashboard', 'E-commerce Mobile App', 'Creative Agency Portfolio'].map((p) => (
+              <div key={p} className="p-6 rounded-3xl bg-white/5 backdrop-blur border border-white/10 hover:border-[#8B5CF6]/50 transition-all hover:-translate-y-2 duration-300 group overflow-hidden relative">
+                <div className="absolute inset-0 bg-gradient-to-br from-[#8B5CF6]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="h-32 rounded-2xl bg-gradient-to-br from-[#8B5CF6]/30 via-[#EC4899]/30 to-[#F59E0B]/20 mb-5 relative overflow-hidden" />
+                <h4 className="font-bold text-lg mb-2 relative z-10">{p}</h4>
+                <p className="text-sm text-gray-400 mb-4 relative z-10">A stunning, highly performant project with incredible micro-interactions.</p>
+                <span className="text-xs text-[#EC4899] font-semibold tracking-wider uppercase relative z-10">View Project →</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Contact */}
+        <div id="creative-preview-contact" className="pb-16 pt-10 text-center relative z-10">
+          <h2 className="text-4xl font-bold mb-6">Let's <span className="bg-gradient-to-r from-[#F59E0B] to-[#EC4899] bg-clip-text text-transparent">Collaborate</span></h2>
+          <p className="text-gray-400 max-w-md mx-auto mb-8">Got a project in mind? Let's build something amazing together.</p>
+          <div className="inline-block px-8 py-4 bg-white text-black font-bold rounded-full hover:scale-105 cursor-pointer transition-transform">Get In Touch</div>
         </div>
       </div>
     );
@@ -456,31 +535,102 @@ function TemplatePreviewContent({ templateId }: { templateId: string }) {
 
   if (templateId === 'sidebar') {
     return (
-      <div className="flex bg-[#1a1a2e] text-white">
+      <div className="flex bg-[#1a1a2e] text-white min-h-[800px] relative">
         {/* Sidebar */}
-        <div className="w-56 bg-[#16162a] p-6 border-r border-[#2a2a45] min-h-[400px]">
-          <div className="w-20 h-20 rounded-full bg-gradient-to-r from-[#F59E0B] to-[#EF4444] mx-auto mb-4 flex items-center justify-center text-2xl">👤</div>
-          <h3 className="text-center font-bold text-sm mb-1">Alex Premium</h3>
-          <p className="text-center text-[#F59E0B] text-xs mb-6">Senior Engineer</p>
-          <div className="space-y-3">
-            {['About', 'Experience', 'Projects', 'Skills', 'Contact'].map((item) => (
-              <div key={item} className="text-xs text-gray-400 hover:text-[#F59E0B] cursor-pointer py-1.5 px-3 rounded-lg hover:bg-[#F59E0B]/10 transition-all">{item}</div>
+        <div className="w-64 bg-[#16162a] p-8 border-r border-[#2a2a45] sticky top-0 h-[800px] overflow-y-auto flex flex-col">
+          <div className="w-24 h-24 rounded-full bg-gradient-to-br from-[#F59E0B] to-[#EF4444] mx-auto mb-6 flex items-center justify-center text-3xl shadow-lg ring-4 ring-[#1a1a2e]">👤</div>
+          <h3 className="text-center font-bold text-lg tracking-wide mb-1">Alex Premium</h3>
+          <p className="text-center text-[#F59E0B] text-xs uppercase tracking-widest font-bold mb-10">Senior Engineer</p>
+          
+          <div className="space-y-2 flex-1">
+            {['home', 'about', 'experience', 'projects', 'contact'].map((item) => (
+              <div key={item} onClick={() => scrollTo(item)} className="text-sm font-medium text-gray-400 hover:text-white cursor-pointer py-3 px-4 rounded-xl hover:bg-[#F59E0B]/10 hover:border-r-4 hover:border-[#F59E0B] transition-all capitalize">{item}</div>
             ))}
+          </div>
+
+          <div className="mt-auto pt-8 flex justify-center gap-4">
+            <div className="w-8 h-8 rounded-full bg-[#1a1a2e] flex items-center justify-center text-gray-400 hover:text-[#F59E0B] cursor-pointer">In</div>
+            <div className="w-8 h-8 rounded-full bg-[#1a1a2e] flex items-center justify-center text-gray-400 hover:text-[#F59E0B] cursor-pointer">Gh</div>
           </div>
         </div>
+        
         {/* Main Content */}
-        <div className="flex-1 p-8">
-          <h1 className="text-3xl font-bold mb-2">Alex Premium</h1>
-          <p className="text-[#F59E0B] font-medium mb-4">Senior Software Engineer</p>
-          <p className="text-gray-400 text-sm mb-8">Building scalable systems with 8+ years of experience in distributed computing and cloud architecture.</p>
-          <div className="grid grid-cols-2 gap-4">
-            {['Google', 'Amazon', 'Microsoft', 'Meta'].map((c) => (
-              <div key={c} className="p-4 rounded-xl bg-[#16162a] border border-[#2a2a45]">
-                <h4 className="text-[#F59E0B] font-semibold text-sm">{c}</h4>
-                <p className="text-xs text-gray-400 mt-1">Senior Engineer • 2020-Present</p>
-              </div>
-            ))}
+        <div className="flex-1 p-12">
+          {/* Home */}
+          <div id="sidebar-preview-home" className="min-h-[400px] flex flex-col justify-center pt-10">
+            <h1 className="text-5xl font-bold mb-4 tracking-tight">Alex Premium</h1>
+            <p className="text-[#F59E0B] text-xl font-medium mb-6">Senior Software Engineer</p>
+            <p className="text-gray-400 text-base leading-relaxed max-w-2xl mb-10">Building scalable, distributed systems. With over 8+ years of experience in solving complex technical challenges across cloud architecture, backend microservices, and system design.</p>
+            <div className="flex gap-4">
+              <div className="px-8 py-3 bg-[#F59E0B] text-[#1a1a2e] font-bold rounded hover:bg-[#fbbf24] transition-colors cursor-pointer" onClick={() => scrollTo('contact')}>Contact Me</div>
+            </div>
           </div>
+
+          {/* About */}
+          <div id="sidebar-preview-about" className="mb-24 pt-10">
+            <h2 className="text-2xl font-bold tracking-wider uppercase text-gray-200 mb-8 flex items-center gap-4">
+              <span className="w-8 h-[1px] bg-[#F59E0B]"></span> About
+            </h2>
+            <div className="bg-[#16162a] border border-[#2a2a45] p-8 rounded-2xl">
+               <p className="text-gray-400 leading-relaxed text-sm mb-6">I specialize in designing and developing large-scale distributed systems. Throughout my career, I've had the privilege of working at industry-leading tech companies, leading engineering teams to deliver high-performance, resilient applications.</p>
+               <div className="grid grid-cols-2 gap-4">
+                 <div className="flex flex-col"><span className="text-[#F59E0B] text-xs uppercase tracking-wider font-bold">Location</span> <span className="text-sm">San Francisco, CA</span></div>
+                 <div className="flex flex-col"><span className="text-[#F59E0B] text-xs uppercase tracking-wider font-bold">Experience</span> <span className="text-sm">8+ Years</span></div>
+               </div>
+            </div>
+          </div>
+
+          {/* Experience */}
+          <div id="sidebar-preview-experience" className="mb-24 pt-10">
+             <h2 className="text-2xl font-bold tracking-wider uppercase text-gray-200 mb-8 flex items-center gap-4">
+              <span className="w-8 h-[1px] bg-[#F59E0B]"></span> Experience
+            </h2>
+            <div className="space-y-6">
+              {['Google', 'Amazon', 'Microsoft', 'Meta'].map((c, idx) => (
+                <div key={c} className="p-6 rounded-2xl bg-[#16162a] border border-[#2a2a45] border-l-4 border-l-[#F59E0B] hover:translate-x-2 transition-transform">
+                  <div className="flex justify-between items-start mb-2">
+                    <h4 className="text-lg font-bold text-white">{c}</h4>
+                    <span className="text-[#F59E0B] text-xs font-bold uppercase py-1 px-3 bg-[#F59E0B]/10 rounded-full">20{20-idx} - {idx === 0 ? 'Present' : `20${21-idx}`}</span>
+                  </div>
+                  <p className="text-sm text-gray-300 font-medium mb-3">Senior Software Engineer</p>
+                  <p className="text-xs text-gray-500 leading-relaxed">Led the architecture and development of core scalable infrastructure components. Mentored junior engineers and established best practices for code reviews and CI/CD pipelines.</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+           {/* Projects */}
+           <div id="sidebar-preview-projects" className="mb-24 pt-10">
+             <h2 className="text-2xl font-bold tracking-wider uppercase text-gray-200 mb-8 flex items-center gap-4">
+              <span className="w-8 h-[1px] bg-[#F59E0B]"></span> Selected Work
+            </h2>
+            <div className="grid grid-cols-2 gap-6">
+               {[1, 2].map(i => (
+                 <div key={i} className="bg-[#16162a] border border-[#2a2a45] rounded-2xl overflow-hidden group">
+                    <div className="h-40 bg-[#1a1a2e] relative group-hover:bg-[#F59E0B]/5 transition-colors flex items-center justify-center border-b border-[#2a2a45]">
+                      <div className="w-16 h-16 bg-[#2a2a45] rounded-xl flex items-center justify-center text-2xl">💻</div>
+                    </div>
+                    <div className="p-6">
+                      <h4 className="font-bold mb-2">Enterprise Go Microservice {i}</h4>
+                      <p className="text-xs text-gray-400 mb-4 line-clamp-2">A high-throughput, low-latency API handling millions of requests daily, built strictly in Go and gRPC.</p>
+                      <div className="text-xs font-medium text-[#F59E0B]">Go • gRPC • Kubernetes</div>
+                    </div>
+                 </div>
+               ))}
+            </div>
+          </div>
+
+          {/* Contact */}
+          <div id="sidebar-preview-contact" className="pb-12 pt-10">
+            <h2 className="text-2xl font-bold tracking-wider uppercase text-gray-200 mb-8 flex items-center gap-4">
+              <span className="w-8 h-[1px] bg-[#F59E0B]"></span> Contact
+            </h2>
+            <div className="bg-[#16162a] border border-[#2a2a45] p-8 rounded-2xl text-center">
+              <p className="text-gray-400 mb-6 text-sm">I'm always open to discussing tech, architecture, or potential opportunities. Feel free to reach out.</p>
+              <div className="inline-block px-8 py-3 border border-[#F59E0B] text-[#F59E0B] font-bold rounded hover:bg-[#F59E0B]/10 transition-colors cursor-pointer">Send Email</div>
+            </div>
+          </div>
+
         </div>
       </div>
     );
