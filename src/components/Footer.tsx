@@ -14,7 +14,7 @@ export default function Footer() {
                     </div>
                     <div className="flex items-center gap-4">
                         <Link
-                            href="https://github.com"
+                            href="https://github.com/PrasadSimhadri/CareerCanvas"
                             target="_blank"
                             className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors"
                         >

@@ -31,10 +31,10 @@ export default function Navbar() {
         >
             <motion.div
                 layout
-                className={`w-full transition-all duration-700 ease-in-out border ${
+                className={`w-full transition-all duration-700 ease-in-out ${
                     scrolled 
-                        ? 'max-w-5xl bg-white/80 dark:bg-[#0F0F1A]/80 backdrop-blur-xl shadow-lg border-gray-200/50 dark:border-white/10 rounded-full px-6 py-2' 
-                        : 'max-w-7xl bg-transparent border-transparent px-4 py-4 sm:px-6 lg:px-8'
+                        ? 'max-w-5xl bg-white/80 dark:bg-[#0F0F1A]/80 backdrop-blur-xl shadow-lg border border-gray-200/50 dark:border-white/10 rounded-full px-6 py-2' 
+                        : 'max-w-7xl bg-transparent border-0 px-4 py-4 sm:px-6 lg:px-8'
                 }`}
             >
                 <nav className="flex items-center justify-between">

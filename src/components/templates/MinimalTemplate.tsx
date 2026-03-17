@@ -45,7 +45,7 @@ export default function MinimalTemplate({ data, isPreview = false }: { data: Por
     // Default to dark mode colors initially to prevent flash of unstyled content
     const colors = !mounted || isDark
         ? { bg: '#0a0a0a', bgSec: '#121212', card: '#1a1a1a', border: '#2d2d2d', text: '#f3f4f6', textSec: '#9ca3af', accent: '#00b8d4', accentHover: '#00e5ff', shadow: 'rgba(0,0,0,0.3)', accentBg: 'rgba(0,184,212,0.1)' }
-        : { bg: '#f8f9fa', bgSec: '#ffffff', card: '#ffffff', border: '#e5e7eb', text: '#1f2937', textSec: '#4b5563', accent: '#0097a7', accentHover: '#00b8d4', shadow: 'rgba(0,0,0,0.1)', accentBg: 'rgba(0,151,167,0.1)' };
+        : { bg: '#f8f9fa', bgSec: '#ffffff', card: '#ffffff', border: '#e5e7eb', text: '#1f2937', textSec: '#374151', accent: '#0097a7', accentHover: '#00b8d4', shadow: 'rgba(0,0,0,0.1)', accentBg: 'rgba(0,151,167,0.1)' };
 
     const navItems = ['Home', 'About', 'Experience', 'Education', 'Projects', 'Skills', 'Achievements', 'Contact'];
     const firstName = data.basicInfo.fullName.split(' ')[0] || 'Portfolio';
@@ -102,16 +102,16 @@ export default function MinimalTemplate({ data, isPreview = false }: { data: Por
             {/* Hero Section */}
             <section id="home" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', paddingTop: 80 }}>
                 <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px', width: '100%' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 50, flexWrap: 'wrap' }}>
-                        <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} style={{ flex: 1, minWidth: 300 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: data.profileImageUrl ? 'space-between' : 'center', gap: 50, flexWrap: 'wrap', textAlign: data.profileImageUrl ? 'left' : 'center' }}>
+                        <motion.div initial={{ opacity: 0, x: data.profileImageUrl ? -30 : 0, y: data.profileImageUrl ? 0 : 30 }} animate={{ opacity: 1, x: 0, y: 0 }} transition={{ duration: 0.8 }} style={{ flex: data.profileImageUrl ? 1 : 'none', minWidth: 300, maxWidth: 800 }}>
                             <h1 style={{ fontSize: '3.5rem', marginBottom: 15, lineHeight: 1.2 }}>{data.basicInfo.fullName}</h1>
                             <h2 style={{ fontSize: '1.5rem', color: colors.accent, marginBottom: 15, fontWeight: 600 }}>{data.basicInfo.tagline}</h2>
-                            <p style={{ fontSize: '1.1rem', color: colors.textSec, marginBottom: 25, maxWidth: 600 }}>{data.basicInfo.description}</p>
-                            <div style={{ display: 'flex', gap: 15, marginTop: 25, flexWrap: 'wrap' }}>
+                            <p style={{ fontSize: '1.1rem', color: colors.textSec, marginBottom: 25, maxWidth: 600, margin: data.profileImageUrl ? '0 0 25px' : '0 auto 25px' }}>{data.basicInfo.description}</p>
+                            <div style={{ display: 'flex', gap: 15, marginTop: 25, flexWrap: 'wrap', justifyContent: data.profileImageUrl ? 'flex-start' : 'center' }}>
                                 {data.contact.email && <a href={`mailto:${data.contact.email}`} style={{ display: 'flex', alignItems: 'center', gap: 8, color: colors.textSec, textDecoration: 'none' }}><FaEnvelope /> {data.contact.email}</a>}
                                 {data.contact.phone && <a href={`tel:${data.contact.phone}`} style={{ display: 'flex', alignItems: 'center', gap: 8, color: colors.textSec, textDecoration: 'none' }}><FaPhone /> {data.contact.phone}</a>}
                             </div>
-                            <div style={{ display: 'flex', gap: 15, marginTop: 25 }}>
+                            <div style={{ display: 'flex', gap: 15, marginTop: 25, justifyContent: data.profileImageUrl ? 'flex-start' : 'center' }}>
                                 {data.contact.linkedinUrl && <a href={data.contact.linkedinUrl} target="_blank" style={{ width: 40, height: 40, borderRadius: '50%', background: colors.card, border: `1px solid ${colors.border}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: colors.text, textDecoration: 'none', transition: 'all 0.3s' }}><FaLinkedinIn /></a>}
                                 {data.contact.githubUrl && <a href={data.contact.githubUrl} target="_blank" style={{ width: 40, height: 40, borderRadius: '50%', background: colors.card, border: `1px solid ${colors.border}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: colors.text, textDecoration: 'none', transition: 'all 0.3s' }}><FaGithub /></a>}
                             </div>
@@ -332,7 +332,7 @@ export default function MinimalTemplate({ data, isPreview = false }: { data: Por
             <footer style={{ background: colors.bg, padding: '30px 0', textAlign: 'center', borderTop: `1px solid ${colors.border}` }}>
                 <p style={{ color: colors.textSec }}>
                     Built with <a href="/" style={{ color: colors.accent, textDecoration: 'none', fontWeight: 600 }}>CareerCanvas</a> •{' '}
-                    <a href="https://github.com" target="_blank" style={{ color: colors.textSec, textDecoration: 'none' }}>
+                    <a href="https://github.com/PrasadSimhadri/CareerCanvas" target="_blank" style={{ color: colors.textSec, textDecoration: 'none' }}>
                         <FaGithub style={{ display: 'inline', marginRight: 4 }} />GitHub
                     </a>
                 </p>

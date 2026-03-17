@@ -48,43 +48,42 @@ export default function CreativeTemplate({ data, isPreview = false }: { data: Po
         navBg: 'rgba(15,1,24,0.8)',
         cardBg: 'rgba(255,255,255,0.03)',
         cardBorder: 'rgba(139,92,246,0.15)',
-        textSec: 'rgba(241,241,246,0.6)',
+        textSec: 'rgba(241,241,246,0.5)',
         pillBg: 'rgba(139,92,246,0.1)',
-        iconBg: 'rgba(255,255,255,0.03)'
+        iconBg: 'rgba(255,255,255,0.03)',
+        accent: '#8B5CF6'
     } : {
-        bg: '#fdfaee',
+        bg: '#ffffff',
         text: '#1e1b4b',
-        navBg: 'rgba(253,250,238,0.8)',
-        cardBg: 'rgba(255,255,255,0.6)',
-        cardBorder: 'rgba(139,92,246,0.3)',
-        textSec: 'rgba(30,27,75,0.7)',
-        pillBg: 'rgba(139,92,246,0.3)',
-        iconBg: 'rgba(255,255,255,0.6)'
+        navBg: 'rgba(255,255,255,0.8)',
+        cardBg: '#f8fafc',
+        cardBorder: 'rgba(139,92,246,0.1)',
+        textSec: '#475569',
+        pillBg: 'rgba(139,92,246,0.1)',
+        iconBg: '#f1f5f9',
+        accent: '#7c3aed'
     };
 
+    const hasPhoto = !!data.profileImageUrl;
+
     return (
-        <div style={{ background: colors.bg, color: colors.text, fontFamily: "'Poppins', sans-serif", minHeight: '100vh', position: 'relative', overflow: 'hidden' }}>
-            {/* Floating Background Blobs */}
-            <div style={{ position: 'fixed', top: '10%', left: '10%', width: 400, height: 400, background: 'radial-gradient(circle, rgba(139,92,246,0.15), transparent)', borderRadius: '50%', filter: 'blur(80px)', animation: 'pulse 6s ease-in-out infinite', zIndex: 0 }} />
-            <div style={{ position: 'fixed', bottom: '10%', right: '10%', width: 350, height: 350, background: 'radial-gradient(circle, rgba(236,72,153,0.12), transparent)', borderRadius: '50%', filter: 'blur(80px)', animation: 'pulse 8s ease-in-out infinite', zIndex: 0 }} />
-            <div style={{ position: 'fixed', top: '50%', left: '50%', width: 300, height: 300, background: 'radial-gradient(circle, rgba(245,158,11,0.08), transparent)', borderRadius: '50%', filter: 'blur(80px)', zIndex: 0 }} />
+        <div style={{ background: colors.bg, color: colors.text, fontFamily: "'Poppins', sans-serif", minHeight: '100vh', position: 'relative', overflowX: 'hidden' }}>
+            {/* Background Blobs (Artistic) */}
+            <div style={{ position: 'fixed', top: '-10%', right: '-10%', width: 600, height: 600, background: 'radial-gradient(circle, rgba(139,92,246,0.15), transparent)', borderRadius: '50%', filter: 'blur(100px)', zIndex: 0 }} />
+            <div style={{ position: 'fixed', bottom: '-10%', left: '-10%', width: 500, height: 500, background: 'radial-gradient(circle, rgba(236,72,153,0.1), transparent)', borderRadius: '50%', filter: 'blur(100px)', zIndex: 0 }} />
 
             {/* Navigation */}
-            <nav style={{ position: 'fixed', top: 0, left: 0, width: '100%', zIndex: 100, background: colors.navBg, backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(139,92,246,0.15)' }}>
-                <div style={{ maxWidth: 1200, margin: '0 auto', padding: '16px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontSize: '1.5rem', fontWeight: 800, background: 'linear-gradient(135deg, #8B5CF6, #EC4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                        {data.basicInfo.fullName.split(' ')[0]}.
+            <nav style={{ position: 'fixed', top: 0, left: 0, width: '100%', zIndex: 100, background: colors.navBg, backdropFilter: 'blur(20px)', borderBottom: `1px solid ${colors.cardBorder}` }}>
+                <div style={{ maxWidth: 1300, margin: '0 auto', padding: '16px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontSize: '1.4rem', fontWeight: 900, letterSpacing: '-0.05em' }}>
+                        <span style={{ color: colors.accent }}>{data.basicInfo.fullName.split(' ')[0]}</span>.
                     </span>
                     <div style={{ display: 'flex', gap: 24, alignItems: 'center' }} className="hidden md:flex">
-                        {['About', 'Experience', 'Projects', 'Skills', 'Contact'].map((item) => (
-                            <a key={item} href={`#${item.toLowerCase()}`} style={{ color: colors.textSec, textDecoration: 'none', fontSize: '0.9rem', fontWeight: 500, transition: 'color 0.3s' }}
-                                onMouseEnter={(e) => (e.currentTarget.style.color = '#EC4899')}
-                                onMouseLeave={(e) => (e.currentTarget.style.color = colors.textSec)}>
-                                {item}
-                            </a>
+                        {['About', 'Projects', 'Skills', 'Contact'].map((item) => (
+                            <a key={item} href={`#${item.toLowerCase()}`} style={{ color: colors.text, textDecoration: 'none', fontSize: '0.85rem', fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase', transition: 'all 0.3s' }}>{item}</a>
                         ))}
                         {mounted && (
-                            <button onClick={toggleTheme} style={{ background: 'none', border: 'none', color: colors.textSec, cursor: 'pointer', fontSize: '1.2rem', padding: 4, display: 'flex', alignItems: 'center' }}>
+                            <button onClick={toggleTheme} style={{ width: 40, height: 40, borderRadius: '12px', background: colors.cardBg, border: `1px solid ${colors.cardBorder}`, color: colors.text, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                 {isDark ? <FaSun /> : <FaMoon />}
                             </button>
                         )}
@@ -92,117 +91,106 @@ export default function CreativeTemplate({ data, isPreview = false }: { data: Po
                 </div>
             </nav>
 
-            {/* Hero Section */}
-            <section style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', position: 'relative', zIndex: 1, paddingTop: 80 }}>
-                <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1 }}>
-                    {data.profileImageUrl && (
-                        <div style={{ width: 150, height: 150, borderRadius: '50%', margin: '0 auto 30px', background: 'linear-gradient(135deg, #8B5CF6, #EC4899)', padding: 4 }}>
-                            <img src={data.profileImageUrl} alt={data.basicInfo.fullName} style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
+            {/* Asymmetrical Hero Section */}
+            <section style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', position: 'relative', zIndex: 1, padding: '120px 24px 60px' }}>
+                <div style={{ maxWidth: 1300, margin: '0 auto', width: '100%', display: 'flex', flexDirection: hasPhoto ? 'row' : 'column', alignItems: 'center', gap: 60, flexWrap: 'wrap' }}>
+                    
+                    <motion.div initial={{ opacity: 0, x: hasPhoto ? -40 : 0, y: hasPhoto ? 0 : 40 }} animate={{ opacity: 1, x: 0, y: 0 }} transition={{ duration: 0.8 }} style={{ flex: 1, textAlign: hasPhoto ? 'left' : 'center', maxWidth: hasPhoto ? 700 : 900 }}>
+                        <div style={{ display: 'inline-block', padding: '6px 16px', background: 'linear-gradient(90deg, #8B5CF6, #EC4899)', borderRadius: 50, color: 'white', fontSize: '0.8rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.2em', marginBottom: 24 }}>Portfolio</div>
+                        <h1 style={{ fontSize: hasPhoto ? 'clamp(3rem, 8vw, 5rem)' : 'clamp(4rem, 10vw, 7rem)', fontWeight: 900, lineHeight: 0.9, letterSpacing: '-0.06em', marginBottom: 24 }}>
+                            {data.basicInfo.fullName.split(' ').map((name, i) => (
+                                <span key={i} style={{ display: 'block', color: i === 1 ? 'transparent' : 'inherit', WebkitTextStroke: i === 1 ? `1px ${colors.text}` : 'none' }}>{name}</span>
+                            ))}
+                        </h1>
+                        <p style={{ fontSize: '1.4rem', color: colors.accent, fontWeight: 700, marginBottom: 24 }}>{data.basicInfo.tagline}</p>
+                        <p style={{ color: colors.textSec, fontSize: '1.1rem', lineHeight: 1.6, maxWidth: 500, margin: hasPhoto ? '0' : '0 auto 40px' }}>{data.basicInfo.description}</p>
+                        
+                        <div style={{ display: 'flex', gap: 16, justifyContent: hasPhoto ? 'flex-start' : 'center', marginTop: 40 }}>
+                            {data.contact.linkedinUrl && <SocialIconButton href={data.contact.linkedinUrl} icon={<FaLinkedinIn />} color="#0077B5" />}
+                            {data.contact.githubUrl && <SocialIconButton href={data.contact.githubUrl} icon={<FaGithub />} color="#333" />}
+                            {data.contact.email && <SocialIconButton href={`mailto:${data.contact.email}`} icon={<FaEnvelope />} color="#EA4335" />}
                         </div>
+                    </motion.div>
+
+                    {hasPhoto && (
+                        <motion.div initial={{ opacity: 0, scale: 0.8, rotate: 10 }} animate={{ opacity: 1, scale: 1, rotate: 0 }} transition={{ duration: 0.8 }} style={{ flex: '0 0 auto', position: 'relative' }}>
+                            <div style={{ width: 400, height: 450, overflow: 'hidden', clipPath: 'polygon(10% 0, 100% 0, 90% 100%, 0% 100%)', position: 'relative' }}>
+                                <img src={data.profileImageUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(139,92,246,0.3), transparent)', pointerEvents: 'none' }} />
+                            </div>
+                            {/* Decorative element */}
+                            <div style={{ position: 'absolute', top: -20, right: -20, width: 100, height: 100, border: `2px solid ${colors.accent}`, zIndex: -1 }} />
+                            <div style={{ position: 'absolute', bottom: -20, left: -20, width: 150, height: 150, background: 'rgba(236,72,153,0.1)', zIndex: -1 }} />
+                        </motion.div>
                     )}
-                    <h1 style={{ fontSize: '4rem', fontWeight: 900, lineHeight: 1.1, marginBottom: 16, background: 'linear-gradient(135deg, #8B5CF6, #EC4899, #F59E0B)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                        {data.basicInfo.fullName}
-                    </h1>
-                    <p style={{ fontSize: '1.3rem', color: '#EC4899', fontWeight: 600, marginBottom: 16 }}>
-                        {data.basicInfo.tagline}
-                    </p>
-                    <p style={{ maxWidth: 550, margin: '0 auto', color: colors.textSec, fontSize: '1.1rem', lineHeight: 1.7, marginBottom: 30 }}>
-                        {data.basicInfo.description}
-                    </p>
-                    <div style={{ display: 'flex', gap: 16, justifyContent: 'center' }}>
-                        {data.contact.linkedinUrl && <SocialBtn href={data.contact.linkedinUrl} icon={<FaLinkedinIn />} gradient="linear-gradient(135deg, #8B5CF6, #6D28D9)" />}
-                        {data.contact.githubUrl && <SocialBtn href={data.contact.githubUrl} icon={<FaGithub />} gradient="linear-gradient(135deg, #EC4899, #BE185D)" />}
-                        {data.contact.email && <SocialBtn href={`mailto:${data.contact.email}`} icon={<FaEnvelope />} gradient="linear-gradient(135deg, #F59E0B, #D97706)" />}
-                    </div>
-                </motion.div>
+                </div>
             </section>
 
-            {/* About Section */}
+            {/* About Section - Artistic Layout */}
             {data.about.description && (
                 <section id="about" style={{ padding: '100px 24px', position: 'relative', zIndex: 1 }}>
-                    <div style={{ maxWidth: 900, margin: '0 auto' }}>
-                        <motion.div {...fadeUp}>
-                            <GradientTitle>About Me</GradientTitle>
-                            <div style={{ background: colors.cardBg, backdropFilter: 'blur(20px)', borderRadius: 24, border: '1px solid rgba(139,92,246,0.15)', padding: 40 }}>
+                    <div style={{ maxWidth: 1300, margin: '0 auto', display: 'flex', gap: 80, flexWrap: 'wrap' }}>
+                        <div style={{ flex: '0 0 250px' }}>
+                            <h2 style={{ fontSize: '4rem', fontWeight: 900, lineHeight: 1, color: colors.cardBorder, letterSpacing: '-0.1em' }}>ABOUT</h2>
+                        </div>
+                        <div style={{ flex: 1, minWidth: 300 }}>
+                            <div style={{ background: colors.cardBg, padding: 40, border: `1px solid ${colors.cardBorder}`, borderRadius: '0 40px 0 40px' }}>
                                 {data.about.description.split('\n').map((p, i) => (
-                                    <p key={i} style={{ color: colors.textSec, lineHeight: 1.8, marginBottom: 16, fontSize: '1.05rem' }}>{p}</p>
+                                    <p key={i} style={{ color: colors.textSec, fontSize: '1.2rem', lineHeight: 1.7, marginBottom: 20 }}>{p}</p>
                                 ))}
                                 {data.about.interests?.length > 0 && (
-                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginTop: 24 }}>
+                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginTop: 40 }}>
                                         {data.about.interests.map((interest, i) => (
-                                            <span key={i} style={{ background: 'linear-gradient(135deg, rgba(139,92,246,0.15), rgba(236,72,153,0.15))', border: '1px solid rgba(139,92,246,0.2)', color: '#C4B5FD', padding: '8px 18px', borderRadius: 50, fontSize: '0.85rem', fontWeight: 500 }}>{interest}</span>
+                                            <span key={i} style={{ padding: '8px 20px', border: `1px solid ${colors.accent}`, borderRadius: 50, fontSize: '0.85rem', fontWeight: 700, color: colors.accent, textTransform: 'uppercase' }}>{interest}</span>
                                         ))}
                                     </div>
                                 )}
                             </div>
-                        </motion.div>
-                    </div>
-                </section>
-            )}
-
-            {/* Experience */}
-            {data.experience?.length > 0 && data.experience[0].company && (
-                <section id="experience" style={{ padding: '80px 24px', position: 'relative', zIndex: 1 }}>
-                    <div style={{ maxWidth: 900, margin: '0 auto' }}>
-                        <motion.div {...fadeUp}><GradientTitle>Experience</GradientTitle></motion.div>
-                        {data.experience.map((exp, i) => (
-                            <motion.div key={i} {...fadeUp} transition={{ delay: i * 0.1 }} style={{ background: colors.cardBg, backdropFilter: 'blur(20px)', borderRadius: 20, border: '1px solid rgba(139,92,246,0.15)', padding: 32, marginBottom: 24 }}>
-                                <h3 style={{ fontSize: '1.4rem', fontWeight: 700, marginBottom: 8 }}>{exp.role}</h3>
-                                <p style={{ color: '#EC4899', fontWeight: 600, marginBottom: 4 }}>{exp.company} • {exp.location}</p>
-                                <p style={{ color: colors.textSec, fontSize: '0.9rem', marginBottom: 16 }}>{exp.startDate} — {exp.endDate}</p>
-                                {exp.skills.length > 0 && (
-                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 12 }}>
-                                        {exp.skills.map((s, j) => (
-                                            <span key={j} style={{ background: colors.pillBg, color: '#C4B5FD', padding: '4px 12px', borderRadius: 6, fontSize: '0.8rem', fontWeight: 500 }}>{s}</span>
-                                        ))}
-                                    </div>
-                                )}
-                                <p style={{ color: colors.textSec, lineHeight: 1.7 }}>{exp.description}</p>
-                            </motion.div>
-                        ))}
-                    </div>
-                </section>
-            )}
-
-            {/* Education */}
-            {data.education?.length > 0 && data.education[0].institution && (
-                <section style={{ padding: '80px 24px', position: 'relative', zIndex: 1 }}>
-                    <div style={{ maxWidth: 900, margin: '0 auto' }}>
-                        <motion.div {...fadeUp}><GradientTitle>Education</GradientTitle></motion.div>
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20 }}>
-                            {data.education.map((edu, i) => (
-                                <motion.div key={i} {...fadeUp} transition={{ delay: i * 0.1 }} style={{ background: colors.cardBg, backdropFilter: 'blur(20px)', borderRadius: 20, border: '1px solid rgba(139,92,246,0.15)', padding: 28 }}>
-                                    <p style={{ color: '#F59E0B', fontWeight: 700, fontSize: '0.85rem', marginBottom: 8 }}>{edu.startYear} — {edu.endYear}</p>
-                                    <h3 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: 6 }}>{edu.institution}</h3>
-                                    <p style={{ color: colors.textSec, marginBottom: 4 }}>{edu.degree}</p>
-                                    {edu.grade && <p style={{ color: '#EC4899', fontWeight: 600, fontSize: '0.9rem' }}>{edu.grade}</p>}
-                                </motion.div>
-                            ))}
                         </div>
                     </div>
                 </section>
             )}
 
-            {/* Projects Section */}
+            {/* Projects - Bento Grid */}
             {data.projects?.length > 0 && data.projects[0].title && (
-                <section id="projects" style={{ padding: '80px 24px', position: 'relative', zIndex: 1 }}>
-                    <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-                        <motion.div {...fadeUp}><GradientTitle>Projects</GradientTitle></motion.div>
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 24 }}>
+                <section id="projects" style={{ padding: '100px 24px', position: 'relative', zIndex: 1 }}>
+                    <div style={{ maxWidth: 1300, margin: '0 auto' }}>
+                        <h2 style={{ fontSize: '3rem', fontWeight: 900, marginBottom: 60, textAlign: 'center' }}>PROJECTS<span style={{ color: colors.accent }}>.</span></h2>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gridAutoRows: '400px', gap: 24 }}>
                             {data.projects.map((proj, i) => (
-                                <motion.div key={i} {...fadeUp} transition={{ delay: i * 0.1 }} style={{ background: colors.cardBg, backdropFilter: 'blur(20px)', borderRadius: 20, border: '1px solid rgba(139,92,246,0.15)', padding: 28, transition: 'all 0.3s' }}>
-                                    <div style={{ height: 8, borderRadius: 4, background: `linear-gradient(90deg, #8B5CF6, #EC4899, #F59E0B)`, marginBottom: 20, opacity: 0.6 }} />
-                                    <h3 style={{ fontSize: '1.3rem', fontWeight: 700, marginBottom: 12 }}>{proj.title}</h3>
-                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 16 }}>
-                                        {proj.techStack.map((tech, j) => (
-                                            <span key={j} style={{ background: colors.pillBg, color: '#C4B5FD', padding: '5px 12px', borderRadius: 8, fontSize: '0.8rem', fontWeight: 500 }}>{tech}</span>
-                                        ))}
+                                <motion.div 
+                                    key={i} 
+                                    whileHover={{ y: -10 }}
+                                    style={{ 
+                                        gridColumn: i === 0 ? 'span 2' : 'span 1',
+                                        background: i % 2 === 0 ? 'linear-gradient(135deg, #8B5CF6, #6366F1)' : colors.cardBg,
+                                        color: i % 2 === 0 ? 'white' : colors.text,
+                                        borderRadius: 32,
+                                        padding: 40,
+                                        border: `1px solid ${colors.cardBorder}`,
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        justifyContent: 'space-between',
+                                        position: 'relative',
+                                        overflow: 'hidden'
+                                    }}
+                                    className="md:col-span-1 lg:col-span-2"
+                                >
+                                    <div>
+                                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 16 }}>
+                                            {proj.techStack.map((tech, j) => (
+                                                <span key={j} style={{ background: i % 2 === 0 ? 'rgba(255,255,255,0.2)' : colors.pillBg, padding: '4px 12px', borderRadius: 8, fontSize: '0.75rem', fontWeight: 700 }}>{tech}</span>
+                                            ))}
+                                        </div>
+                                        <h3 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: 16, lineHeight: 1.1 }}>{proj.title}</h3>
+                                        <p style={{ opacity: 0.8, fontSize: '1rem', lineHeight: 1.5, maxWidth: 500 }}>{proj.description}</p>
                                     </div>
-                                    <p style={{ color: colors.textSec, marginBottom: 20, lineHeight: 1.7 }}>{proj.description}</p>
-                                    <div style={{ display: 'flex', gap: 16 }}>
-                                        {proj.githubUrl && <a href={proj.githubUrl} target="_blank" style={{ color: '#C4B5FD', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.9rem' }}><FaGithub /> Code</a>}
-                                        {proj.liveUrl && <a href={proj.liveUrl} target="_blank" style={{ color: '#F9A8D4', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.9rem' }}><FaExternalLinkAlt /> Live</a>}
+                                    <div style={{ display: 'flex', gap: 20 }}>
+                                        {proj.githubUrl && <a href={proj.githubUrl} target="_blank" style={{ color: 'inherit', textDecoration: 'none', fontWeight: 700, fontSize: '0.9rem' }}>GITHUB &rarr;</a>}
+                                        {proj.liveUrl && <a href={proj.liveUrl} target="_blank" style={{ color: 'inherit', textDecoration: 'none', fontWeight: 700, fontSize: '0.9rem' }}>LIVE DEMO &rarr;</a>}
                                     </div>
+                                    {/* Abstract shape */}
+                                    <div style={{ position: 'absolute', bottom: -20, right: -20, width: 100, height: 100, background: 'rgba(255,255,255,0.1)', borderRadius: '50%' }} />
                                 </motion.div>
                             ))}
                         </div>
@@ -210,20 +198,31 @@ export default function CreativeTemplate({ data, isPreview = false }: { data: Po
                 </section>
             )}
 
-            {/* Skills */}
-            {data.skills?.length > 0 && data.skills[0].category && (
-                <section id="skills" style={{ padding: '80px 24px', position: 'relative', zIndex: 1 }}>
-                    <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-                        <motion.div {...fadeUp}><GradientTitle>Skills</GradientTitle></motion.div>
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: 24 }}>
-                            {data.skills.map((group, i) => (
-                                <motion.div key={i} {...fadeUp} transition={{ delay: i * 0.1 }} style={{ background: colors.cardBg, backdropFilter: 'blur(20px)', borderRadius: 20, border: '1px solid rgba(139,92,246,0.15)', padding: 28 }}>
-                                    <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#EC4899', marginBottom: 20, textAlign: 'center' }}>{group.category}</h3>
-                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, justifyContent: 'center' }}>
-                                        {group.skills.map((skill, j) => (
-                                            <span key={j} style={{ background: 'linear-gradient(135deg, rgba(139,92,246,0.12), rgba(236,72,153,0.12))', border: '1px solid rgba(139,92,246,0.15)', color: '#E0D5FF', padding: '8px 16px', borderRadius: 10, fontSize: '0.85rem', fontWeight: 500 }}>{skill}</span>
-                                        ))}
-                                    </div>
+            {/* Skills - Artistic Mosaic */}
+            {data.skills?.length > 0 && (
+                <section id="skills" style={{ padding: '100px 24px', background: isDark ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.02)' }}>
+                    <div style={{ maxWidth: 1300, margin: '0 auto' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 60, flexWrap: 'wrap', gap: 24 }}>
+                            <h2 style={{ fontSize: '3.5rem', fontWeight: 900, lineHeight: 1 }}>EXPERTISE<br/><span style={{ color: colors.accent }}>& ABILITIES</span></h2>
+                            <p style={{ color: colors.textSec, maxWidth: 400 }}>A collection of technologies and methodologies I have mastered over the years.</p>
+                        </div>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
+                            {data.skills.flatMap(s => s.skills).map((skill, i) => (
+                                <motion.div 
+                                    key={i} 
+                                    whileHover={{ scale: 1.05, background: colors.accent, color: 'white' }}
+                                    style={{ 
+                                        padding: '16px 32px', 
+                                        background: colors.cardBg, 
+                                        borderRadius: 16, 
+                                        border: `1px solid ${colors.cardBorder}`,
+                                        fontSize: '1.1rem',
+                                        fontWeight: 600,
+                                        cursor: 'default',
+                                        transition: 'all 0.3s'
+                                    }}
+                                >
+                                    {skill}
                                 </motion.div>
                             ))}
                         </div>
@@ -231,84 +230,68 @@ export default function CreativeTemplate({ data, isPreview = false }: { data: Po
                 </section>
             )}
 
-            {/* Achievements */}
-            {data.achievements?.length > 0 && data.achievements[0].title && (
-                <section style={{ padding: '80px 24px', position: 'relative', zIndex: 1 }}>
-                    <div style={{ maxWidth: 900, margin: '0 auto' }}>
-                        <motion.div {...fadeUp}><GradientTitle>Achievements</GradientTitle></motion.div>
-                        {data.achievements.map((ach, i) => (
-                            <motion.div key={i} {...fadeUp} style={{ background: colors.cardBg, backdropFilter: 'blur(20px)', borderRadius: 20, border: '1px solid rgba(245,158,11,0.15)', padding: 28, marginBottom: 20, display: 'flex', alignItems: 'flex-start', gap: 16 }}>
-                                <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'linear-gradient(135deg, #F59E0B, #EF4444)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', flexShrink: 0 }}><FaTrophy /></div>
-                                <div>
-                                    <h3 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: 4 }}>{ach.title}</h3>
-                                    <p style={{ color: '#F59E0B', fontWeight: 600, fontSize: '0.9rem', marginBottom: 6 }}>{ach.organization}</p>
-                                    <p style={{ color: colors.textSec, lineHeight: 1.7 }}>{ach.description}</p>
-                                </div>
-                            </motion.div>
-                        ))}
+            {/* Contact Section */}
+            <section id="contact" style={{ padding: '120px 24px', textAlign: 'center' }}>
+                <motion.div {...fadeUp} style={{ maxWidth: 800, margin: '0 auto' }}>
+                    <h2 style={{ fontSize: '4rem', fontWeight: 900, marginBottom: 24, letterSpacing: '-0.04em' }}>LET&apos;S CHAT<span style={{ color: colors.accent }}>.</span></h2>
+                    <p style={{ fontSize: '1.2rem', color: colors.textSec, marginBottom: 48 }}>Open for collaborations and interesting projects.</p>
+                    <a href={`mailto:${data.contact.email}`} style={{ display: 'inline-block', fontSize: '2rem', fontWeight: 800, color: colors.text, textDecoration: 'none', borderBottom: `4px solid ${colors.accent}`, paddingBottom: 8, marginBottom: 60 }}>{data.contact.email}</a>
+                    
+                    <div style={{ display: 'flex', justifyContent: 'center', gap: 40, flexWrap: 'wrap' }}>
+                        <ContactPill icon={<FaPhone />} label="Phone" value={data.contact.phone} colors={colors} />
+                        <ContactPill icon={<FaLinkedinIn />} label="LinkedIn" value="Profile" href={data.contact.linkedinUrl} colors={colors} />
+                        <ContactPill icon={<FaGithub />} label="GitHub" value="Repositories" href={data.contact.githubUrl} colors={colors} />
                     </div>
-                </section>
-            )}
-
-            {/* Contact */}
-            <section id="contact" style={{ padding: '80px 24px', position: 'relative', zIndex: 1 }}>
-                <div style={{ maxWidth: 700, margin: '0 auto', textAlign: 'center' }}>
-                    <motion.div {...fadeUp}>
-                        <GradientTitle>Get In Touch</GradientTitle>
-                        <p style={{ color: colors.textSec, marginBottom: 40, fontSize: '1.1rem' }}>Let&apos;s connect and create something amazing together.</p>
-                        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 16 }}>
-                            {data.contact.email && <ContactPill colors={colors} isDark={isDark} icon={<FaEnvelope />} text={data.contact.email} href={`mailto:${data.contact.email}`} />}
-                            {data.contact.phone && <ContactPill colors={colors} isDark={isDark} icon={<FaPhone />} text={data.contact.phone} href={`tel:${data.contact.phone}`} />}
-                            {data.contact.linkedinUrl && <ContactPill colors={colors} isDark={isDark} icon={<FaLinkedinIn />} text="LinkedIn" href={data.contact.linkedinUrl} />}
-                            {data.contact.githubUrl && <ContactPill colors={colors} isDark={isDark} icon={<FaGithub />} text="GitHub" href={data.contact.githubUrl} />}
-                        </div>
-                    </motion.div>
-                </div>
+                </motion.div>
             </section>
 
-            {/* Footer */}
-            <footer style={{ padding: '30px 24px', textAlign: 'center', borderTop: '1px solid rgba(139,92,246,0.1)', position: 'relative', zIndex: 1 }}>
-                <p style={{ color: colors.textSec, fontSize: '0.9rem' }}>
-                    Built with <a href="/" style={{ background: 'linear-gradient(135deg, #8B5CF6, #EC4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', textDecoration: 'none', fontWeight: 700 }}>CareerCanvas</a>
-                    {' • '}
-                    <a href="https://github.com" target="_blank" style={{ color: colors.textSec, textDecoration: 'none' }}><FaGithub style={{ display: 'inline', marginRight: 4 }} />GitHub</a>
+            <footer style={{ padding: '60px 24px', textAlign: 'center', opacity: 0.6 }}>
+                <p style={{ color: colors.textSec }}>
+                    Built with <a href="/" style={{ color: colors.accent, textDecoration: 'none', fontWeight: 600 }}>CareerCanvas</a> •{' '}
+                    <a href="https://github.com/PrasadSimhadri/CareerCanvas" target="_blank" style={{ color: colors.textSec, textDecoration: 'none' }}>
+                        <FaGithub style={{ display: 'inline', marginRight: 4 }} />GitHub
+                    </a>
                 </p>
             </footer>
 
-            <a href="#" style={{ position: 'fixed', bottom: 30, right: 30, width: 45, height: 45, background: 'linear-gradient(135deg, #8B5CF6, #EC4899)', color: 'white', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 99, textDecoration: 'none' }}><FaArrowUp /></a>
+            {/* <footer style={{ background: colors.bg, padding: '30px 0', textAlign: 'center', borderTop: `1px solid ${colors.border}` }}>
+                <p style={{ color: colors.textSec }}>
+                    Built with <a href="/" style={{ color: colors.accent, textDecoration: 'none', fontWeight: 600 }}>CareerCanvas</a> •{' '}
+                    <a href="https://github.com/PrasadSimhadri/CareerCanvas" target="_blank" style={{ color: colors.textSec, textDecoration: 'none' }}>
+                        <FaGithub style={{ display: 'inline', marginRight: 4 }} />GitHub
+                    </a>
+                </p>
+            </footer> */}
 
             <style jsx global>{`
                 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap');
-                @keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
                 html { scroll-behavior: smooth; }
+                ::selection { background: #8B5CF6; color: white; }
             `}</style>
         </div>
     );
 }
 
-function GradientTitle({ children }: { children: React.ReactNode }) {
+function SocialIconButton({ href, icon, color }: { href: string; icon: React.ReactNode; color: string }) {
     return (
-        <h2 style={{ fontSize: '2.5rem', fontWeight: 800, textAlign: 'center', marginBottom: 48, background: 'linear-gradient(135deg, #8B5CF6, #EC4899, #F59E0B)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-            {children}
-        </h2>
-    );
-}
-
-function SocialBtn({ href, icon, gradient }: { href: string; icon: React.ReactNode; gradient: string }) {
-    return (
-        <a href={href} target="_blank" style={{ width: 50, height: 50, borderRadius: '50%', background: gradient, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '1.2rem', textDecoration: 'none', transition: 'transform 0.3s', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}
-            onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.1) translateY(-3px)')}
-            onMouseLeave={(e) => (e.currentTarget.style.transform = 'none')}>
+        <a href={href} target="_blank" style={{ width: 50, height: 50, borderRadius: 16, border: '1px solid currentColor', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem', color: 'inherit', textDecoration: 'none', transition: 'all 0.3s' }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = color; e.currentTarget.style.borderColor = color; e.currentTarget.style.color = 'white'; e.currentTarget.style.transform = 'translateY(-5px)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'currentColor'; e.currentTarget.style.color = 'inherit'; e.currentTarget.style.transform = 'none'; }}>
             {icon}
         </a>
     );
 }
 
-function ContactPill({ icon, text, href, colors, isDark }: { icon: React.ReactNode; text: string; href: string; colors: any; isDark: boolean }) {
-    return (
-        <a href={href} target="_blank" style={{ display: 'flex', alignItems: 'center', gap: 10, background: colors.cardBg, border: '1px solid rgba(139,92,246,0.15)', borderRadius: 50, padding: '12px 24px', color: isDark ? '#E0D5FF' : colors.text, textDecoration: 'none', fontSize: '0.9rem', transition: 'all 0.3s', backdropFilter: 'blur(10px)' }}>
-            <span style={{ color: '#EC4899' }}>{icon}</span>
-            {text}
-        </a>
+function ContactPill({ icon, label, value, href, colors }: { icon: React.ReactNode; label: string; value: string; href?: string; colors: any }) {
+    const content = (
+        <div style={{ textAlign: 'left' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: colors.accent, fontWeight: 800, fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 4 }}>
+                {icon} {label}
+            </div>
+            <div style={{ fontSize: '1.1rem', fontWeight: 700 }}>{value}</div>
+        </div>
     );
+
+    if (href) return <a href={href} target="_blank" style={{ textDecoration: 'none', color: 'inherit' }}>{content}</a>;
+    return content;
 }

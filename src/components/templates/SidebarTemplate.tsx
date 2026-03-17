@@ -77,7 +77,7 @@ export default function SidebarTemplate({ data, isPreview = false }: { data: Por
         bg: '#F9FAFB',
         sidebarBg: '#FFFFFF',
         text: '#111827',
-        textSec: 'rgba(17,24,39,0.7)',
+        textSec: '#374151',
         cardBg: '#FFFFFF',
         cardBorder: 'rgba(249,115,22,0.2)',
         hoverBg: 'rgba(249,115,22,0.15)',
@@ -101,15 +101,13 @@ export default function SidebarTemplate({ data, isPreview = false }: { data: Por
             {/* Fixed Sidebar */}
             <aside className="hidden md:flex" style={{ position: 'fixed', left: 0, top: 0, width: 260, height: '100vh', background: colors.sidebarBg, borderRight: '1px solid rgba(249,115,22,0.1)', flexDirection: 'column', alignItems: 'center', padding: '40px 20px', zIndex: 100, overflow: 'auto' }}>
                 {/* Profile Photo */}
-                <div style={{ width: 100, height: 100, borderRadius: '50%', background: `linear-gradient(135deg, ${colors.accent}, #EF4444)`, padding: 3, marginBottom: 16 }}>
-                    {data.profileImageUrl ? (
+                {data.profileImageUrl && (
+                    <div style={{ width: 100, height: 100, borderRadius: '50%', background: `linear-gradient(135deg, ${colors.accent}, #EF4444)`, padding: 3, marginBottom: 16 }}>
                         <img src={data.profileImageUrl} alt={data.basicInfo.fullName} style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
-                    ) : (
-                        <div style={{ width: '100%', height: '100%', borderRadius: '50%', background: colors.cardBg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2.5rem', fontWeight: 700, color: 'white' }}>
-                            {data.basicInfo.fullName.charAt(0)}
-                        </div>
-                    )}
-                </div>
+                    </div>
+                )}
+                
+                {!data.profileImageUrl && <div style={{ height: 20 }} />}
                 
                 <h2 style={{ fontSize: '1.1rem', fontWeight: 700, textAlign: 'center', marginBottom: 4 }}>{data.basicInfo.fullName}</h2>
                 <p style={{ color: colors.accent, fontSize: '0.8rem', fontWeight: 600, textAlign: 'center', marginBottom: 24 }}>{data.basicInfo.tagline}</p>

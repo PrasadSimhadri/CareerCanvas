@@ -37,6 +37,12 @@ export async function POST(request: NextRequest) {
                     { status: 409 }
                 );
             }
+            if (existingUser.googleId) {
+                return NextResponse.json(
+                    { error: 'This email is registered via Google. Please use "Continue with Google" to login.' },
+                    { status: 409 }
+                );
+            }
             return NextResponse.json(
                 { error: 'Email is already registered' },
                 { status: 409 }

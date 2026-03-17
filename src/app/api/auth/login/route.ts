@@ -28,8 +28,18 @@ export async function POST(request: NextRequest) {
         }
 
         // Verify password
+        if (!user.passwordHash && user.googleId) {
+            return NextResponse.json(
+                { error: 'This account was created with Google. Please use "Continue with Google" to login.' },
+                { status: 403 }
+            );
+        }
+
         if (!user.passwordHash) {
-            return NextResponse.json({ error: "Invalid user data" }, { status: 400 });
+            return NextResponse.json(
+                { error: 'Invalid user data. Please contact support or try resetting your password.' },
+                { status: 400 }
+            );
         }
 
         const isValidPassword = await bcrypt.compare(password, user.passwordHash);
