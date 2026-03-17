@@ -49,7 +49,6 @@ export default async function PortfolioPage({ params }: PageProps) {
             about: {
                 description: user.about?.description || '',
                 interests: user.about?.interests || [],
-                cards: user.about?.cards ? JSON.parse(JSON.stringify(user.about.cards)) : [],
             },
             education: user.education?.length ? JSON.parse(JSON.stringify(user.education)) : [],
             experience: user.experience?.length ? JSON.parse(JSON.stringify(user.experience)) : [],

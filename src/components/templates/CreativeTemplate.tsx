@@ -303,31 +303,33 @@ export default function CreativeTemplate({ data, isPreview = false }: { data: Po
                     <div style={{ maxWidth: 1300, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: 80 }}>
                         
                         {/* Experience */}
-                        <div id="experience" style={{ gridColumn: 'span 12' }} className="col-span-12 lg:col-span-7">
-                            <motion.h2 variants={itemVariants} initial="initial" whileInView="whileInView" viewport={{ once: true }} style={{ fontSize: '3rem', fontWeight: 900, marginBottom: 60 }}>EXPERIENCE</motion.h2>
-                            <motion.div 
-                                variants={containerVariants}
-                                initial="initial"
-                                whileInView="whileInView"
-                                viewport={{ once: true }}
-                                style={{ display: 'flex', flexDirection: 'column', gap: 40 }}
-                            >
-                                {data.experience.map((exp, i) => (
-                                    <motion.div key={i} variants={itemVariants} style={{ position: 'relative', paddingLeft: 40, borderLeft: `2px solid ${colors.cardBorder}` }}>
-                                        <div style={{ position: 'absolute', left: -9, top: 0, width: 16, height: 16, borderRadius: '50%', background: colors.accent, border: `4px solid ${colors.bg}` }} />
-                                        <span style={{ fontSize: '0.85rem', fontWeight: 800, color: colors.accent, letterSpacing: '0.1em' }}>{exp.startDate} — {exp.endDate}</span>
-                                        <h3 style={{ fontSize: '1.8rem', fontWeight: 800, margin: '8px 0' }}>{exp.role}</h3>
-                                        <p style={{ fontSize: '1.1rem', fontWeight: 600, color: colors.secondary, marginBottom: 16 }}>{exp.company}</p>
-                                        <p style={{ color: colors.textSec, lineHeight: 1.7 }}>{exp.description}</p>
-                                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 16 }}>
-                                            {exp.skills?.map((skill, j) => (
-                                                <span key={j} style={{ fontSize: '0.7rem', fontWeight: 700, padding: '4px 12px', background: colors.pillBg, borderRadius: 6 }}>{skill}</span>
-                                            ))}
-                                        </div>
-                                    </motion.div>
-                                ))}
-                            </motion.div>
-                        </div>
+                        {data.experience?.length > 0 && data.experience[0].company && (
+                            <div id="experience" style={{ gridColumn: 'span 12' }} className="col-span-12 lg:col-span-7">
+                                <motion.h2 variants={itemVariants} initial="initial" whileInView="whileInView" viewport={{ once: true }} style={{ fontSize: '3rem', fontWeight: 900, marginBottom: 60 }}>EXPERIENCE</motion.h2>
+                                <motion.div 
+                                    variants={containerVariants}
+                                    initial="initial"
+                                    whileInView="whileInView"
+                                    viewport={{ once: true }}
+                                    style={{ display: 'flex', flexDirection: 'column', gap: 40 }}
+                                >
+                                    {data.experience.map((exp, i) => (
+                                        <motion.div key={i} variants={itemVariants} style={{ position: 'relative', paddingLeft: 40, borderLeft: `2px solid ${colors.cardBorder}` }}>
+                                            <div style={{ position: 'absolute', left: -9, top: 0, width: 16, height: 16, borderRadius: '50%', background: colors.accent, border: `4px solid ${colors.bg}` }} />
+                                            <span style={{ fontSize: '0.85rem', fontWeight: 800, color: colors.accent, letterSpacing: '0.1em' }}>{exp.startDate} — {exp.endDate}</span>
+                                            <h3 style={{ fontSize: '1.8rem', fontWeight: 800, margin: '8px 0' }}>{exp.role}</h3>
+                                            <p style={{ fontSize: '1.1rem', fontWeight: 600, color: colors.secondary, marginBottom: 16 }}>{exp.company}</p>
+                                            <p style={{ color: colors.textSec, lineHeight: 1.7 }}>{exp.description}</p>
+                                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 16 }}>
+                                                {exp.skills?.map((skill, j) => (
+                                                    <span key={j} style={{ fontSize: '0.7rem', fontWeight: 700, padding: '4px 12px', background: colors.pillBg, borderRadius: 6 }}>{skill}</span>
+                                                ))}
+                                            </div>
+                                        </motion.div>
+                                    ))}
+                                </motion.div>
+                            </div>
+                        )}
 
                         {/* Education */}
                         <div id="education" style={{ gridColumn: 'span 12' }} className="col-span-12">

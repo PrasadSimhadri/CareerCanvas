@@ -25,7 +25,7 @@ export default function SignupPage() {
     }>({ checking: false, available: null, message: '' });
 
     useEffect(() => {
-        if (user && !authLoading) router.push('/dashboard');
+        if (user && !authLoading) router.push('/');
     }, [user, authLoading, router]);
 
 
@@ -73,7 +73,7 @@ export default function SignupPage() {
         const result = await signup(username, email, password);
 
         if (result.success) {
-            router.push('/dashboard');
+            router.push('/');
         } else {
             setError(result.error || 'Signup failed');
         }
@@ -221,7 +221,7 @@ export default function SignupPage() {
                                         if (credentialResponse.credential) {
                                             const result = await googleLogin(credentialResponse.credential);
                                             if (result.success) {
-                                                router.push('/dashboard');
+                                                router.push('/');
                                             } else {
                                                 setError(result.error || 'Google signup failed');
                                             }
@@ -235,7 +235,7 @@ export default function SignupPage() {
                                     text="signup_with"
                                     width="100%"
                                 />
-                                <span className="absolute -top-3 -right-2 bg-green-100 text-green-700 text-[10px] font-bold px-2 py-0.5 rounded-full dark:bg-green-500/20 dark:text-green-400 border border-green-200 dark:border-green-500/30 shadow-sm z-10">
+                                <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-green-100 text-green-700 text-[10px] font-bold px-3 py-1 rounded-full dark:bg-green-500/20 dark:text-green-400 border border-green-200 dark:border-green-500/30 shadow-sm z-10 whitespace-nowrap">
                                     Recommended
                                 </span>
                             </div>

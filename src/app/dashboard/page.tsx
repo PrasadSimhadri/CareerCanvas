@@ -34,7 +34,7 @@ const defaultPortfolio: PortfolioData = {
     basicInfo: { fullName: '', tagline: '', description: '' },
     about: { description: '', interests: [] },
     education: [{ degree: 'B.Tech', institution: '', location: '', startYear: '', endYear: '', grade: '', description: '' }],
-    experience: [{ role: '', company: '', location: '', startDate: '', endDate: '', skills: [], description: '' }],
+    experience: [],
     projects: [{ title: '', techStack: [], description: '', githubUrl: '', liveUrl: '' }],
     skills: [{ category: 'Frontend', icon: 'code', skills: [] }],
     achievements: [{ title: '', organization: '', description: '' }],
@@ -556,7 +556,7 @@ function DynamicList<T>({ items, addLabel, onAdd, onRemove, renderItem }: {
         <div className="space-y-4">
             {items.map((item, i) => (
                 <div key={i} className="p-4 rounded-xl bg-gray-50 dark:bg-[#0F0F1A]/50 dark:bg-[#0F0F1A]/50 border border-gray-200 dark:border-[#3B3B52]/30 relative">
-                    {items.length > 1 && (
+                    {items.length > 0 && (
                         <button onClick={() => onRemove(i)} className="absolute top-3 right-3 text-red-400 hover:text-red-300 text-sm"><HiTrash /></button>
                     )}
                     {renderItem(item, i)}

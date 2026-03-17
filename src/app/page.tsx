@@ -1,12 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useAuth } from '@/contexts/AuthContext';
-import { HiSparkles, HiTemplate, HiShare, HiPencilAlt, HiArrowRight, HiX, HiCheck } from 'react-icons/hi';
+import { HiSparkles, HiTemplate, HiShare, HiPencilAlt, HiArrowRight, HiX, HiCheck, HiStar } from 'react-icons/hi';
+import { FaUserCircle, FaQuoteLeft } from 'react-icons/fa';
 import { FaRocket, FaPalette, FaColumns } from 'react-icons/fa';
 
 const templates = [
@@ -92,8 +93,94 @@ const features = [
   },
 ];
 
+const ReviewCard = ({ rev, i }: { rev: any; i: number }) => (
+  <motion.div
+    initial={{ opacity: 0, scale: 0.95 }}
+    whileInView={{ opacity: 1, scale: 1 }}
+    viewport={{ once: true }}
+    transition={{ delay: i * 0.1 }}
+    className="p-6 rounded-2xl bg-white dark:bg-[#1E1E2E] border border-gray-200 dark:border-[#3B3B52]/50 shadow-sm hover:shadow-md transition-all group h-full"
+  >
+    <div className="flex items-center gap-3 mb-4">
+      <div className="w-10 h-10 rounded-full bg-[#6C63FF]/10 flex items-center justify-center text-[#6C63FF]">
+        <FaUserCircle className="text-2xl" />
+      </div>
+      <div>
+        <h4 className="font-bold text-sm text-gray-900 dark:text-white">{rev.username}</h4>
+        <div className="flex text-yellow-400 text-xs">
+          {[...Array(5)].map((_, idx) => (
+            <HiStar key={idx} className={idx < rev.rating ? 'fill-current' : 'text-gray-300 dark:text-gray-600'} />
+          ))}
+        </div>
+      </div>
+      {rev.isSuggestion && (
+        <span className="ml-auto text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-400 border border-blue-200 dark:border-blue-500/30 font-[Poppins]">
+          Suggestion
+        </span>
+      )}
+    </div>
+    <div className="relative">
+      <FaQuoteLeft className="absolute -top-2 -left-2 text-gray-100 dark:text-gray-800 text-3xl z-0" />
+      <p className="relative z-10 text-gray-600 dark:text-gray-400 text-sm italic leading-relaxed">
+        &quot;{rev.comment}&quot;
+      </p>
+    </div>
+  </motion.div>
+);
+
 export default function LandingPage() {
+  const { user } = useAuth();
   const [previewTemplate, setPreviewTemplate] = useState<string | null>(null);
+  const [reviews, setReviews] = useState<any[]>([]);
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState('');
+  const [isSuggestion, setIsSuggestion] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [msg, setMsg] = useState('');
+
+  useEffect(() => {
+    fetchReviews();
+  }, []);
+
+  const fetchReviews = async () => {
+    try {
+      const res = await fetch('/api/reviews');
+      if (res.ok) {
+        const data = await res.json();
+        setReviews(data.reviews || []);
+      }
+    } catch (err) {
+      console.error('Failed to fetch reviews:', err);
+    }
+  };
+
+  const handleSubmitReview = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!comment) return;
+    setSubmitting(true);
+    setMsg('');
+    try {
+      const res = await fetch('/api/reviews', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ rating, comment, isSuggestion }),
+      });
+      if (res.ok) {
+        setMsg('Thanks for your feedback!');
+        setComment('');
+        setRating(0);
+        setIsSuggestion(false);
+        fetchReviews();
+        setTimeout(() => setMsg(''), 5000);
+      } else {
+        setMsg('Failed to submit. Please try again.');
+      }
+    } catch (err) {
+      setMsg('Error submitting review.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-[#0F0F1A] transition-colors duration-300">
@@ -281,6 +368,125 @@ export default function LandingPage() {
               </motion.div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Reviews Section */}
+      <section id="reviews" className="py-24 bg-gray-50/50 dark:bg-[#0F0F1A]/50 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl sm:text-4xl font-bold font-[Poppins] mb-4 text-gray-900 dark:text-white">
+              What Our <span className="gradient-text">Users Say</span>
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400 max-w-xl mx-auto">
+              Real feedback from students and professionals using CareerCanvas.
+            </p>
+          </motion.div>
+
+          <div className="mb-16 pb-10 overflow-hidden relative">
+            {reviews.length > 0 ? (
+              reviews.length > 4 ? (
+                /* Scrolling Marquee for > 4 reviews */
+                <div className="pause-on-hover">
+                  <div className="animate-marquee gap-8 py-4">
+                    {[...reviews, ...reviews].map((rev, i) => (
+                      <div key={`${rev._id}-${i}`} className="w-[350px] flex-shrink-0">
+                        <ReviewCard rev={rev} i={i} />
+                      </div>
+                    ))}
+                  </div>
+                  {/* Gradient masks for smooth edges */}
+                  <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-gray-50 dark:from-[#0F0F1A] to-transparent z-10" />
+                  <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-gray-50 dark:from-[#0F0F1A] to-transparent z-10" />
+                </div>
+              ) : (
+                /* Static Grid for <= 4 reviews */
+                <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-${reviews.length} gap-8`}>
+                  {reviews.map((rev, i) => (
+                    <ReviewCard key={rev._id} rev={rev} i={i} />
+                  ))}
+                </div>
+              )
+            ) : (
+              <div className="text-center text-gray-500 py-10">
+                Be the first to share your experience!
+              </div>
+            )}
+          </div>
+
+          {/* Review Form (Only for logged in users) */}
+          {user ? (
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="max-w-2xl mx-auto p-8 rounded-3xl bg-white dark:bg-[#1E1E2E] border border-gray-200 dark:border-[#3B3B52]/50 shadow-xl"
+            >
+              <h3 className="text-2xl font-bold font-[Poppins] mb-6 text-center text-gray-900 dark:text-white">Share Your <span className="gradient-text">Feedback</span></h3>
+              <form onSubmit={handleSubmitReview} className="space-y-4">
+                <div className="flex flex-col sm:flex-row gap-4 items-center justify-center mb-6">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Rating:</span>
+                    <div className="flex gap-1">
+                      {[1, 2, 3, 4, 5].map((s) => (
+                        <button
+                          key={s}
+                          type="button"
+                          onClick={() => setRating(s)}
+                          className={`text-2xl transition-colors ${s <= rating ? 'text-yellow-400' : 'text-gray-300 dark:text-gray-600'}`}
+                        >
+                          <HiStar className="fill-current" />
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={isSuggestion}
+                      onChange={(e) => setIsSuggestion(e.target.checked)}
+                      className="w-4 h-4 rounded border-gray-300 text-[#6C63FF] focus:ring-[#6C63FF]"
+                    />
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">This is a suggestion</span>
+                  </label>
+                </div>
+
+                <textarea
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                  placeholder="How was your experience? Any suggestions for improvement?"
+                  rows={4}
+                  className="w-full bg-gray-50 dark:bg-[#0F0F1A] border border-gray-200 dark:border-[#3B3B52] rounded-2xl px-5 py-4 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#6C63FF]/50 transition-all resize-none"
+                  required
+                />
+
+                <div className="flex flex-col items-center gap-3">
+                  <button
+                    type="submit"
+                    disabled={submitting}
+                    className="w-full sm:w-auto px-12 py-4 rounded-2xl bg-gradient-to-r from-[#6C63FF] to-[#06B6D4] text-white font-bold hover:opacity-90 transition-all shadow-lg shadow-[#6C63FF]/25 disabled:opacity-50"
+                  >
+                    {submitting ? 'Submitting...' : 'Post Feedback'}
+                  </button>
+                  {msg && (
+                    <p className={`text-sm font-medium ${msg.includes('Thanks') ? 'text-green-500' : 'text-red-500'}`}>
+                      {msg}
+                    </p>
+                  )}
+                </div>
+              </form>
+            </motion.div>
+          ) : (
+            <div className="text-center">
+              <p className="text-gray-500 mb-4">Want to leave a review or suggestion?</p>
+              <Link href="/login" className="text-[#6C63FF] font-bold hover:underline">Log in to share your thoughts</Link>
+            </div>
+          )}
         </div>
       </section>
 

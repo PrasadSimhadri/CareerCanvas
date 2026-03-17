@@ -71,8 +71,9 @@ export interface IUser extends Document {
     about: {
         description: string;
         interests: string[];
-        cards: { title: string; description: string }[];
     };
+    resetOtp?: string;
+    resetOtpExpires?: Date;
     education: IEducation[];
     experience: IExperience[];
     projects: IProject[];
@@ -190,13 +191,9 @@ const UserSchema = new Schema<IUser>(
         about: {
             description: { type: String, default: '' },
             interests: [{ type: String }],
-            cards: [
-                {
-                    title: { type: String, default: '' },
-                    description: { type: String, default: '' },
-                },
-            ],
         },
+        resetOtp: { type: String, default: null },
+        resetOtpExpires: { type: Date, default: null },
         education: [EducationSchema],
         experience: [ExperienceSchema],
         projects: [ProjectSchema],
