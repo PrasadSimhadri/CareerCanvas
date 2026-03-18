@@ -59,7 +59,7 @@ export interface IUser extends Document {
     passwordHash?: string;
     googleId?: string;
     slug: string;
-    selectedTemplate: 'minimal' | 'creative' | 'sidebar';
+    selectedTemplate: 'minimal' | 'creative' | 'sidebar' | 'futuristic' | 'sleek';
     profileImageUrl: string;
 
     // Portfolio sections
@@ -174,7 +174,7 @@ const UserSchema = new Schema<IUser>(
         },
         selectedTemplate: {
             type: String,
-            enum: ['minimal', 'creative', 'sidebar'],
+            enum: ['minimal', 'creative', 'sidebar', 'futuristic', 'sleek'],
             default: 'minimal',
         },
         profileImageUrl: {

@@ -12,7 +12,7 @@ import {
     HiClipboardCopy, HiExternalLink, HiPhotograph, HiTemplate,
     HiInformationCircle, HiCheck
 } from 'react-icons/hi';
-import { FaRocket, FaPalette, FaColumns } from 'react-icons/fa';
+import { FaRocket, FaPalette, FaColumns, FaTerminal, FaGem } from 'react-icons/fa';
 
 interface PortfolioData {
     selectedTemplate: string;
@@ -45,6 +45,8 @@ const templateOptions = [
     { id: 'minimal', name: 'Minimal', icon: <FaRocket />, color: 'from-[#00b8d4] to-[#00e5ff]', desc: 'Clean, recruiter-friendly' },
     { id: 'creative', name: 'Creative', icon: <FaPalette />, color: 'from-[#8B5CF6] to-[#EC4899]', desc: 'Bold, artistic, animated' },
     { id: 'sidebar', name: 'Sidebar', icon: <FaColumns />, color: 'from-[#F59E0B] to-[#EF4444]', desc: 'Premium, elegant sidebar' },
+    { id: 'futuristic', name: 'Futuristic', icon: <FaTerminal />, color: 'from-[#00f0ff] to-[#ff003c]', desc: 'Cyberpunk, glowing tech' },
+    { id: 'sleek', name: 'Sleek', icon: <FaGem />, color: 'from-[#111827] to-[#4B5563]', desc: 'Modern, glassmorphism UI' },
 ];
 
 const degreeOptions = ['B.Tech', 'M.Tech', 'MBA', 'BBA', 'B.Sc', 'M.Sc', 'B.Com', 'M.Com', 'BCA', 'MCA', '12th', '10th', 'Other'];
@@ -258,7 +260,7 @@ export default function DashboardPage() {
                                     >
                                         <div className="px-6 pb-6 pt-2 border-t border-gray-200 dark:border-[#3B3B52]/30">
                                             {section.key === 'template' && (
-                                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                                                     {templateOptions.map((t) => (
                                                         <button
                                                             key={t.id}

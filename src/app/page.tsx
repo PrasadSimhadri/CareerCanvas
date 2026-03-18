@@ -8,7 +8,7 @@ import Footer from '@/components/Footer';
 import { useAuth } from '@/contexts/AuthContext';
 import { HiSparkles, HiTemplate, HiShare, HiPencilAlt, HiArrowRight, HiX, HiCheck, HiStar } from 'react-icons/hi';
 import { FaUserCircle, FaQuoteLeft } from 'react-icons/fa';
-import { FaRocket, FaPalette, FaColumns } from 'react-icons/fa';
+import { FaRocket, FaPalette, FaColumns, FaTerminal, FaGem } from 'react-icons/fa';
 
 const templates = [
   {
@@ -68,13 +68,51 @@ const templates = [
       accent: '#F59E0B',
     },
   },
+  {
+    id: 'futuristic',
+    name: 'Futuristic',
+    icon: <FaTerminal className="text-2xl" />,
+    color: 'from-[#00f0ff] to-[#ff003c]',
+    tagline: 'Cyberpunk & Interactive',
+    description: 'A neon-glowing, high-tech, cyberpunk-inspired theme with terminal vibes. Perfect for developers looking to make an impact with raw code aesthetics.',
+    why: [
+      'Neon glowing text and borders with a dark theme',
+      'Cyberpunk color palette (cyan and pink)',
+      'Digital grid and terminal-inspired UI',
+      'Sleek framer motion scrolling animations',
+      'Highly memorable, bold developer identity',
+    ],
+    preview: {
+      bg: 'bg-[#050505]',
+      accent: '#00f0ff',
+    },
+  },
+  {
+    id: 'sleek',
+    name: 'Sleek',
+    icon: <FaGem className="text-2xl" />,
+    color: 'from-[#111827] to-[#4B5563]',
+    tagline: 'Modern Glassmorphism',
+    description: 'A premium, black-and-white minimalist template with soft glassmorphism effects, gorgeous oversized typography, and incredibly smooth scroll reveals.',
+    why: [
+      'Premium glassmorphism effects and blurs',
+      'Elegant, oversized typography',
+      'Smooth scroll-based fade ins',
+      'Refined B&W aesthetics',
+      'Perfect for modern designers and engineers',
+    ],
+    preview: {
+      bg: 'bg-[#FAF9F6]',
+      accent: '#111827',
+    },
+  },
 ];
 
 const features = [
   {
     icon: <HiTemplate className="text-3xl" />,
-    title: '3 Stunning Templates',
-    description: 'Choose from Minimal, Creative, or Sidebar layouts — each uniquely designed to showcase your work.',
+    title: '5 Stunning Templates',
+    description: 'Choose from Minimal, Creative, Sidebar, Futuristic, or Sleek layouts — each uniquely designed to showcase your work.',
   },
   {
     icon: <HiPencilAlt className="text-3xl" />,
@@ -298,11 +336,11 @@ export default function LandingPage() {
               Choose Your <span className="gradient-text">Template</span>
             </h2>
             <p className="text-gray-600 dark:text-gray-400 max-w-xl mx-auto">
-              Three uniquely designed templates — each crafted to make your portfolio shine.
+              Five uniquely designed templates — each crafted to make your portfolio shine.
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {templates.map((template, index) => (
               <motion.div
                 key={template.id}

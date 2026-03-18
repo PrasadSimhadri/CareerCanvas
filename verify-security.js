@@ -25,9 +25,9 @@ async function testRateLimiting() {
 
     console.log(`Success: ${successCount}, Rate Limited: ${rateLimitedCount}`);
     if (rateLimitedCount > 0) {
-        console.log('✅ Rate limiting is working!');
+        console.log('Rate limiting is working!');
     } else {
-        console.log('❌ Rate limiting NOT working (or limit not reached)!');
+        console.log(' Rate limiting NOT working (or limit not reached)!');
     }
 }
 
@@ -36,9 +36,9 @@ async function testUnauthorizedAccess() {
     try {
         const res = await fetch(PORTFOLIO_URL);
         if (res.status === 401) {
-            console.log('✅ Unauthorized access correctly blocked (401)!');
+            console.log('Unauthorized access correctly blocked (401)!');
         } else {
-            console.log(`❌ Unauthorized access NOT blocked! Status: ${res.status}`);
+            console.log(` Unauthorized access NOT blocked! Status: ${res.status}`);
         }
     } catch (err) {
         console.error('Request failed:', err.message);

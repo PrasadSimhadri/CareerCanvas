@@ -1,6 +1,8 @@
 import MinimalTemplate from '@/components/templates/MinimalTemplate';
 import CreativeTemplate from '@/components/templates/CreativeTemplate';
 import SidebarTemplate from '@/components/templates/SidebarTemplate';
+import FuturisticTemplate from '@/components/templates/FuturisticTemplate';
+import SleekTemplate from '@/components/templates/SleekTemplate';
 import connectDB from '@/lib/mongodb';
 import User from '@/models/User';
 import { notFound } from 'next/navigation';
@@ -72,6 +74,10 @@ export default async function PortfolioPage({ params }: PageProps) {
                 return <CreativeTemplate data={portfolioData} />;
             case 'sidebar':
                 return <SidebarTemplate data={portfolioData} />;
+            case 'futuristic':
+                return <FuturisticTemplate data={portfolioData} />;
+            case 'sleek':
+                return <SleekTemplate data={portfolioData} />;
             case 'minimal':
             default:
                 return <MinimalTemplate data={portfolioData} />;

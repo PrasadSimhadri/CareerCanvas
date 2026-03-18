@@ -1,6 +1,8 @@
 import MinimalTemplate from '@/components/templates/MinimalTemplate';
 import CreativeTemplate from '@/components/templates/CreativeTemplate';
 import SidebarTemplate from '@/components/templates/SidebarTemplate';
+import FuturisticTemplate from '@/components/templates/FuturisticTemplate';
+import SleekTemplate from '@/components/templates/SleekTemplate';
 import { notFound } from 'next/navigation';
 
 export default async function PreviewPage({ params }: { params: Promise<{ template: string }> }) {
@@ -19,7 +21,7 @@ export default async function PreviewPage({ params }: { params: Promise<{ templa
             interests: ['Web Development', 'UI/UX Design', 'Open Source', 'System Architecture', 'Machine Learning'],
         },
         education: [
-            { degree: 'B.S. Computer Science', institution: 'University of Technology', location: 'San Francisco, CA', startYear: '2015', endYear: '2019', grade: '3.8 GPA' }
+            { degree: 'B.S. Computer Science', institution: 'University of Technology', location: 'San Francisco, CA', startYear: '2015', endYear: '2019', grade: '3.8 GPA', description: 'Focused on algorithms and systems architecture.' }
         ],
         experience: [
             { role: 'Senior Software Engineer', company: 'Tech Innovators Inc.', location: 'Remote', startDate: '2021', endDate: 'Present', skills: ['React', 'Next.js', 'Node.js', 'AWS'], description: 'Leading frontend development for enterprise SaaS products. Improved application performance by 40% and mentored junior developers.' },
@@ -31,20 +33,22 @@ export default async function PreviewPage({ params }: { params: Promise<{ templa
             { title: 'AI Content Generator', techStack: ['OpenAI API', 'React', 'Node.js'], description: 'An intelligent writing assistant that generates blog posts and marketing copy using advanced language models.', githubUrl: '#', liveUrl: '#' }
         ],
         skills: [
-            { category: 'Frontend', skills: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS'] },
-            { category: 'Backend', skills: ['Node.js', 'Express', 'MongoDB', 'PostgreSQL'] },
-            { category: 'Tools & DevOps', skills: ['Git', 'Docker', 'AWS', 'Figma', 'CI/CD'] }
+            { category: 'Frontend', icon: 'code', skills: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS'] },
+            { category: 'Backend', icon: 'database', skills: ['Node.js', 'Express', 'MongoDB', 'PostgreSQL'] },
+            { category: 'Tools & DevOps', icon: 'terminal', skills: ['Git', 'Docker', 'AWS', 'Figma', 'CI/CD'] }
         ],
         achievements: [
             { title: 'Best Innovation Award', organization: 'Global Tech Conference 2022', description: 'Awarded for developing an open-source accessibility tool that is now used by thousands of developers worldwide.' },
             { title: 'Hackathon Winner', organization: 'Code for Good 2021', description: 'First place out of 50 teams for building a platform that connects volunteers with local non-profits.' }
         ],
-        contact: { email: 'alex@example.com', phone: '+1 (555) 123-4567', linkedinUrl: '#', githubUrl: '#', location: 'San Francisco, CA' }
+        contact: { email: 'alex@example.com', phone: '+1 (555) 123-4567', linkedinUrl: '#', githubUrl: '#', websiteUrl: '#', location: 'San Francisco, CA' }
     };
 
     if (template === 'minimal') return <MinimalTemplate data={dummyData} isPreview={true} />;
     if (template === 'creative') return <CreativeTemplate data={dummyData} isPreview={true} />;
     if (template === 'sidebar') return <SidebarTemplate data={dummyData} isPreview={true} />;
+    if (template === 'futuristic') return <FuturisticTemplate data={dummyData} isPreview={true} />;
+    if (template === 'sleek') return <SleekTemplate data={dummyData} isPreview={true} />;
 
     notFound();
 }
