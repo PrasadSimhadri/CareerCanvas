@@ -7,6 +7,12 @@ import { sendFeedbackEmail } from '@/lib/mail';
 export async function GET() {
     try {
         await connectDB();
+        
+        const userPayload = await getCurrentUser();
+        if (!userPayload) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+        }
+
         const reviews = await Review.find().sort({ createdAt: -1 }).limit(10);
         return NextResponse.json({ reviews });
     } catch (error) {

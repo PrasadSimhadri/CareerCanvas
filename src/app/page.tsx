@@ -494,14 +494,20 @@ export default function LandingPage() {
                   </label>
                 </div>
 
-                <textarea
-                  value={comment}
-                  onChange={(e) => setComment(e.target.value)}
-                  placeholder="How was your experience? Any suggestions for improvement?"
-                  rows={4}
-                  className="w-full bg-gray-50 dark:bg-[#0F0F1A] border border-gray-200 dark:border-[#3B3B52] rounded-2xl px-5 py-4 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#6C63FF]/50 transition-all resize-none"
-                  required
-                />
+                <div className="relative">
+                  <textarea
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                    placeholder="How was your experience? Any suggestions for improvement?"
+                    rows={4}
+                    maxLength={500}
+                    className="w-full bg-gray-50 dark:bg-[#0F0F1A] border border-gray-200 dark:border-[#3B3B52] rounded-2xl px-5 py-4 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#6C63FF]/50 transition-all resize-none"
+                    required
+                  />
+                  <div className="absolute bottom-3 right-4 text-xs text-gray-400">
+                    {comment.length}/500 chars
+                  </div>
+                </div>
 
                 <div className="flex flex-col items-center gap-3">
                   <button
