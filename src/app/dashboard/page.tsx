@@ -61,6 +61,7 @@ export default function DashboardPage() {
     const [uploading, setUploading] = useState(false);
     const [dataLoaded, setDataLoaded] = useState(false);
     const [copied, setCopied] = useState(false);
+    const [showLinkHint, setShowLinkHint] = useState(false);
 
     useEffect(() => {
         if (!authLoading && !user) router.replace('/login');
@@ -99,34 +100,95 @@ export default function DashboardPage() {
 
     const handleSave = async () => {
         // Client-side Validation
-        if (portfolio.contact.email) {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(portfolio.contact.email)) {
-                setSaveMsg('Error: Invalid email format.');
-                setTimeout(() => setSaveMsg(''), 4000);
-                return;
-            }
+        // Basic Info
+        if (!portfolio.basicInfo.fullName?.trim() || !portfolio.basicInfo.tagline?.trim() || !portfolio.basicInfo.description?.trim()) {
+            setSaveMsg('Error: Full Name, Tagline, and Short Description are mandatory.');
+            setTimeout(() => setSaveMsg(''), 4000);
+            return;
         }
-        if (portfolio.contact.phone) {
-            const digits = portfolio.contact.phone.replace(/\D/g, '');
-            if (digits.length !== 10) {
-                setSaveMsg('Error: Phone number must contain exactly 10 digits.');
-                setTimeout(() => setSaveMsg(''), 4000);
-                return;
-            }
+
+        // About
+        if (!portfolio.about.description?.trim()) {
+            setSaveMsg('Error: About Description is mandatory.');
+            setTimeout(() => setSaveMsg(''), 4000);
+            return;
+        }
+
+        // Education - Min 1, all fields mandatory
+        if (portfolio.education.length === 0) {
+            setSaveMsg('Error: At least one Education entry is mandatory.');
+            setTimeout(() => setSaveMsg(''), 4000);
+            return;
         }
         for (const edu of portfolio.education) {
-            if (edu.grade) {
-                const num = parseFloat(edu.grade);
-                if (!isNaN(num) && (num < 0 || num > 10)) {
-                    // Let's be lenient if they put percentage up to 100
-                    if (num > 100) {
-                        setSaveMsg(`Error: Grade/CGPA '${edu.grade}' must be between 0 and 10 (or up to 100 for %).`);
-                        setTimeout(() => setSaveMsg(''), 4000);
-                        return;
-                    }
+            if (!edu.degree?.trim() || !edu.institution?.trim() || !edu.location?.trim() || !edu.startYear?.trim() || !edu.endYear?.trim() || !edu.grade?.trim()) {
+                setSaveMsg('Error: All fields in Education are mandatory.');
+                setTimeout(() => setSaveMsg(''), 4000);
+                return;
+            }
+            const num = parseFloat(edu.grade);
+            if (isNaN(num) || num < 0 || num > 10) {
+                setSaveMsg(`Error: Grade/CGPA '${edu.grade}' must be between 0 and 10.`);
+                setTimeout(() => setSaveMsg(''), 4000);
+                return;
+            }
+            if (parseInt(edu.startYear) >= parseInt(edu.endYear)) {
+                setSaveMsg(`Error: In education, Starting Year must be less than Ending Year.`);
+                setTimeout(() => setSaveMsg(''), 4000);
+                return;
+            }
+        }
+
+        // Experience - if any field is filled, role, company, location, startDate, endDate must be filled
+        for (const exp of portfolio.experience) {
+            const hasAnyField = Object.values(exp).some(v => Array.isArray(v) ? v.length > 0 : v?.trim());
+            if (hasAnyField) {
+                if (!exp.role?.trim() || !exp.company?.trim() || !exp.location?.trim() || !exp.startDate?.trim() || !exp.endDate?.trim() || exp.startDate === '' || exp.endDate === '') {
+                    setSaveMsg('Error: All fields in Experience are mandatory if you add an entry.');
+                    setTimeout(() => setSaveMsg(''), 4000);
+                    return;
                 }
             }
+        }
+
+        // Projects - min 2, title, techStack, description mandatory
+        if (portfolio.projects.length < 2) {
+            setSaveMsg('Error: At least 2 projects are mandatory.');
+            setTimeout(() => setSaveMsg(''), 4000);
+            return;
+        }
+        for (const proj of portfolio.projects) {
+            if (!proj.title?.trim() || proj.techStack.length === 0 || !proj.description?.trim()) {
+                setSaveMsg('Error: Project Title, Tech Stack, and Description are mandatory for all projects.');
+                setTimeout(() => setSaveMsg(''), 4000);
+                return;
+            }
+        }
+
+        // Skills - at least one group mandatory
+        if (portfolio.skills.length === 0 || portfolio.skills.every(s => !s.category?.trim() || s.skills.length === 0)) {
+            setSaveMsg('Error: At least one Skill Group with category and skills is mandatory.');
+            setTimeout(() => setSaveMsg(''), 4000);
+            return;
+        }
+
+        // Contact
+        if (!portfolio.contact.email?.trim() || !portfolio.contact.phone?.trim()) {
+            setSaveMsg('Error: Email and Phone are mandatory.');
+            setTimeout(() => setSaveMsg(''), 4000);
+            return;
+        }
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(portfolio.contact.email)) {
+            setSaveMsg('Error: Invalid email format.');
+            setTimeout(() => setSaveMsg(''), 4000);
+            return;
+        }
+        const digits = portfolio.contact.phone.replace(/\D/g, '');
+        if (digits.length !== 10) {
+            setSaveMsg('Error: Phone number must contain exactly 10 digits.');
+            setTimeout(() => setSaveMsg(''), 4000);
+            return;
         }
 
         setSaving(true);
@@ -141,6 +203,7 @@ export default function DashboardPage() {
                 const data = await res.json();
                 setPortfolio((prev) => ({ ...prev, slug: data.portfolio.slug }));
                 setSaveMsg('Portfolio saved successfully!');
+                setShowLinkHint(true);
                 setTimeout(() => setSaveMsg(''), 3000);
             } else {
                 setSaveMsg('Failed to save. Please try again.');
@@ -354,11 +417,11 @@ export default function DashboardPage() {
                                                                 <InputField label="Grade/CGPA" value={item.grade} onChange={(v) => { const edu = [...portfolio.education]; edu[i].grade = v; setPortfolio((p) => ({ ...p, education: edu })); }} placeholder="8.5 CGPA" small />
                                                             </div>
                                                             <InputField label="Institution" value={item.institution} onChange={(v) => { const edu = [...portfolio.education]; edu[i].institution = v; setPortfolio((p) => ({ ...p, education: edu })); }} placeholder="University Name" small />
-                                                            <InputField label="Location" value={item.location} onChange={(v) => { const edu = [...portfolio.education]; edu[i].location = v; setPortfolio((p) => ({ ...p, education: edu })); }} placeholder="City, Country" small />
+                                                            <InputField label="Location" value={item.location} onChange={(v) => { const edu = [...portfolio.education]; edu[i].location = v; setPortfolio((p) => ({ ...p, education: edu })); }} placeholder="City, State" small />
                                                             <div className="grid grid-cols-2 gap-3">
-                                                                <InputField label="Start Year" value={item.startYear} onChange={(v) => { const edu = [...portfolio.education]; edu[i].startYear = v; setPortfolio((p) => ({ ...p, education: edu })); }} placeholder="2022" small />
-                                                                <InputField label="End Year" value={item.endYear} onChange={(v) => { const edu = [...portfolio.education]; edu[i].endYear = v; setPortfolio((p) => ({ ...p, education: edu })); }} placeholder="2026" small />
-                                                            </div>
+                                                                 <YearSelect label="Start Year" value={item.startYear} onChange={(v) => { const edu = [...portfolio.education]; edu[i].startYear = v; setPortfolio((p) => ({ ...p, education: edu })); }} small />
+                                                                 <YearSelect label="End Year" value={item.endYear} onChange={(v) => { const edu = [...portfolio.education]; edu[i].endYear = v; setPortfolio((p) => ({ ...p, education: edu })); }} small />
+                                                             </div>
                                                         </div>
                                                     )}
                                                 />
@@ -374,11 +437,11 @@ export default function DashboardPage() {
                                                         <div className="space-y-3">
                                                             <InputField label="Role" value={item.role} onChange={(v) => { const exp = [...portfolio.experience]; exp[i].role = v; setPortfolio((p) => ({ ...p, experience: exp })); }} placeholder="Full Stack Developer" small />
                                                             <InputField label="Company" value={item.company} onChange={(v) => { const exp = [...portfolio.experience]; exp[i].company = v; setPortfolio((p) => ({ ...p, experience: exp })); }} placeholder="Company Name" small />
-                                                            <InputField label="Location" value={item.location} onChange={(v) => { const exp = [...portfolio.experience]; exp[i].location = v; setPortfolio((p) => ({ ...p, experience: exp })); }} placeholder="City, Country" small />
+                                                            <InputField label="Location" value={item.location} onChange={(v) => { const exp = [...portfolio.experience]; exp[i].location = v; setPortfolio((p) => ({ ...p, experience: exp })); }} placeholder="City, State" small />
                                                             <div className="grid grid-cols-2 gap-3">
-                                                                <InputField label="Start Date" value={item.startDate} onChange={(v) => { const exp = [...portfolio.experience]; exp[i].startDate = v; setPortfolio((p) => ({ ...p, experience: exp })); }} placeholder="June 2025" small />
-                                                                <InputField label="End Date" value={item.endDate} onChange={(v) => { const exp = [...portfolio.experience]; exp[i].endDate = v; setPortfolio((p) => ({ ...p, experience: exp })); }} placeholder="Present" small />
-                                                            </div>
+                                                                 <MonthYearSelect label="Start Date" value={item.startDate} onChange={(v) => { const exp = [...portfolio.experience]; exp[i].startDate = v; setPortfolio((p) => ({ ...p, experience: exp })); }} small />
+                                                                 <MonthYearSelect label="End Date" value={item.endDate} onChange={(v) => { const exp = [...portfolio.experience]; exp[i].endDate = v; setPortfolio((p) => ({ ...p, experience: exp })); }} small />
+                                                             </div>
                                                             <TagInput label="Skills Used" tags={item.skills} onChange={(tags) => { const exp = [...portfolio.experience]; exp[i].skills = tags; setPortfolio((p) => ({ ...p, experience: exp })); }} placeholder="Add skill..." small />
                                                             <TextAreaField label="Description" value={item.description} onChange={(v) => { const exp = [...portfolio.experience]; exp[i].description = v; setPortfolio((p) => ({ ...p, experience: exp })); }} placeholder="What you did..." rows={3} small />
                                                         </div>
@@ -448,8 +511,7 @@ export default function DashboardPage() {
                                                     </div>
                                                     <InputField label="LinkedIn URL" value={portfolio.contact.linkedinUrl} onChange={(v) => setPortfolio((p) => ({ ...p, contact: { ...p.contact, linkedinUrl: v } }))} placeholder="https://linkedin.com/in/..." small />
                                                     <InputField label="GitHub URL" value={portfolio.contact.githubUrl} onChange={(v) => setPortfolio((p) => ({ ...p, contact: { ...p.contact, githubUrl: v } }))} placeholder="https://github.com/..." small />
-                                                    <InputField label="Website URL" value={portfolio.contact.websiteUrl} onChange={(v) => setPortfolio((p) => ({ ...p, contact: { ...p.contact, websiteUrl: v } }))} placeholder="https://..." small />
-                                                    <InputField label="Location" value={portfolio.contact.location} onChange={(v) => setPortfolio((p) => ({ ...p, contact: { ...p.contact, location: v } }))} placeholder="City, Country" small />
+                                                    <InputField label="Location" value={portfolio.contact.location} onChange={(v) => setPortfolio((p) => ({ ...p, contact: { ...p.contact, location: v } }))} placeholder="City, State" small />
                                                 </div>
                                             )}
                                         </div>
@@ -470,8 +532,26 @@ export default function DashboardPage() {
                         {saving ? <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" /> : <HiSave />}
                         {saving ? 'Saving...' : 'Save Portfolio'}
                     </button>
-                    {saveMsg && <span className={`text-sm ${saveMsg.includes('success') ? 'text-green-400' : 'text-red-400'}`}>{saveMsg}</span>}
+                    {saveMsg && <span className={`text-sm ${saveMsg.includes('Error') ? 'text-red-400' : 'text-green-400'}`}>{saveMsg}</span>}
                 </motion.div>
+
+                <AnimatePresence>
+                    {showLinkHint && (
+                        <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0 }}
+                            className="mt-4 p-4 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm flex items-center gap-3"
+                        >
+                            <HiInformationCircle className="text-xl shrink-0" />
+                            <div className="flex-1">
+                                <p className="font-semibold mb-0.5">Note: Your live portfolio link is ready!</p>
+                                <p className="text-xs opacity-80">You can find the shareable link at the top of this page under "Welcome".</p>
+                            </div>
+                            <button onClick={() => setShowLinkHint(false)} className="text-blue-400 hover:text-white transition-colors">✕</button>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </div>
 
             <Footer />
@@ -479,7 +559,69 @@ export default function DashboardPage() {
     );
 }
 
+const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const currentYear = new Date().getFullYear();
+const years = Array.from({ length: 60 }, (_, i) => (currentYear - 40 + i).toString()).reverse(); // 40 years past, 20 future
+
 // ===== Reusable Components =====
+
+function YearSelect({ label, value, onChange, small }: { label: string; value: string; onChange: (v: string) => void; small?: boolean }) {
+    return (
+        <div>
+            <label className={`block font-medium text-gray-700 dark:text-gray-300 mb-1.5 ${small ? 'text-xs' : 'text-sm'}`}>{label}</label>
+            <select
+                value={value}
+                onChange={(e) => onChange(e.target.value)}
+                className="w-full bg-gray-50 dark:bg-[#0F0F1A] border border-gray-200 dark:border-[#3B3B52] rounded-xl px-4 py-2.5 text-gray-900 dark:text-white text-sm focus:outline-none focus:border-[#6C63FF] transition-colors"
+            >
+                <option value="">Select Year</option>
+                {years.map(y => <option key={y} value={y}>{y}</option>)}
+            </select>
+        </div>
+    );
+}
+
+function MonthYearSelect({ label, value, onChange, small }: { label: string; value: string; onChange: (v: string) => void; small?: boolean }) {
+    // Current value is like "June 2024" or "Present"
+    const isPresent = value === 'Present';
+    const [month, year] = isPresent ? ['', ''] : value.split(' ');
+
+    const handleMonthChange = (m: string) => {
+        if (m === 'Present') onChange('Present');
+        else onChange(`${m} ${year || currentYear}`);
+    };
+
+    const handleYearChange = (y: string) => {
+        onChange(`${month || 'January'} ${y}`);
+    };
+
+    return (
+        <div>
+            <label className={`block font-medium text-gray-700 dark:text-gray-300 mb-1.5 ${small ? 'text-xs' : 'text-sm'}`}>{label}</label>
+            <div className="flex gap-2">
+                <select
+                    value={isPresent ? 'Present' : month}
+                    onChange={(e) => handleMonthChange(e.target.value)}
+                    className="flex-1 bg-gray-50 dark:bg-[#0F0F1A] border border-gray-200 dark:border-[#3B3B52] rounded-xl px-4 py-2.5 text-gray-900 dark:text-white text-sm focus:outline-none focus:border-[#6C63FF] transition-colors"
+                >
+                    <option value="">Month</option>
+                    <option value="Present">Present</option>
+                    {months.map(m => <option key={m} value={m}>{m}</option>)}
+                </select>
+                {!isPresent && (
+                    <select
+                        value={year}
+                        onChange={(e) => handleYearChange(e.target.value)}
+                        className="w-24 bg-gray-50 dark:bg-[#0F0F1A] border border-gray-200 dark:border-[#3B3B52] rounded-xl px-4 py-2.5 text-gray-900 dark:text-white text-sm focus:outline-none focus:border-[#6C63FF] transition-colors"
+                    >
+                        <option value="">Year</option>
+                        {years.map(y => <option key={y} value={y}>{y}</option>)}
+                    </select>
+                )}
+            </div>
+        </div>
+    );
+}
 
 function InputField({ label, value, onChange, placeholder, small }: { label: string; value: string; onChange: (v: string) => void; placeholder: string; small?: boolean }) {
     return (
