@@ -22,11 +22,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         if (!user) return { title: 'Portfolio Not Found' };
 
         return {
-            title: `${user.basicInfo.fullName || 'Portfolio'} | CareerCanvas`,
-            description: user.basicInfo.description || `${user.basicInfo.fullName}'s professional portfolio built with CareerCanvas.`,
+            title: `${user.basicInfo.fullName || 'Portfolio'} | BuildUrSite`,
+            description: user.basicInfo.description || `${user.basicInfo.fullName}'s professional portfolio built with BuildUrSite.`,
         };
     } catch {
-        return { title: 'Portfolio | CareerCanvas' };
+        return { title: 'Portfolio | BuildUrSite' };
     }
 }
 

@@ -487,7 +487,7 @@ export default function CreativeTemplate({ data, isPreview = false }: { data: Po
 
             <footer style={{ padding: '80px 24px 40px', textAlign: 'center', position: 'relative', zIndex: 1 }}>
                 <p style={{ color: colors.textSec, fontWeight: 600 }}>
-                    Created using <a href="/" style={{ color: colors.accent, textDecoration: 'none' }}>CareerCanvas</a>
+                    Created using <a href="/" style={{ color: colors.accent, textDecoration: 'none' }}>BuildUrSite</a>
                 </p>
                 <div style={{ marginTop: 20 }}>
                     <a href="https://github.com/PrasadSimhadri/CareerCanvas" target="_blank" style={{ color: colors.textSec, textDecoration: 'none', fontSize: '0.9rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>

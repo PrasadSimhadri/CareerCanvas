@@ -305,7 +305,7 @@ export default function FuturisticTemplate({ data, isPreview = false }: { data: 
                 <p className="text-[#666] text-sm tracking-widest font-mono">
                     SYS.RENDER // {' '}
                     <a href="/" className="text-[#00f0ff] hover:text-[#ff003c] transition-colors">
-                        CAREERCANVAS
+                        BUILDURSITE
                     </a>{' '}
                     &copy; {new Date().getFullYear()}
                 </p>

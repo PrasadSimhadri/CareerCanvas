@@ -5,9 +5,9 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 
 
 export const metadata: Metadata = {
-  title: "CareerCanvas — Build Your Professional Portfolio",
+  title: "BuildUrSite — Build Your Professional Portfolio",
   description: "Create stunning, professional portfolio websites in minutes. Choose from beautiful templates, fill in your details, and share your portfolio with the world.",
-  keywords: "portfolio builder, student portfolio, professional portfolio, resume builder, career",
+  keywords: "buildursite, portfolio builder, student portfolio, professional portfolio, resume builder, developer portfolio",
 };
 
 import { ThemeProvider } from "@/components/ThemeProvider";

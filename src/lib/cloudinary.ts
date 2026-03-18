@@ -21,12 +21,12 @@ cloudinary.config({
 /**
  * Upload an image to Cloudinary
  * @param fileBuffer - The file as a base64 data URI string (e.g., "data:image/jpeg;base64,...")
- * @param folder - The Cloudinary folder to store in (default: "careercanvas")
+ * @param folder - The Cloudinary folder to store in (default: "buildursite")
  * @returns The uploaded image's secure URL and public ID
  */
 export async function uploadImage(
     fileBuffer: string,
-    folder: string = 'careercanvas'
+    folder: string = 'buildursite'
 ): Promise<{ url: string; publicId: string }> {
     try {
         const result = await cloudinary.uploader.upload(fileBuffer, {

@@ -9,7 +9,7 @@ export default function Footer() {
                     <div className="flex items-center gap-2">
                         <img src="/logo.png" alt="Logo" className="w-8 h-8 object-contain rounded-lg" />
                         <span className="text-sm text-gray-500 dark:text-gray-400">
-                            Built with <span className="text-gray-900 dark:text-white font-semibold">CareerCanvas</span>
+                            Built with <span className="text-gray-900 dark:text-white font-semibold">BuildUrSite</span>
                         </span>
                     </div>
                     <div className="flex items-center gap-4">

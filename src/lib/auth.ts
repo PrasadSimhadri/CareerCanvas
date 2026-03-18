@@ -3,7 +3,7 @@ import { cookies } from 'next/headers';
 import { NextRequest } from 'next/server';
 
 const JWT_SECRET = process.env.JWT_SECRET!;
-const TOKEN_NAME = 'careercanvas_token';
+const TOKEN_NAME = 'buildursite_token';
 const TOKEN_MAX_AGE = 7 * 24 * 60 * 60; // 7 days in seconds
 
 if (!JWT_SECRET) {

@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
         const dataUri = `data:${file.type};base64,${base64}`;
 
         // Upload to Cloudinary
-        const result = await uploadImage(dataUri, `careercanvas/${payload.username}`);
+        const result = await uploadImage(dataUri, `buildursite/${payload.username}`);
 
         return NextResponse.json({
             message: 'Image uploaded successfully',

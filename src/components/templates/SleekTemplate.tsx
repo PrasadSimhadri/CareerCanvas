@@ -283,7 +283,7 @@ export default function SleekTemplate({ data, isPreview = false }: { data: Portf
                             <p className="text-gray-400">
                                 Powered by <br/>
                                 <a href="/" className="text-white font-medium hover:text-indigo-400 transition-colors">
-                                    CareerCanvas
+                                    BuildUrSite
                                 </a>
                             </p>
                         </motion.div>

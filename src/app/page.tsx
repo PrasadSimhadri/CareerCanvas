@@ -422,7 +422,7 @@ export default function LandingPage() {
               What Our <span className="gradient-text">Users Say</span>
             </h2>
             <p className="text-gray-600 dark:text-gray-400 max-w-xl mx-auto">
-              Real feedback from students and professionals using CareerCanvas.
+              Real feedback from students and professionals using BuildUrSite.
             </p>
           </motion.div>
 
@@ -546,7 +546,7 @@ export default function LandingPage() {
               Ready to Build Your <span className="gradient-text">Portfolio</span>?
             </h2>
             <p className="text-gray-600 dark:text-gray-400 mb-10 text-lg">
-              Join students who are already showcasing their work with CareerCanvas.
+              Join students who are already showcasing their work with BuildUrSite.
             </p>
             <Link
               href="/signup"

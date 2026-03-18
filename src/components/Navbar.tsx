@@ -40,9 +40,9 @@ export default function Navbar() {
                 <nav className="flex items-center justify-between">
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-2 group">
-                        <img src="/logo.png" alt="CareerCanvas Logo" className="w-10 h-10 object-contain rounded-xl group-hover:scale-110 transition-transform" />
-                        <span className="text-xl font-bold font-[Poppins] text-gray-900 dark:text-white">
-                            Career<span className="gradient-text">Canvas</span>
+                        <img src="/logo.png" alt="BuildUrSite Logo" className="w-10 h-10 object-contain rounded-xl group-hover:scale-110 transition-transform" />
+                        <span className="text-xl font-bold font-[Poppins] text-gray-900 dark:text-white tracking-tight flex items-center gap-1">
+                            BuildUr<span className="gradient-text">Site</span>
                         </span>
                     </Link>
 

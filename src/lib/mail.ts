@@ -13,22 +13,22 @@ const logoPath = path.join(process.cwd(), 'public', 'logo.png');
 
 export const sendOtpEmail = async (email: string, otp: string) => {
     const mailOptions = {
-        from: `"CareerCanvas" <${process.env.EMAIL_USER}>`,
+        from: `"BuildUrSite" <${process.env.EMAIL_USER}>`,
         to: email,
-        subject: 'Reset Your Password - CareerCanvas',
+        subject: 'Reset Your Password - BuildUrSite',
         html: `
             <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px; background-color: #f9f9fb;">
                 <div style="background-color: #ffffff; border-radius: 16px; padding: 40px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #e1e4e8;">
                     <div style="text-align: center; margin-bottom: 30px;">
-                        <img src="cid:logo" alt="CareerCanvas" style="width: 60px; height: 60px; margin-bottom: 10px;">
-                        <h1 style="color: #1a1a1a; margin: 0; font-size: 24px; font-weight: 700;">Career<span style="color: #6C63FF;">Canvas</span></h1>
+                        <img src="cid:logo" alt="BuildUrSite" style="width: 60px; height: 60px; margin-bottom: 10px;">
+                        <h1 style="color: #1a1a1a; margin: 0; font-size: 24px; font-weight: 700;">BuildUr<span style="color: #6C63FF;">Site</span></h1>
                     </div>
                     
                     <h2 style="color: #2d3748; font-size: 20px; margin-bottom: 20px; text-align: center;">Password Reset Request</h2>
                     
                     <p style="color: #4a5568; line-height: 1.6; margin-bottom: 25px;">
                         Hello,<br><br>
-                        We received a request to reset your password for your CareerCanvas account. Use the verification code below to proceed with the reset. This code is valid for 10 minutes.
+                        We received a request to reset your password for your BuildUrSite account. Use the verification code below to proceed with the reset. This code is valid for 10 minutes.
                     </p>
                     
                     <div style="background-color: #f7fafc; border: 2px dashed #cbd5e0; border-radius: 12px; padding: 25px; text-align: center; margin-bottom: 30px;">
@@ -40,7 +40,7 @@ export const sendOtpEmail = async (email: string, otp: string) => {
                     </p>
                     
                     <div style="border-top: 1px solid #e2e8f0; pt-30px font-size: 12px; color: #a0aec0; text-align: center; padding-top: 20px;">
-                        &copy; 2026 CareerCanvas. Elevate your professional presence.
+                        &copy; 2026 BuildUrSite. Elevate your professional presence.
                     </div>
                 </div>
             </div>
@@ -60,7 +60,7 @@ export const sendFeedbackEmail = async (username: string, rating: number, commen
     const accentColor = isSuggestion ? '#06B6D4' : '#6C63FF';
 
     const mailOptions = {
-        from: `"CareerCanvas Notifications" <${process.env.EMAIL_USER}>`,
+        from: `"BuildUrSite Notifications" <${process.env.EMAIL_USER}>`,
         to: process.env.EMAIL_USER,
         subject: `[New ${typeLabel}] from ${username}`,
         html: `
@@ -68,7 +68,7 @@ export const sendFeedbackEmail = async (username: string, rating: number, commen
                 <div style="background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); border-top: 6px solid ${accentColor};">
                     <div style="padding: 30px;">
                         <div style="display: flex; align-items: center; margin-bottom: 20px;">
-                            <img src="cid:logo" alt="CareerCanvas" style="width: 40px; height: 40px; margin-right: 12px;">
+                            <img src="cid:logo" alt="BuildUrSite" style="width: 40px; height: 40px; margin-right: 12px;">
                             <h2 style="margin: 0; color: #1a202c;">New Platform ${typeLabel}</h2>
                         </div>
                         
@@ -99,7 +99,7 @@ export const sendFeedbackEmail = async (username: string, rating: number, commen
                     </div>
                 </div>
                 <div style="text-align: center; margin-top: 20px; color: #718096; font-size: 12px;">
-                    This is an automated notification from the CareerCanvas Feedback System.
+                    This is an automated notification from the BuildUrSite Feedback System.
                 </div>
             </div>
         `,
