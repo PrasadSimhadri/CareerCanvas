@@ -16,7 +16,3 @@ BuildUrSite is a high-performance, user-friendly platform designed for developer
 - **Developer Portfolio**: Highlight your tech stack, GitHub contributions, and live project demos with ease.
 - **Quick Deployment**: Get a premium web presence without spending weeks on front-end development.
 - **Recruiter Appeal**: Stand out in the sea of PDF resumes with a dynamic, interactive digital profile.
-
-## 📄 License
-
-This project is licensed under the MIT License. Built for developers, by developers.
