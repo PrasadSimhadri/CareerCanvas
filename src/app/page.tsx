@@ -144,7 +144,7 @@ const ReviewCard = ({ rev, i }: { rev: any; i: number }) => (
         <FaUserCircle className="text-2xl" />
       </div>
       <div>
-        <h4 className="font-bold text-sm text-gray-900 dark:text-white">{rev.username}</h4>
+        <h4 className="font-bold text-sm text-gray-900 dark:text-white">{rev.username.charAt(0).toUpperCase() + rev.username.slice(1)}</h4>
         <div className="flex text-yellow-400 text-xs">
           {[...Array(5)].map((_, idx) => (
             <HiStar key={idx} className={idx < rev.rating ? 'fill-current' : 'text-gray-300 dark:text-gray-600'} />
