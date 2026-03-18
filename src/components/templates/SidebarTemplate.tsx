@@ -264,7 +264,14 @@ export default function SidebarTemplate({ data, isPreview = false }: { data: Por
                 {data.projects?.length > 0 && data.projects[0].title && (
                     <section id="projects" style={{ marginBottom: 64 }}>
                         <SectionHeading accent={colors.accent}>Worked Projects</SectionHeading>
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 24 }}>
+                        <div 
+                            style={{ display: 'grid', gap: 24 }} 
+                            className={`grid-cols-1 ${
+                                data.projects.length === 4 ? 'md:grid-cols-2' : 
+                                data.projects.length >= 3 ? 'md:grid-cols-3' : 
+                                data.projects.length === 2 ? 'md:grid-cols-2' : 'md:grid-cols-1'
+                            }`}
+                        >
                             {data.projects.map((proj, i) => (
                                 <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} style={{ background: colors.cardBg, borderRadius: 20, border: `1px solid ${colors.cardBorder}`, padding: 32, display: 'flex', flexDirection: 'column', transition: 'all 0.3s', cursor: 'default' }} whileHover={{ y: -5, boxShadow: '0 10px 30px -10px rgba(249,115,22,0.1)' }}>
                                     <h3 style={{ fontSize: '1.3rem', fontWeight: 700, marginBottom: 12 }}>{proj.title}</h3>
@@ -288,7 +295,15 @@ export default function SidebarTemplate({ data, isPreview = false }: { data: Por
                 {data.skills?.length > 0 && data.skills[0].category && (
                     <section id="skills" style={{ marginBottom: 64 }}>
                         <SectionHeading accent={colors.accent}>Core Skills</SectionHeading>
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 20 }}>
+                        <div 
+                            style={{ display: 'grid', gap: 20 }} 
+                            className={`grid-cols-1 ${
+                                data.skills.length === 5 ? 'md:grid-cols-3' : 
+                                data.skills.length >= 4 ? 'md:grid-cols-4' : 
+                                data.skills.length === 3 ? 'md:grid-cols-3' : 
+                                data.skills.length === 2 ? 'md:grid-cols-2' : 'md:grid-cols-1'
+                            }`}
+                        >
                             {data.skills.map((group, i) => (
                                 <motion.div key={i} initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} style={{ background: colors.cardBg, borderRadius: 16, border: `1px solid ${colors.cardBorder}`, padding: 24 }}>
                                     <h4 style={{ color: colors.accent, fontWeight: 700, fontSize: '1.1rem', marginBottom: 20, textAlign: 'center' }}>{group.category}</h4>
