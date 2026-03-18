@@ -201,7 +201,9 @@ export default function FuturisticTemplate({ data, isPreview = false }: { data: 
                 <section id="projects" className="py-24 relative z-10 px-6 border-t border-[#00f0ff]/10 bg-[#0a0f14]/80">
                     <div className="max-w-7xl mx-auto">
                         <SectionHeader title="EXECUTABLES" />
-                        <motion.div variants={containerVariants} initial="initial" whileInView="whileInView" className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <motion.div variants={containerVariants} initial="initial" whileInView="whileInView" className={`grid gap-8 ${
+                            data.projects.length === 1 ? 'grid-cols-1 max-w-3xl mx-auto' : 'grid-cols-1 md:grid-cols-2'
+                        }`}>
                             {data.projects.map((proj, i) => (
                                 <motion.div key={i} variants={itemVariants} className="group relative border border-[#00f0ff]/20 bg-[#050505] p-8 overflow-hidden hover:border-[#00f0ff] transition-all hover:shadow-[0_0_30px_rgba(0,240,255,0.15)]">
                                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#00f0ff] to-[#ff003c] transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
@@ -233,7 +235,11 @@ export default function FuturisticTemplate({ data, isPreview = false }: { data: 
                 <section id="skills" className="py-24 relative z-10 px-6 border-t border-[#00f0ff]/10">
                     <div className="max-w-7xl mx-auto">
                         <SectionHeader title="MODULE_DEPENDENCIES" />
-                        <motion.div variants={containerVariants} initial="initial" whileInView="whileInView" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <motion.div variants={containerVariants} initial="initial" whileInView="whileInView" className={`grid gap-8 ${
+                            data.skills.length === 1 ? 'grid-cols-1 max-w-sm mx-auto' :
+                            data.skills.length === 2 ? 'grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto' :
+                            'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
+                        }`}>
                             {data.skills.map((skillGroup, i) => (
                                 <motion.div key={i} variants={itemVariants} className="border border-[#ff003c]/20 bg-[#ff003c]/5 p-6">
                                     <h3 className="text-[#ff003c] font-bold text-lg tracking-widest mb-6 flex items-center gap-3 border-b border-[#ff003c]/20 pb-4">
@@ -258,7 +264,9 @@ export default function FuturisticTemplate({ data, isPreview = false }: { data: 
                 <section id="achievements" className="py-24 relative z-10 px-6 border-t border-[#00f0ff]/10 bg-[#0a0f14]">
                     <div className="max-w-7xl mx-auto">
                         <SectionHeader title="AWARDS_&_RECOGNITION" />
-                        <motion.div variants={containerVariants} initial="initial" whileInView="whileInView" className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <motion.div variants={containerVariants} initial="initial" whileInView="whileInView" className={`grid gap-8 ${
+                            data.achievements.length === 1 ? 'grid-cols-1 max-w-2xl mx-auto' : 'grid-cols-1 md:grid-cols-2'
+                        }`}>
                             {data.achievements.map((achievement, i) => (
                                 <motion.div key={i} variants={itemVariants} className="border border-[#00f0ff]/20 bg-[#050505] p-8 hover:border-[#ff003c] transition-all relative overflow-hidden group">
                                      <div className="absolute top-0 right-0 w-16 h-16 bg-[#00f0ff]/5 rounded-bl-full group-hover:bg-[#ff003c]/10 transition-colors" />

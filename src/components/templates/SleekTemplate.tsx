@@ -157,7 +157,9 @@ export default function SleekTemplate({ data, isPreview = false }: { data: Portf
                             <h2 className="text-4xl lg:text-5xl font-medium tracking-tight">Selected Work</h2>
                         </motion.div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div className={`grid gap-8 ${
+                            data.projects.length === 1 ? 'grid-cols-1 max-w-2xl mx-auto' : 'grid-cols-1 md:grid-cols-2'
+                        }`}>
                             {data.projects.map((proj, i) => (
                                 <motion.div key={i} variants={fadeUp} initial="initial" whileInView="whileInView" className="group rounded-3xl bg-white/60 p-2 border border-white/80 shadow-[0_8px_40px_rgba(0,0,0,0.02)] overflow-hidden">
                                     <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-[1.25rem] p-8 h-full flex flex-col transition-colors group-hover:from-indigo-50/50 group-hover:to-rose-50/50">
@@ -225,7 +227,11 @@ export default function SleekTemplate({ data, isPreview = false }: { data: Portf
                 <section id="achievements" className="py-24 relative z-10 px-6 border-t border-gray-100">
                     <div className="max-w-6xl mx-auto">
                         <motion.h2 variants={fadeUp} initial="initial" whileInView="whileInView" className="text-4xl font-medium tracking-tight mb-16 text-center">Recognition</motion.h2>
-                        <motion.div variants={staggerContainer} initial="initial" whileInView="whileInView" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <motion.div variants={staggerContainer} initial="initial" whileInView="whileInView" className={`grid gap-8 ${
+                            data.achievements.length === 1 ? 'grid-cols-1 max-w-2xl mx-auto' : 
+                            data.achievements.length === 2 ? 'grid-cols-1 md:grid-cols-2 max-w-5xl mx-auto' : 
+                            'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
+                        }`}>
                             {data.achievements.map((achievement, i) => (
                                 <motion.div key={i} variants={fadeUp} className="bg-white p-8 rounded-[2rem] border border-gray-100 shadow-[0_8px_30px_rgba(0,0,0,0.02)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.06)] transition-all">
                                     <h3 className="text-xl font-medium text-gray-900 mb-2">{achievement.title}</h3>
