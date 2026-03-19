@@ -26,7 +26,7 @@ const bounce = {
     transition: { type: "spring" as any, stiffness: 100, damping: 15 }
 };
 
-export default function PastelTemplate({ data }: { data: PortfolioData }) {
+export default function PastelTemplate({ data, isPreview }: { data: PortfolioData; isPreview?: boolean }) {
     const [mounted, setMounted] = useState(false);
     useEffect(() => setMounted(true), []);
 

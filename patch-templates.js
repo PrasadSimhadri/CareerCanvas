@@ -33,4 +33,4 @@ const patchTemplate = (path) => {
 
 patchTemplate('src/components/templates/MinimalTemplate.tsx');
 patchTemplate('src/components/templates/CreativeTemplate.tsx');
-console.log('Templates patched successfully');
+// console.log('Templates patched successfully');

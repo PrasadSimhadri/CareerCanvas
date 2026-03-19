@@ -47,9 +47,9 @@ const templateOptions = [
     { id: 'sidebar', name: 'Sidebar', icon: <FaColumns />, color: 'from-[#F59E0B] to-[#EF4444]', desc: 'Premium, elegant sidebar', category: 'Dual Theme' },
     { id: 'sleek', name: 'Sleek', icon: <FaGem />, color: 'from-[#111827] to-[#4B5563]', desc: 'Modern, glassmorphism UI', category: 'Light Theme' },
     { id: 'pastel', name: 'Pastel', icon: <HiSparkles />, color: 'from-[#FBCFE8] to-[#DB2777]', desc: 'Soft colors, bouncy animations', category: 'Light Theme' },
-    { id: 'glow', name: 'Glow', icon: <FaGlobe />, color: 'from-[#60A5FA] to-[#C084FC]', desc: 'Next-gen gradients & parallax', category: 'Light Theme' },
+    { id: 'glow', name: 'Glow', icon: <FaGlobe />, color: 'from-[#F59E0B] to-[#FEF3C7]', desc: 'Sunbeam interactive amber theme', category: 'Light Theme' },
     { id: 'future', name: 'Future', icon: <FaTerminal />, color: 'from-[#00f0ff] to-[#ff003c]', desc: 'Cyberpunk, glowing tech', category: 'Dark Theme' },
-    { id: 'neon', name: 'Neon', icon: <HiLightningBolt />, color: 'from-[#000] to-[#111]', desc: 'High-tech neon, glitch effects', category: 'Dark Theme' },
+    { id: 'neon', name: 'Neon', icon: <HiLightningBolt />, color: 'from-[#0A0F1E] to-[#1E293B]', desc: 'Deep cyber with expanding cards', category: 'Dark Theme' },
     { id: 'dark', name: 'Dark', icon: <FaBriefcase />, color: 'from-[#1a1a1a] to-[#444]', desc: 'Minimalist obsidian, sleek', category: 'Dark Theme' },
 ];
 

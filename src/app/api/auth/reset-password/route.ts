@@ -15,25 +15,25 @@ export async function POST(req: Request) {
         const trimmedEmail = email.trim().toLowerCase();
         const trimmedOtp = otp.trim();
 
-        console.log('Reset Password Attempt:', { trimmedEmail, trimmedOtp });
+        // console.log('Reset Password Attempt:', { trimmedEmail, trimmedOtp });
         
         const user = await User.findOne({ email: trimmedEmail });
 
         if (!user) {
-            console.log('User not found:', trimmedEmail);
+            // console.log('User not found:', trimmedEmail);
             return NextResponse.json({ error: 'User not found' }, { status: 400 });
         }
 
-        console.log('User found. Stored OTP:', user.resetOtp);
-        console.log('Stored Expiry:', user.resetOtpExpires);
+        // console.log('User found. Stored OTP:', user.resetOtp);
+        // console.log('Stored Expiry:', user.resetOtpExpires);
 
         if (!user.resetOtp || user.resetOtp !== trimmedOtp) {
-            console.log('OTP Mismatch. Received:', trimmedOtp, 'Stored:', user.resetOtp);
+            // console.log('OTP Mismatch. Received:', trimmedOtp, 'Stored:', user.resetOtp);
             return NextResponse.json({ error: 'Invalid OTP' }, { status: 400 });
         }
 
         if (!user.resetOtpExpires || user.resetOtpExpires < new Date()) {
-            console.log('OTP Expired. Expiry:', user.resetOtpExpires, 'Now:', new Date());
+            // console.log('OTP Expired. Expiry:', user.resetOtpExpires, 'Now:', new Date());
             return NextResponse.json({ error: 'OTP has expired. Please request a new one.' }, { status: 400 });
         }
 
@@ -47,7 +47,7 @@ export async function POST(req: Request) {
         user.resetOtpExpires = undefined;
         await user.save();
 
-        console.log('Password reset successful for:', trimmedEmail);
+        // console.log('Password reset successful for:', trimmedEmail);
         return NextResponse.json({ success: true, message: 'Password reset successfully. You can now login.' });
     } catch (error) {
         console.error('Reset password error:', error);

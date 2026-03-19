@@ -64,7 +64,7 @@ try {
         fs.writeFileSync(file, content, 'utf8');
     });
 
-    console.log('Patch successfully applied!');
+    // console.log('Patch successfully applied!');
 } catch (error) {
     console.error('Error applying patch:', error);
 }

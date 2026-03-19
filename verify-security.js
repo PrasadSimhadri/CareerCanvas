@@ -5,7 +5,7 @@ const REVIEWS_URL = `${API_BASE}/reviews`;
 const PORTFOLIO_URL = `${API_BASE}/portfolio`;
 
 async function testRateLimiting() {
-    console.log('--- Testing Rate Limiting ---');
+    // console.log('--- Testing Rate Limiting ---');
     let successCount = 0;
     let rateLimitedCount = 0;
 
@@ -23,22 +23,22 @@ async function testRateLimiting() {
         }
     }
 
-    console.log(`Success: ${successCount}, Rate Limited: ${rateLimitedCount}`);
+    // console.log(`Success: ${successCount}, Rate Limited: ${rateLimitedCount}`);
     if (rateLimitedCount > 0) {
-        console.log('Rate limiting is working!');
+        // console.log('Rate limiting is working!');
     } else {
-        console.log(' Rate limiting NOT working (or limit not reached)!');
+        // console.log(' Rate limiting NOT working (or limit not reached)!');
     }
 }
 
 async function testUnauthorizedAccess() {
-    console.log('\n--- Testing Unauthorized Access ---');
+    // console.log('\n--- Testing Unauthorized Access ---');
     try {
         const res = await fetch(PORTFOLIO_URL);
         if (res.status === 401) {
-            console.log('Unauthorized access correctly blocked (401)!');
+            // console.log('Unauthorized access correctly blocked (401)!');
         } else {
-            console.log(` Unauthorized access NOT blocked! Status: ${res.status}`);
+            // console.log(` Unauthorized access NOT blocked! Status: ${res.status}`);
         }
     } catch (err) {
         console.error('Request failed:', err.message);
@@ -46,8 +46,8 @@ async function testUnauthorizedAccess() {
 }
 
 async function runTests() {
-    console.log('Starting Security Verification...');
-    console.log('Note: Ensure the local dev server is running at http://localhost:3000');
+    // console.log('Starting Security Verification...');
+    // console.log('Note: Ensure the local dev server is running at http://localhost:3000');
     
     await testUnauthorizedAccess();
     await testRateLimiting();

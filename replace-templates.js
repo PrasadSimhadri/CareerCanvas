@@ -146,4 +146,4 @@ function processTemplate(filePath, isCreative) {
 
 processTemplate('d:/Portfolio Builder/careercanvas/src/components/templates/CreativeTemplate.tsx', true);
 processTemplate('d:/Portfolio Builder/careercanvas/src/components/templates/SidebarTemplate.tsx', false);
-console.log('Templates updated with theme toggles and color variables.');
+// console.log('Templates updated with theme toggles and color variables.');

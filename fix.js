@@ -23,4 +23,4 @@ const replacement = `                    ))}
 s = s.replace(/                    \)\)}[\r\n\s]+<\/nav>[\r\n\s]+<\/aside>/, replacement);
 
 fs.writeFileSync('d:/Portfolio Builder/careercanvas/src/components/templates/SidebarTemplate.tsx', s, 'utf8');
-console.log('Sidebar theme switch added!');
+// console.log('Sidebar theme switch added!');

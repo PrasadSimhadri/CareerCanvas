@@ -20,7 +20,7 @@ interface PortfolioData {
     contact: { email: string; phone: string; linkedinUrl: string; githubUrl: string; websiteUrl: string; location: string };
 }
 
-export default function CyberTemplate({ data }: { data: PortfolioData }) {
+export default function CyberTemplate({ data, isPreview }: { data: PortfolioData; isPreview?: boolean }) {
     const [mounted, setMounted] = useState(false);
     const [expandedProject, setExpandedProject] = useState<number | null>(null);
 

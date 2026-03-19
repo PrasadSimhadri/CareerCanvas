@@ -42,4 +42,4 @@ content = content.replaceAll('border-2 border-gray-900 dark:text-white border-t-
 
 // Save back
 fs.writeFileSync(path, content, 'utf8');
-console.log('Dashboard text/bg classes updated for light/dark mode.');
+// console.log('Dashboard text/bg classes updated for light/dark mode.');

@@ -26,7 +26,7 @@ const fadeInUp = {
     transition: { duration: 0.6, ease: "easeOut" as any }
 };
 
-export default function ObsidianTemplate({ data }: { data: PortfolioData }) {
+export default function ObsidianTemplate({ data, isPreview }: { data: PortfolioData; isPreview?: boolean }) {
     const [mounted, setMounted] = useState(false);
     useEffect(() => setMounted(true), []);
 
