@@ -198,7 +198,7 @@ export default function AuroraTemplate({ data, isPreview }: { data: PortfolioDat
                                     <h2 className="text-sm font-black text-amber-400 mb-8 tracking-[0.6em] uppercase flex items-center gap-4">
                                         <div className="w-8 h-[1px] bg-amber-400" /> WHO_I_AM
                                     </h2>
-                                    <p className="text-3xl md:text-5xl font-bold text-amber-900 leading-[1.1] mb-12">
+                                    <p className="text-2xl md:text-4xl font-bold text-amber-900 leading-[1.1] mb-12">
                                         {data.about.description}
                                     </p>
                                     <div className="flex flex-wrap gap-3">
@@ -237,7 +237,7 @@ export default function AuroraTemplate({ data, isPreview }: { data: PortfolioDat
                             </section>
 
                             {/* Lab/Projects - Interactive Stack */}
-                            <section id="projects" className="py-32 bg-amber-50/50">
+                            <section id="projects" className=" bg-amber-50/50">
                                 <div className="max-w-7xl mx-auto px-6">
                                     <h2 className="text-sm font-black text-amber-400 mb-20 tracking-[0.6em] uppercase text-center">PROJECT_LABS</h2>
 
