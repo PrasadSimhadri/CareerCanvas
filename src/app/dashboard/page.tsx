@@ -10,9 +10,9 @@ import {
     HiUser, HiAcademicCap, HiBriefcase, HiCode, HiStar,
     HiMail, HiChevronDown, HiPlus, HiTrash, HiSave,
     HiClipboardCopy, HiExternalLink, HiPhotograph, HiTemplate,
-    HiInformationCircle, HiCheck
+    HiInformationCircle, HiCheck, HiSparkles, HiLightningBolt
 } from 'react-icons/hi';
-import { FaRocket, FaPalette, FaColumns, FaTerminal, FaGem } from 'react-icons/fa';
+import { FaRocket, FaPalette, FaColumns, FaTerminal, FaGem, FaGlobe, FaBriefcase } from 'react-icons/fa';
 
 interface PortfolioData {
     selectedTemplate: string;
@@ -42,11 +42,15 @@ const defaultPortfolio: PortfolioData = {
 };
 
 const templateOptions = [
-    { id: 'minimal', name: 'Minimal', icon: <FaRocket />, color: 'from-[#00b8d4] to-[#00e5ff]', desc: 'Clean, recruiter-friendly' },
-    { id: 'creative', name: 'Creative', icon: <FaPalette />, color: 'from-[#8B5CF6] to-[#EC4899]', desc: 'Bold, artistic, animated' },
-    { id: 'sidebar', name: 'Sidebar', icon: <FaColumns />, color: 'from-[#F59E0B] to-[#EF4444]', desc: 'Premium, elegant sidebar' },
-    { id: 'futuristic', name: 'Futuristic', icon: <FaTerminal />, color: 'from-[#00f0ff] to-[#ff003c]', desc: 'Cyberpunk, glowing tech' },
-    { id: 'sleek', name: 'Sleek', icon: <FaGem />, color: 'from-[#111827] to-[#4B5563]', desc: 'Modern, glassmorphism UI' },
+    { id: 'minimal', name: 'Minimal', icon: <FaRocket />, color: 'from-[#00b8d4] to-[#00e5ff]', desc: 'Clean, recruiter-friendly', category: 'Dual Theme' },
+    { id: 'creative', name: 'Creative', icon: <FaPalette />, color: 'from-[#8B5CF6] to-[#EC4899]', desc: 'Bold, artistic, animated', category: 'Dual Theme' },
+    { id: 'sidebar', name: 'Sidebar', icon: <FaColumns />, color: 'from-[#F59E0B] to-[#EF4444]', desc: 'Premium, elegant sidebar', category: 'Dual Theme' },
+    { id: 'sleek', name: 'Sleek', icon: <FaGem />, color: 'from-[#111827] to-[#4B5563]', desc: 'Modern, glassmorphism UI', category: 'Light Theme' },
+    { id: 'pastel', name: 'Pastel', icon: <HiSparkles />, color: 'from-[#FBCFE8] to-[#DB2777]', desc: 'Soft colors, bouncy animations', category: 'Light Theme' },
+    { id: 'glow', name: 'Glow', icon: <FaGlobe />, color: 'from-[#60A5FA] to-[#C084FC]', desc: 'Next-gen gradients & parallax', category: 'Light Theme' },
+    { id: 'future', name: 'Future', icon: <FaTerminal />, color: 'from-[#00f0ff] to-[#ff003c]', desc: 'Cyberpunk, glowing tech', category: 'Dark Theme' },
+    { id: 'neon', name: 'Neon', icon: <HiLightningBolt />, color: 'from-[#000] to-[#111]', desc: 'High-tech neon, glitch effects', category: 'Dark Theme' },
+    { id: 'dark', name: 'Dark', icon: <FaBriefcase />, color: 'from-[#1a1a1a] to-[#444]', desc: 'Minimalist obsidian, sleek', category: 'Dark Theme' },
 ];
 
 const degreeOptions = ['B.Tech', 'M.Tech', 'MBA', 'BBA', 'B.Sc', 'M.Sc', 'B.Com', 'M.Com', 'BCA', 'MCA', '12th', '10th', 'Other'];
@@ -323,22 +327,37 @@ export default function DashboardPage() {
                                     >
                                         <div className="px-6 pb-6 pt-2 border-t border-gray-200 dark:border-[#3B3B52]/30">
                                             {section.key === 'template' && (
-                                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                                                    {templateOptions.map((t) => (
-                                                        <button
-                                                            key={t.id}
-                                                            onClick={() => setPortfolio((p) => ({ ...p, selectedTemplate: t.id }))}
-                                                            className={`p-4 rounded-xl border-2 transition-all text-left ${portfolio.selectedTemplate === t.id
-                                                                ? 'border-[#6C63FF] bg-[#6C63FF]/10'
-                                                                : 'border-gray-200 dark:border-[#3B3B52]/50 hover:border-gray-200 dark:border-[#3B3B52]'
-                                                                }`}
-                                                        >
-                                                            <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${t.color} flex items-center justify-center text-gray-900 dark:text-white text-lg mb-3`}>
-                                                                {t.icon}
+                                                <div className="space-y-8">
+                                                    {['Dual Theme', 'Light Theme', 'Dark Theme'].map((cat) => (
+                                                        <div key={cat}>
+                                                            <h3 className="text-sm font-bold text-[#6C63FF] uppercase tracking-widest mb-4 flex items-center gap-2">
+                                                                <span className="w-2 h-2 rounded-full bg-[#6C63FF]" />
+                                                                {cat}
+                                                            </h3>
+                                                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                                                {templateOptions.filter(t => t.category === cat).map((t) => (
+                                                                    <button
+                                                                        key={t.id}
+                                                                        onClick={() => setPortfolio((p) => ({ ...p, selectedTemplate: t.id }))}
+                                                                        className={`p-4 rounded-2xl border-2 transition-all text-left group hover:scale-[1.02] ${portfolio.selectedTemplate === t.id
+                                                                            ? 'border-[#6C63FF] bg-[#6C63FF]/10 shadow-lg shadow-[#6C63FF]/10'
+                                                                            : 'border-gray-200 dark:border-[#3B3B52]/50 hover:border-[#6C63FF]/50 bg-white/50 dark:bg-[#2A2A3E]/30'
+                                                                            }`}
+                                                                    >
+                                                                        <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${t.color} flex items-center justify-center text-white text-xl mb-4 group-hover:rotate-6 transition-transform`}>
+                                                                            {t.icon}
+                                                                        </div>
+                                                                        <h4 className="font-bold text-sm mb-1">{t.name}</h4>
+                                                                        <p className="text-[11px] text-gray-500 dark:text-gray-400 leading-tight">{t.desc}</p>
+                                                                        {portfolio.selectedTemplate === t.id && (
+                                                                            <div className="mt-3 flex items-center gap-1 text-[10px] font-bold text-[#6C63FF] uppercase tracking-tighter">
+                                                                                <HiCheck /> Selected
+                                                                            </div>
+                                                                        )}
+                                                                    </button>
+                                                                ))}
                                                             </div>
-                                                            <h4 className="font-semibold text-sm">{t.name}</h4>
-                                                            <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">{t.desc}</p>
-                                                        </button>
+                                                        </div>
                                                     ))}
                                                 </div>
                                             )}

@@ -3,6 +3,10 @@ import CreativeTemplate from '@/components/templates/CreativeTemplate';
 import SidebarTemplate from '@/components/templates/SidebarTemplate';
 import FuturisticTemplate from '@/components/templates/FuturisticTemplate';
 import SleekTemplate from '@/components/templates/SleekTemplate';
+import CyberTemplate from '@/components/templates/CyberTemplate';
+import ObsidianTemplate from '@/components/templates/ObsidianTemplate';
+import PastelTemplate from '@/components/templates/PastelTemplate';
+import AuroraTemplate from '@/components/templates/AuroraTemplate';
 import { notFound } from 'next/navigation';
 
 export default async function PreviewPage({ params }: { params: Promise<{ template: string }> }) {
@@ -47,8 +51,12 @@ export default async function PreviewPage({ params }: { params: Promise<{ templa
     if (template === 'minimal') return <MinimalTemplate data={dummyData} isPreview={true} />;
     if (template === 'creative') return <CreativeTemplate data={dummyData} isPreview={true} />;
     if (template === 'sidebar') return <SidebarTemplate data={dummyData} isPreview={true} />;
-    if (template === 'futuristic') return <FuturisticTemplate data={dummyData} isPreview={true} />;
+    if (template === 'future' || template === 'futuristic') return <FuturisticTemplate data={dummyData} isPreview={true} />;
     if (template === 'sleek') return <SleekTemplate data={dummyData} isPreview={true} />;
+    if (template === 'neon' || template === 'cyber') return <CyberTemplate data={dummyData} isPreview={true} />;
+    if (template === 'dark' || template === 'obsidian') return <ObsidianTemplate data={dummyData} isPreview={true} />;
+    if (template === 'pastel') return <PastelTemplate data={dummyData} isPreview={true} />;
+    if (template === 'glow' || template === 'aurora') return <AuroraTemplate data={dummyData} isPreview={true} />;
 
     notFound();
 }

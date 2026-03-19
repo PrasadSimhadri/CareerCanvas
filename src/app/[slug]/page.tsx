@@ -3,6 +3,10 @@ import CreativeTemplate from '@/components/templates/CreativeTemplate';
 import SidebarTemplate from '@/components/templates/SidebarTemplate';
 import FuturisticTemplate from '@/components/templates/FuturisticTemplate';
 import SleekTemplate from '@/components/templates/SleekTemplate';
+import CyberTemplate from '@/components/templates/CyberTemplate';
+import ObsidianTemplate from '@/components/templates/ObsidianTemplate';
+import PastelTemplate from '@/components/templates/PastelTemplate';
+import AuroraTemplate from '@/components/templates/AuroraTemplate';
 import connectDB from '@/lib/mongodb';
 import User from '@/models/User';
 import { notFound } from 'next/navigation';
@@ -67,17 +71,29 @@ export default async function PortfolioPage({ params }: PageProps) {
             },
         };
 
-        const template = user.selectedTemplate || 'minimal';
+        const template = (user.selectedTemplate || 'minimal') as any;
 
         switch (template) {
             case 'creative':
                 return <CreativeTemplate data={portfolioData} />;
             case 'sidebar':
                 return <SidebarTemplate data={portfolioData} />;
-            case 'futuristic':
+            case 'future':
+            case 'futuristic': // Fallback for old data
                 return <FuturisticTemplate data={portfolioData} />;
             case 'sleek':
                 return <SleekTemplate data={portfolioData} />;
+            case 'neon':
+            case 'cyber': // Fallback for old data
+                return <CyberTemplate data={portfolioData} />;
+            case 'dark':
+            case 'obsidian': // Fallback for old data
+                return <ObsidianTemplate data={portfolioData} />;
+            case 'pastel':
+                return <PastelTemplate data={portfolioData} />;
+            case 'glow':
+            case 'aurora': // Fallback for old data
+                return <AuroraTemplate data={portfolioData} />;
             case 'minimal':
             default:
                 return <MinimalTemplate data={portfolioData} />;

@@ -6,9 +6,9 @@ import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useAuth } from '@/contexts/AuthContext';
-import { HiSparkles, HiTemplate, HiShare, HiPencilAlt, HiArrowRight, HiX, HiCheck, HiStar } from 'react-icons/hi';
+import { HiSparkles, HiTemplate, HiShare, HiPencilAlt, HiArrowRight, HiX, HiCheck, HiStar, HiLightningBolt } from 'react-icons/hi';
 import { FaUserCircle, FaQuoteLeft } from 'react-icons/fa';
-import { FaRocket, FaPalette, FaColumns, FaTerminal, FaGem } from 'react-icons/fa';
+import { FaRocket, FaPalette, FaColumns, FaTerminal, FaGem, FaGlobe, FaBriefcase } from 'react-icons/fa';
 
 const templates = [
   {
@@ -69,8 +69,8 @@ const templates = [
     },
   },
   {
-    id: 'futuristic',
-    name: 'Futuristic',
+    id: 'future',
+    name: 'Future',
     icon: <FaTerminal className="text-2xl" />,
     color: 'from-[#00f0ff] to-[#ff003c]',
     tagline: 'Cyberpunk & Interactive',
@@ -106,13 +106,89 @@ const templates = [
       accent: '#111827',
     },
   },
+  {
+    id: 'pastel',
+    name: 'Pastel',
+    icon: <HiSparkles className="text-2xl" />,
+    color: 'from-[#FBCFE8] to-[#DB2777]',
+    tagline: 'Soft & Playful',
+    description: 'A gentle, pastel-toned layout with bouncy animations and friendly typography. Ideal for creating an approachable and welcoming professional brand.',
+    why: [
+      'Soft pastel color palette (pink → white)',
+      'Playful UI elements with bouncy hover effects',
+      'Clean and minimalist content structure',
+      'Friendly, legible typography',
+      'Warm and inviting professional aesthetic',
+    ],
+    preview: {
+      bg: 'bg-[#FFF5F7]',
+      accent: '#DB2777',
+    },
+  },
+  {
+    id: 'glow',
+    name: 'Glow',
+    icon: <FaGlobe className="text-2xl" />,
+    color: 'from-[#60A5FA] to-[#C084FC]',
+    tagline: 'Radiant & Ethereal',
+    description: 'Next-gen gradients and parallax effects that create a mesmerizing, space-like atmosphere. Perfect for showcasing cutting-edge innovation.',
+    why: [
+      'Dynamic aurora-style gradient backgrounds',
+      'Sophisticated parallax scrolling effects',
+      'Glassmorphism headers and navigation',
+      'Glowing active states and icons',
+      'High-impact visual storytelling',
+    ],
+    preview: {
+      bg: 'bg-[#020617]',
+      accent: '#60A5FA',
+    },
+  },
+  {
+    id: 'neon',
+    name: 'Neon',
+    icon: <HiLightningBolt className="text-2xl" />,
+    color: 'from-[#00f2ff] to-[#7000ff]',
+    tagline: 'High-Tech & Glitchy',
+    description: 'A high-performance theme with sharp neon accents and subtle glitch effects. Designed for developers pushing the boundaries of the modern web.',
+    why: [
+      'High-contrast neon borders and typography',
+      'Subtle glitch animations on interaction',
+      'Dark obsidian background for focus',
+      'Compact, grid-based project layout',
+      'Aggressive, modern developer identity',
+    ],
+    preview: {
+      bg: 'bg-[#0F172A]',
+      accent: '#00f2ff',
+    },
+  },
+  {
+    id: 'dark',
+    name: 'Dark',
+    icon: <FaBriefcase className="text-2xl" />,
+    color: 'from-[#1a1a1a] to-[#444]',
+    tagline: 'Minimalist Obsidian',
+    description: 'A refined, dark-mode minimalist design with obsidian textures and clean lines. Perfect for a sophisticated and focused professional presence.',
+    why: [
+      'Deep obsidian color palette with subtle textures',
+      'Clean, distraction-free minimalist layout',
+      'Micro-interactions that feel premium',
+      'Optimized for readability and focus',
+      'Understated, elegant professional look',
+    ],
+    preview: {
+      bg: 'bg-[#0a0a0a]',
+      accent: '#444444',
+    },
+  },
 ];
 
 const features = [
   {
     icon: <HiTemplate className="text-3xl" />,
-    title: '5 Stunning Templates',
-    description: 'Choose from Minimal, Creative, Sidebar, Futuristic, or Sleek layouts — each uniquely designed to showcase your work.',
+    title: 'Stunning Templates',
+    description: 'Choose from Minimal, Creative, Sidebar, Sleek, Pastel, Glow, Future, Neon, or Dark layouts — each uniquely designed.',
   },
   {
     icon: <HiPencilAlt className="text-3xl" />,
@@ -175,6 +251,17 @@ export default function LandingPage() {
   const [isSuggestion, setIsSuggestion] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [msg, setMsg] = useState('');
+  const [activeTab, setActiveTab] = useState('Dual Theme');
+
+  const tabs = ['Dual Theme', 'Light Theme', 'Dark Theme'];
+  
+  const templateCategories: Record<string, string[]> = {
+    'Dual Theme': ['minimal', 'creative', 'sidebar'],
+    'Light Theme': ['sleek', 'pastel', 'glow'],
+    'Dark Theme': ['future', 'neon', 'dark']
+  };
+
+  const filteredTemplates = templates.filter(t => templateCategories[activeTab].includes(t.id));
 
   useEffect(() => {
     fetchReviews();
@@ -335,21 +422,47 @@ export default function LandingPage() {
             <h2 className="text-3xl sm:text-4xl font-bold font-[Poppins] mb-4 text-gray-900 dark:text-white">
               Choose Your <span className="gradient-text">Template</span>
             </h2>
-            <p className="text-gray-600 dark:text-gray-400 max-w-xl mx-auto">
-              Five uniquely designed templates — each crafted to make your portfolio shine.
+            <p className="text-gray-600 dark:text-gray-400 max-w-xl mx-auto mb-10">
+              Select from our curated themes — each crafted to make your portfolio shine.
             </p>
+
+            {/* Template Tabs */}
+            <div className="flex flex-wrap justify-center gap-2 mb-12">
+              {tabs.map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`px-6 py-2.5 rounded-full text-sm font-bold transition-all border ${
+                    activeTab === tab 
+                      ? 'bg-[#6C63FF] text-white border-[#6C63FF] shadow-lg shadow-[#6C63FF]/20' 
+                      : 'bg-white dark:bg-[#1E1E2E] text-gray-600 dark:text-gray-400 border-gray-200 dark:border-[#3B3B52] hover:border-[#6C63FF]/50'
+                  }`}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {templates.map((template, index) => (
+            <AnimatePresence mode="wait">
               <motion.div
-                key={template.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.15 }}
-                className="group relative"
+                key={activeTab}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.3 }}
+                className="contents"
               >
+                {filteredTemplates.map((template, index) => (
+                  <motion.div
+                    key={template.id}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 }}
+                    className="group relative"
+                  >
                 <div className="rounded-2xl border border-gray-200 dark:border-[#3B3B52]/50 bg-white dark:bg-[#1E1E2E]/50 overflow-hidden hover:border-[#6C63FF]/30 transition-all duration-300 hover:shadow-xl hover:shadow-[#6C63FF]/10 shadow-sm">
                   {/* Template Preview Area */}
                   <div className={`h-48 ${template.preview.bg} relative overflow-hidden`}>
@@ -404,7 +517,9 @@ export default function LandingPage() {
                   </div>
                 </div>
               </motion.div>
-            ))}
+                ))}
+              </motion.div>
+            </AnimatePresence>
           </div>
         </div>
       </section>
@@ -422,7 +537,7 @@ export default function LandingPage() {
               What Our <span className="gradient-text">Users Say</span>
             </h2>
             <p className="text-gray-600 dark:text-gray-400 max-w-xl mx-auto">
-              Real feedback from students and professionals using BuildUrSite.
+              Feedback from students and professionals using BuildUrSite.
             </p>
           </motion.div>
 
