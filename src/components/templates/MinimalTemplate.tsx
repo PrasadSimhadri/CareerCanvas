@@ -321,10 +321,7 @@ export default function MinimalTemplate({ data, isPreview = false }: { data: Por
             {/* Footer */}
             <footer style={{ background: colors.bg, padding: '30px 0', textAlign: 'center', borderTop: `1px solid ${colors.border}` }}>
                 <p style={{ color: colors.textSec }}>
-                    Built with <a href="/" style={{ color: colors.accent, textDecoration: 'none', fontWeight: 600 }}>BuildUrSite</a> •{' '}
-                    <a href="https://github.com/PrasadSimhadri/CareerCanvas" target="_blank" style={{ color: colors.textSec, textDecoration: 'none' }}>
-                        <FaGithub style={{ display: 'inline', marginRight: 4 }} />GitHub
-                    </a>
+                    Built with <a href="/" style={{ color: colors.accent, textDecoration: 'none', fontWeight: 600 }}>BuildUrSite</a>
                 </p>
             </footer>
 
