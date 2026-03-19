@@ -489,11 +489,6 @@ export default function CreativeTemplate({ data, isPreview = false }: { data: Po
                 <p style={{ color: colors.textSec, fontWeight: 600 }}>
                     Created using <a href="/" style={{ color: colors.accent, textDecoration: 'none' }}>BuildUrSite</a>
                 </p>
-                <div style={{ marginTop: 20 }}>
-                    <a href="https://github.com/PrasadSimhadri/CareerCanvas" target="_blank" style={{ color: colors.textSec, textDecoration: 'none', fontSize: '0.9rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
-                        <FaGithub /> GitHub
-                    </a>
-                </div>
             </footer>
 
             <style jsx global>{`

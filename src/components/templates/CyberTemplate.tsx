@@ -361,8 +361,7 @@ export default function CyberTemplate({ data, isPreview }: { data: PortfolioData
                         </motion.div>
 
                         <div className="flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] text-[#334155] tracking-[0.5em]">
-                            <span>BUILT_BY_BUILD_UR_SITE_CORE</span>
-                            <span>© 2026 // ALL_RIGHTS_RESERVED</span>
+                            <a href="/" className="hover:text-blue-400">BUILT_BY_BUILD_UR_SITE_CORE</a>
                             <span className="text-[#475569]">{data.contact.location || 'PLANET_EARTH'}</span>
                         </div>
                     </div>

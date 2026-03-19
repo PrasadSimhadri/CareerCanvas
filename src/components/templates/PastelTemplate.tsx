@@ -1,9 +1,9 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { 
-    FaLinkedinIn, FaGithub, FaEnvelope, FaPhone, 
-    FaMapMarkerAlt, FaGlobe, FaArrowRight, FaHeart, FaRocket 
+import {
+    FaLinkedinIn, FaGithub, FaEnvelope, FaPhone,
+    FaMapMarkerAlt, FaGlobe, FaArrowRight, FaHeart, FaRocket
 } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 
@@ -36,35 +36,35 @@ export default function PastelTemplate({ data, isPreview }: { data: PortfolioDat
         <div className="bg-[#f0f9ff] text-[#334155] min-h-screen font-sans selection:bg-[#fb7185] selection:text-white pb-20">
             {/* Animated Blobs */}
             <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-                <motion.div 
-                    animate={{ 
-                        x: [0, 100, 0], 
+                <motion.div
+                    animate={{
+                        x: [0, 100, 0],
                         y: [0, 50, 0],
-                        scale: [1, 1.2, 1] 
+                        scale: [1, 1.2, 1]
                     }}
                     transition={{ duration: 20, repeat: Infinity }}
-                    className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-[#dcfce7] rounded-full blur-[100px] opacity-60" 
+                    className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-[#dcfce7] rounded-full blur-[100px] opacity-60"
                 />
-                <motion.div 
-                    animate={{ 
-                        x: [0, -80, 0], 
+                <motion.div
+                    animate={{
+                        x: [0, -80, 0],
                         y: [0, 120, 0],
-                        rotate: [0, 90, 0] 
+                        rotate: [0, 90, 0]
                     }}
                     transition={{ duration: 25, repeat: Infinity }}
-                    className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-[#fae8ff] rounded-full blur-[120px] opacity-60" 
+                    className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-[#fae8ff] rounded-full blur-[120px] opacity-60"
                 />
-                <motion.div 
+                <motion.div
                     animate={{ scale: [1, 1.3, 1] }}
                     transition={{ duration: 15, repeat: Infinity }}
-                    className="absolute top-[40%] right-[10%] w-[300px] h-[300px] bg-[#fff1f2] rounded-full blur-[80px] opacity-50" 
+                    className="absolute top-[40%] right-[10%] w-[300px] h-[300px] bg-[#fff1f2] rounded-full blur-[80px] opacity-50"
                 />
             </div>
 
             <div className="relative z-10 max-w-5xl mx-auto px-6">
                 {/* Header */}
                 <header className="pt-32 pb-20 text-center">
-                    <motion.div 
+                    <motion.div
                         initial={{ y: 20, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         className="mb-10 inline-block"
@@ -80,16 +80,16 @@ export default function PastelTemplate({ data, isPreview }: { data: PortfolioDat
                         )}
                     </motion.div>
 
-                    <motion.h1 
+                    <motion.h1
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
                         className="text-5xl md:text-7xl font-extrabold tracking-tight text-[#1e293b] mb-6"
                     >
-                        Hi, I&apos;m <motion.span 
+                        Hi, I&apos;m <motion.span
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
-                            transition={{ 
+                            transition={{
                                 duration: 2,
                                 ease: "easeInOut",
                                 repeat: Infinity,
@@ -101,7 +101,7 @@ export default function PastelTemplate({ data, isPreview }: { data: PortfolioDat
                         </motion.span>!
                     </motion.h1>
 
-                    <motion.p 
+                    <motion.p
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.4 }}
@@ -110,7 +110,7 @@ export default function PastelTemplate({ data, isPreview }: { data: PortfolioDat
                         {data.basicInfo.tagline}
                     </motion.p>
 
-                    <motion.div 
+                    <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.6 }}
@@ -168,8 +168,8 @@ export default function PastelTemplate({ data, isPreview }: { data: PortfolioDat
                     <h2 className="text-4xl font-black text-[#1e293b] mb-12 text-center">Cool Stuff I've Built</h2>
                     <div className="grid md:grid-cols-2 gap-10">
                         {data.projects.map((proj, i) => (
-                            <motion.div 
-                                key={i} 
+                            <motion.div
+                                key={i}
                                 {...bounce}
                                 className="group bg-white rounded-[2.5rem] p-8 border-b-8 border-indigo-100 hover:border-[#6366f1] transition-all flex flex-col h-full shadow-lg shadow-indigo-100/40"
                             >
@@ -234,8 +234,8 @@ export default function PastelTemplate({ data, isPreview }: { data: PortfolioDat
                         <h2 className="text-4xl font-black text-[#1e293b] mb-12 text-center">Milestones & Wins</h2>
                         <div className="grid md:grid-cols-3 gap-8">
                             {data.achievements.map((ach, i) => (
-                                <motion.div 
-                                    key={i} 
+                                <motion.div
+                                    key={i}
                                     {...bounce}
                                     className="p-8 bg-white/60 backdrop-blur-lg rounded-[2.5rem] border-2 border-emerald-50 hover:border-emerald-100 transition-all shadow-lg shadow-emerald-100/20"
                                 >
@@ -254,12 +254,12 @@ export default function PastelTemplate({ data, isPreview }: { data: PortfolioDat
                 {/* Contact Footer */}
                 <footer id="contact" className="mt-40 bg-[#1e293b] rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden">
                     <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#6366f1]/10 blur-[100px] rounded-full" />
-                    
-                    <motion.h2 
+
+                    <motion.h2
                         {...bounce}
                         className="text-4xl md:text-6xl font-black text-white mb-10 leading-tight"
                     >
-                        Ready to make magic <br/> happen? ✨
+                        Ready to make magic <br /> happen? ✨
                     </motion.h2>
 
                     <motion.div {...bounce} className="flex flex-col items-center gap-10">
@@ -274,8 +274,7 @@ export default function PastelTemplate({ data, isPreview }: { data: PortfolioDat
                     </motion.div>
 
                     <div className="mt-24 pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-slate-500 text-sm">
-                        <p>© 2026 Crafted with <FaHeart className="inline text-rose-500 mx-1" /> by {data.basicInfo.fullName}</p>
-                        <p className="font-bold tracking-widest uppercase text-xs">BuildUrSite</p>
+                        <p className="font-bold tracking-widest uppercase text-xs">Created using <a href="/" style={{ color: 'white', textDecoration: 'none' }}>BuildUrSite</a></p>
                         <p>{data.contact.location}</p>
                     </div>
                 </footer>

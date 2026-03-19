@@ -224,7 +224,6 @@ export default function ObsidianTemplate({ data, isPreview }: { data: PortfolioD
                         
                         <div className="mt-32 flex flex-wrap justify-center gap-x-12 gap-y-6 text-sm font-medium tracking-widest text-gray-500 uppercase">
                             {data.contact.linkedinUrl && <a href={data.contact.linkedinUrl} className="hover:text-white transition-colors">LinkedIn</a>}
-                            {data.contact.githubUrl && <a href={data.contact.githubUrl} className="hover:text-white transition-colors">GitHub</a>}
                             <span className="text-gray-700">/</span>
                             <span>{data.contact.location}</span>
                             <span className="text-gray-700">/</span>
@@ -232,7 +231,7 @@ export default function ObsidianTemplate({ data, isPreview }: { data: PortfolioD
                         </div>
                         
                         <div className="mt-20 pt-10 border-t border-white/5 text-[10px] text-gray-600 tracking-[0.4em] uppercase">
-                            © 2026 OBSIDIAN_LAYOUT // POWERED BY BUILDURSITE
+                            © 2026 OBSIDIAN_LAYOUT // <a href="/" className="hover:text-white transition-colors">POWERED BY BUILDURSITE</a>
                         </div>
                     </motion.div>
                 </footer>
