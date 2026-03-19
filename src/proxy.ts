@@ -19,11 +19,11 @@ const RATE_LIMIT_WINDOW = 60; // seconds
 const MAX_REQUESTS = 60;
 
 /**
- * Middleware function (previously named after its file)
+ * Proxy function
  * Refactored to "fail-open" - if Redis is missing or fails, 
  * the request is allowed through rather than crashing with a 500 error.
  */
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
     // Skip non-API routes early
     if (!request.nextUrl.pathname.startsWith('/api')) {
         return NextResponse.next();
@@ -73,3 +73,5 @@ export async function middleware(request: NextRequest) {
 export const config = {
     matcher: '/api/:path*',
 };
+
+export default proxy;
